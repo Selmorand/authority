@@ -3,6 +3,7 @@ import StrategicInsights from "./components/StrategicInsights";
 import AIMissionPanel from "./components/AIMissionPanel";
 import ResearchIntelligence from "./components/ResearchIntelligence";
 import LiveResearchFeed from "./components/LiveResearchFeed";
+import StrategicBriefing from "./components/StrategicBriefing";
 import StrategicAlerts from "./components/StrategicAlerts";
 import IntelligenceSummary from "./components/IntelligenceSummary";
 import WeeklyMissionView from "./components/WeeklyMissionView";
@@ -40,6 +41,7 @@ export default function Home() {
 
           {/* Research Intelligence */}
           <LiveResearchFeed />
+          <StrategicBriefing />
           <ResearchIntelligence />
           <StrategicAlerts />
           <IntelligenceSummary />
