@@ -21,6 +21,7 @@ import WeeklyMissionView from "./components/WeeklyMissionView";
 import ThemeOverview from "./components/ThemeOverview";
 import SuggestedTopics from "./components/SuggestedTopics";
 import StrategicFocus from "./components/StrategicFocus";
+import ReportingDashboard from "./components/ReportingDashboard";
 import AuthorityGrowthDashboard from "./components/AuthorityGrowthDashboard";
 import EntityVisibilityTracker from "./components/EntityVisibilityTracker";
 import AuthorityKnowledgeGraph from "./components/AuthorityKnowledgeGraph";
@@ -106,6 +107,9 @@ export default function Home() {
           {/* Authority Monitoring */}
           <AuthorityGrowthDashboard />
           <EntityVisibilityTracker />
+
+          {/* Strategic Reporting */}
+          <ReportingDashboard />
 
           {/* Supporting Dashboard Cards */}
           <ContentPipeline />
