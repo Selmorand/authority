@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─── Missions ────────────────────────────────────────────────
+
+model Mission {
+  id             String   @id @default(cuid())
+  date           String   // YYYY-MM-DD
+  title          String
+  category       String
+  authorityFocus String
+  platform       String
+  estimatedTime  String
+  objective      String
+  topic          String
+  description    String
+  status         String   @default("pending") // pending | in-progress | completed
+  priority       String   @default("medium") // high | medium | low
+  themeId        String?
+  contentAngle   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// ─── Strategic Memory ────────────────────────────────────────
+
+model StrategicMemory {
+  id              String   @id @default(cuid())
+  date            String   // YYYY-MM-DD
+  type            String   // completed-mission | successful-topic | authority-insight | content-performance | semantic-pattern | strategic-lesson
+  theme           String   // theme id
+  insight         String
+  authorityImpact Int
+  semanticValue   Int
+  outcomeSummary  String
+  strategicNotes  String
+  category        String?
+  platform        String?
+  createdAt       DateTime @default(now())
+}
+
+// ─── Research Signals ────────────────────────────────────────
+
+model ResearchSignal {
+  id                   String   @id @default(cuid())
+  title                String
+  category             String   // trend | topic-shift | industry-observation | competitor-pattern | semantic-opportunity | authority-gap
+  relevance            Int
+  authorityOpportunity Int
+  urgency              String   // high | medium | low
+  relatedThemes        String   // JSON array of theme ids
+  insightSummary       String
+  suggestedActions     String   // JSON array of strings
+  alertType            String
+  dateDetected         String   // YYYY-MM-DD
+  createdAt            DateTime @default(now())
+}
+
+// ─── Authority Metrics ───────────────────────────────────────
+
+model AuthoritySnapshot {
+  id                      String   @id @default(cuid())
+  date                    String   @unique // YYYY-MM-DD
+  brandedSearchVolume     Int
+  linkedinFollowers       Int
+  linkedinPostImpressions Int
+  publishedArticles       Int
+  caseStudiesCompleted    Int
+  externalMentions        Int
+  backlinks               Int
+  aiCitationOpportunities Int
+  semanticThemesCovered   Int
+  founderVisibilityScore  Int
+  entityConsistencyScore  Int
+  createdAt               DateTime @default(now())
+}
+
+// ─── External Corroboration ──────────────────────────────────
+
+model ExternalCorroboration {
+  id              String   @id @default(cuid())
+  type            String   // mention | citation | guest-article | podcast | directory | partnership | backlink
+  source          String
+  title           String
+  url             String?
+  date            String   // YYYY-MM-DD
+  authorityImpact Int
+  relatedTheme    String
+  createdAt       DateTime @default(now())
+}
+
+// ─── AI Visibility Checks ────────────────────────────────────
+
+model AIVisibilityCheck {
+  id       String   @id @default(cuid())
+  platform String   // ChatGPT | Perplexity | Google AI Overview
+  query    String
+  cited    Boolean
+  position Int?
+  date     String   // YYYY-MM-DD
+  theme    String
+  createdAt DateTime @default(now())
+}
+
+// ─── Executive Briefings ─────────────────────────────────────
+
+model ExecutiveBriefing {
+  id                       String   @id @default(cuid())
+  date                     String   // YYYY-MM-DD
+  authorityHealthScore     Int
+  executionConsistencyScore Int
+  aiVisibilityRate         Int
+  semanticCoverage         Int
+  momentumDirection        String
+  whatMattersMost           String
+  highestLeverageOpp       String
+  biggestRisk              String
+  recommendedFocus         String
+  briefingSectionsJson     String   // JSON
+  createdAt                DateTime @default(now())
+}

@@ -45,6 +45,8 @@ prompt.txt
 
 # runtime data
 data/memory.json
+prisma/authority-os.db
+prisma/authority-os.db-journal
 
 # IDE
 .vscode/*
@@ -56,3 +58,5 @@ Thumbs.db
 
 # lock files are kept — do not ignore package-lock.json
 .claude/
+
+/lib/generated/prisma

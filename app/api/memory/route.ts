@@ -1,45 +1,45 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { getMemories, createMemory } from "@/lib/db";
 import { seedMemory } from "@/data/strategicMemory";
-import type { MemoryItem } from "@/data/strategicMemory";
-
-const MEMORY_FILE = path.join(process.cwd(), "data", "memory.json");
-
-async function readMemory(): Promise<MemoryItem[]> {
-  try {
-    const data = await fs.readFile(MEMORY_FILE, "utf-8");
-    return JSON.parse(data) as MemoryItem[];
-  } catch {
-    // File doesn't exist yet — return seed data
-    return seedMemory;
-  }
-}
-
-async function writeMemory(items: MemoryItem[]): Promise<void> {
-  await fs.writeFile(MEMORY_FILE, JSON.stringify(items, null, 2), "utf-8");
-}
 
 export async function GET() {
-  const memory = await readMemory();
-  return Response.json({ success: true, memory });
+  try {
+    const memory = await getMemories();
+    // Fall back to seed data if database is empty
+    if (memory.length === 0) {
+      return Response.json({ success: true, memory: seedMemory, source: "seed" });
+    }
+    return Response.json({ success: true, memory, source: "database" });
+  } catch {
+    // Database unavailable — fall back to seed data
+    return Response.json({ success: true, memory: seedMemory, source: "seed" });
+  }
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const newItem = body.item as MemoryItem;
-    if (!newItem || !newItem.id || !newItem.theme || !newItem.insight) {
+    const item = body.item;
+    if (!item || !item.theme || !item.insight) {
       return Response.json(
-        { success: false, error: "Invalid memory item" },
+        { success: false, error: "Invalid memory item — theme and insight required" },
         { status: 400 }
       );
     }
 
-    const memory = await readMemory();
-    memory.push(newItem);
-    await writeMemory(memory);
+    const created = await createMemory({
+      date: item.date || new Date().toISOString().split("T")[0],
+      type: item.type || "strategic-lesson",
+      theme: item.theme,
+      insight: item.insight,
+      authorityImpact: item.authorityImpact || 5,
+      semanticValue: item.semanticValue || 5,
+      outcomeSummary: item.outcomeSummary || "",
+      strategicNotes: item.strategicNotes || "",
+      category: item.category,
+      platform: item.platform,
+    });
 
-    return Response.json({ success: true, total: memory.length });
+    return Response.json({ success: true, id: created.id });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     return Response.json(
