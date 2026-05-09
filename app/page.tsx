@@ -1,6 +1,7 @@
 import CommandCenter from "./components/CommandCenter";
 import StrategicRiskPanel from "./components/StrategicRiskPanel";
 import OpportunityIntelligence from "./components/OpportunityIntelligence";
+import CopilotDashboard from "./components/CopilotDashboard";
 import MorningBriefing from "./components/MorningBriefing";
 import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import StrategicInsights from "./components/StrategicInsights";
@@ -49,6 +50,9 @@ export default function Home() {
       {/* Dashboard Grid */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+          {/* Authority Co-Pilot */}
+          <CopilotDashboard />
+
           {/* Morning Briefing */}
           <MorningBriefing />
 
