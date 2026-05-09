@@ -6,6 +6,8 @@ import LiveResearchFeed from "./components/LiveResearchFeed";
 import StrategicBriefing from "./components/StrategicBriefing";
 import StrategicAlerts from "./components/StrategicAlerts";
 import IntelligenceSummary from "./components/IntelligenceSummary";
+import AuthorityLearning from "./components/AuthorityLearning";
+import StrategicReflection from "./components/StrategicReflection";
 import WeeklyMissionView from "./components/WeeklyMissionView";
 import ThemeOverview from "./components/ThemeOverview";
 import SuggestedTopics from "./components/SuggestedTopics";
@@ -45,6 +47,10 @@ export default function Home() {
           <ResearchIntelligence />
           <StrategicAlerts />
           <IntelligenceSummary />
+
+          {/* Strategic Memory & Learning */}
+          <AuthorityLearning />
+          <StrategicReflection />
 
           {/* Weekly + Themes — full width */}
           <WeeklyMissionView />

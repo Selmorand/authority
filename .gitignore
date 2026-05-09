@@ -43,6 +43,9 @@ next-env.d.ts
 # prompts
 prompt.txt
 
+# runtime data
+data/memory.json
+
 # IDE
 .vscode/*
 !.vscode/settings.json
