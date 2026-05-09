@@ -7,6 +7,8 @@ import LiveResearchFeed from "./components/LiveResearchFeed";
 import StrategicBriefing from "./components/StrategicBriefing";
 import StrategicAlerts from "./components/StrategicAlerts";
 import IntelligenceSummary from "./components/IntelligenceSummary";
+import AuthorityCalendar from "./components/AuthorityCalendar";
+import ExecutionDashboard from "./components/ExecutionDashboard";
 import AuthorityLearning from "./components/AuthorityLearning";
 import StrategicReflection from "./components/StrategicReflection";
 import WeeklyMissionView from "./components/WeeklyMissionView";
@@ -55,6 +57,10 @@ export default function Home() {
           <ResearchIntelligence />
           <StrategicAlerts />
           <IntelligenceSummary />
+
+          {/* Authority Execution */}
+          <AuthorityCalendar />
+          <ExecutionDashboard />
 
           {/* Strategic Memory & Learning */}
           <AuthorityLearning />
