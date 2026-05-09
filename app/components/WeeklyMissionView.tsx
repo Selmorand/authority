@@ -28,7 +28,7 @@ export default function WeeklyMissionView() {
   return (
     <section className="lg:col-span-2 rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+        <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
           Weekly Mission Planner
         </h2>
         <div className="flex gap-2">
@@ -64,7 +64,7 @@ export default function WeeklyMissionView() {
               className="rounded-lg border border-card-border/60 bg-background/40 p-3 flex flex-col gap-2"
             >
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-semibold text-white uppercase tracking-wider">
+                <h3 className="text-xs font-semibold text-foreground-bright uppercase tracking-wider">
                   {dayNames[i]}
                 </h3>
                 <span className="text-[10px] text-muted">

@@ -1,23 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0f1a;
-  --foreground: #e2e8f0;
-  --card-bg: #111827;
-  --card-border: #1e293b;
-  --accent: #3b82f6;
-  --accent-glow: #2563eb;
-  --muted: #94a3b8;
+  /* Deep charcoal / near-black graphite */
+  --background: #111315;
+  --background-raised: #15181b;
+  --foreground: #d1d5db;
+  --foreground-bright: #e8eaed;
+
+  /* Panels and cards */
+  --card-bg: #1b1f24;
+  --card-bg-hover: #1f242a;
+  --card-border: #282d35;
+  --card-border-subtle: #22272e;
+
+  /* Accent — restrained electric blue / teal */
+  --accent: #38bdf8;
+  --accent-glow: #0ea5e9;
+  --accent-muted: #0c4a6e;
+
+  /* Muted / secondary */
+  --muted: #6b7280;
+  --muted-bright: #9ca3af;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-raised: var(--background-raised);
   --color-foreground: var(--foreground);
+  --color-foreground-bright: var(--foreground-bright);
   --color-card-bg: var(--card-bg);
+  --color-card-bg-hover: var(--card-bg-hover);
   --color-card-border: var(--card-border);
+  --color-card-border-subtle: var(--card-border-subtle);
   --color-accent: var(--accent);
   --color-accent-glow: var(--accent-glow);
+  --color-accent-muted: var(--accent-muted);
   --color-muted: var(--muted);
+  --color-muted-bright: var(--muted-bright);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -25,4 +44,22 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Scrollbar styling for intelligence panels */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--card-border);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }

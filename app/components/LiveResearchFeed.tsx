@@ -59,7 +59,7 @@ export default function LiveResearchFeed() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+          <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
             Live Research Feed
           </h2>
           <p className="text-xs text-muted mt-0.5">
@@ -71,7 +71,7 @@ export default function LiveResearchFeed() {
         <button
           onClick={fetchSignals}
           disabled={loading}
-          className="self-start sm:self-auto px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
+          className="self-start sm:self-auto px-5 py-2.5 rounded-lg bg-accent/90 text-background text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Scanning Sources..." : "Scan Research Sources"}
         </button>
@@ -202,7 +202,7 @@ function SignalCard({ signal }: { signal: LiveSignal }) {
           href={signal.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-semibold text-white leading-snug hover:text-accent transition-colors flex-1"
+          className="text-sm font-semibold text-foreground-bright leading-snug hover:text-accent transition-colors flex-1"
         >
           {signal.title}
         </a>

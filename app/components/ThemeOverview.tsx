@@ -17,7 +17,7 @@ export default function ThemeOverview() {
   return (
     <section className="lg:col-span-2 rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+        <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
           Strategic Themes
         </h2>
         <div className="flex gap-3 text-[10px] text-muted">
@@ -72,7 +72,7 @@ function ThemeCard({
       }`}
     >
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-sm font-semibold text-white leading-snug">
+        <h3 className="text-sm font-semibold text-foreground-bright leading-snug">
           {theme.name}
         </h3>
         <span

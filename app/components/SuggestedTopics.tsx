@@ -32,7 +32,7 @@ export default function SuggestedTopics() {
   return (
     <section className="lg:col-span-2 rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+        <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
           Suggested Topics
         </h2>
         <span className="text-xs text-muted">{filtered.length} topics</span>
@@ -111,7 +111,7 @@ function TopicCard({ topic }: { topic: TopicIdea }) {
 
   return (
     <div className="rounded-lg border border-card-border/60 bg-background/40 p-3.5 flex flex-col gap-2">
-      <h3 className="text-sm font-medium text-white leading-snug">
+      <h3 className="text-sm font-medium text-foreground-bright leading-snug">
         {topic.title}
       </h3>
 

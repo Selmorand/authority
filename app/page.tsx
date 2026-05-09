@@ -1,6 +1,7 @@
 import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import StrategicInsights from "./components/StrategicInsights";
 import AIMissionPanel from "./components/AIMissionPanel";
+import MultiModelIntelligence from "./components/MultiModelIntelligence";
 import ResearchIntelligence from "./components/ResearchIntelligence";
 import LiveResearchFeed from "./components/LiveResearchFeed";
 import StrategicBriefing from "./components/StrategicBriefing";
@@ -17,14 +18,20 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       {/* Header */}
-      <header className="border-b border-card-border bg-card-bg/60 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-            Interon Authority OS
-          </h1>
-          <p className="text-sm text-muted mt-0.5">
-            AI Visibility & Authority Execution System
-          </p>
+      <header className="border-b border-card-border-subtle bg-background-raised/90 backdrop-blur-md sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground-bright">
+              Interon Authority OS
+            </h1>
+            <p className="text-xs text-muted mt-0.5 tracking-wide uppercase">
+              AI Visibility & Authority Execution System
+            </p>
+          </div>
+          <div className="hidden sm:flex items-center gap-2 text-[10px] text-muted">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+            <span>System Active</span>
+          </div>
         </div>
       </header>
 
@@ -40,6 +47,7 @@ export default function Home() {
 
           {/* AI Strategic Assistant — full width */}
           <AIMissionPanel />
+          <MultiModelIntelligence />
 
           {/* Research Intelligence */}
           <LiveResearchFeed />
@@ -78,7 +86,7 @@ function Card({
 }) {
   return (
     <section className="rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-4">
-      <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+      <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
         {title}
       </h2>
       {children}
@@ -224,7 +232,7 @@ function MetricCard({
   const isPositive = change.startsWith("+");
   return (
     <div className="bg-background/50 border border-card-border/60 rounded-lg px-4 py-3 text-center">
-      <p className="text-2xl font-bold text-white">{value}</p>
+      <p className="text-2xl font-bold text-foreground-bright">{value}</p>
       <p className="text-xs text-muted mt-1">{label}</p>
       <p
         className={`text-xs mt-1 font-medium ${isPositive ? "text-green-400" : "text-muted"}`}

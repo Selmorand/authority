@@ -55,3 +55,4 @@ data/memory.json
 Thumbs.db
 
 # lock files are kept — do not ignore package-lock.json
+.claude/

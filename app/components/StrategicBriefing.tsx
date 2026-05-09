@@ -57,7 +57,7 @@ export default function StrategicBriefing() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+          <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
             Weekly Strategic Briefing
           </h2>
           <p className="text-xs text-muted mt-0.5">
@@ -67,7 +67,7 @@ export default function StrategicBriefing() {
         <button
           onClick={handleGenerate}
           disabled={loading}
-          className="self-start sm:self-auto px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
+          className="self-start sm:self-auto px-5 py-2.5 rounded-lg bg-accent/90 text-background text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? "Analyzing Signals..." : "Generate Briefing"}
         </button>
@@ -88,7 +88,7 @@ export default function StrategicBriefing() {
             <p className="text-[11px] font-medium text-accent uppercase tracking-wider mb-1">
               #1 Priority This Week
             </p>
-            <p className="text-sm text-white font-medium leading-relaxed">
+            <p className="text-sm text-foreground-bright font-medium leading-relaxed">
               {briefing.weeklyPriority}
             </p>
           </div>
@@ -196,7 +196,7 @@ function FindingCard({ finding }: { finding: KeyFinding }) {
   return (
     <div className="rounded-lg border border-card-border/60 bg-background/40 p-4 flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
-        <p className="text-sm font-semibold text-white leading-snug flex-1">
+        <p className="text-sm font-semibold text-foreground-bright leading-snug flex-1">
           {finding.finding}
         </p>
         <span
@@ -260,7 +260,7 @@ function ShiftCard({ shift }: { shift: SemanticShift }) {
   return (
     <div className="rounded-lg border border-card-border/60 bg-background/40 p-4 flex flex-col gap-2.5">
       <div className="flex items-center gap-2">
-        <span className="text-sm font-bold text-white">{shift.term}</span>
+        <span className="text-sm font-bold text-foreground-bright">{shift.term}</span>
         <span
           className="text-[10px] font-medium px-2 py-0.5 rounded-full border"
           style={{
@@ -287,7 +287,7 @@ function ShiftCard({ shift }: { shift: SemanticShift }) {
 function NarrativeCard({ narrative }: { narrative: EmergingNarrative }) {
   return (
     <div className="rounded-lg border border-card-border/60 bg-background/40 p-4 flex flex-col gap-3">
-      <p className="text-sm font-semibold text-white leading-snug">
+      <p className="text-sm font-semibold text-foreground-bright leading-snug">
         {narrative.narrative}
       </p>
       <InsightRow label="Evidence" value={narrative.evidence} />
@@ -308,7 +308,7 @@ function NarrativeCard({ narrative }: { narrative: EmergingNarrative }) {
 function GapCard({ gap }: { gap: AuthorityGap }) {
   return (
     <div className="rounded-lg border border-card-border/60 bg-background/40 p-4 flex flex-col gap-2.5">
-      <p className="text-sm font-semibold text-white leading-snug">
+      <p className="text-sm font-semibold text-foreground-bright leading-snug">
         {gap.gap}
       </p>
       <InsightRow label="Evidence" value={gap.evidence} />

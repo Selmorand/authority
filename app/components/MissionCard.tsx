@@ -57,7 +57,7 @@ export default function MissionCard({ mission }: { mission: Mission }) {
           className={`text-sm font-semibold leading-snug ${
             status === "completed"
               ? "line-through text-muted"
-              : "text-white"
+              : "text-foreground-bright"
           }`}
         >
           {mission.title}

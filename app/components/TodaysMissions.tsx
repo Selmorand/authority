@@ -35,7 +35,7 @@ export default function TodaysMissions() {
     <section className="lg:col-span-2 rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+          <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
             Today&apos;s Missions
           </h2>
           <p className="text-sm text-muted mt-0.5">{dayLabel}</p>

@@ -62,7 +62,7 @@ export default function GeneratedDailyPlan() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+          <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
             Daily Mission Plan
           </h2>
           <p className="text-sm text-muted mt-0.5">{dayLabel}</p>
@@ -145,7 +145,7 @@ function PlanMissionCard({ mission }: { mission: PlannedMission }) {
         </span>
         <h3
           className={`text-sm font-semibold leading-snug flex-1 ${
-            status === "completed" ? "line-through text-muted" : "text-white"
+            status === "completed" ? "line-through text-muted" : "text-foreground-bright"
           }`}
         >
           {mission.title}

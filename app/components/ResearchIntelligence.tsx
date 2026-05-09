@@ -32,7 +32,7 @@ export default function ResearchIntelligence() {
     <section className="lg:col-span-2 rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+          <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
             Research Intelligence
           </h2>
           <p className="text-xs text-muted mt-0.5">
@@ -104,7 +104,7 @@ function SignalCard({ scored }: { scored: ScoredSignal }) {
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-sm font-semibold text-white leading-snug flex-1">
+        <h3 className="text-sm font-semibold text-foreground-bright leading-snug flex-1">
           {signal.title}
         </h3>
         <span

@@ -89,7 +89,7 @@ export default function AIMissionPanel() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-wide uppercase">
+          <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
             AI Strategic Assistant
           </h2>
           <p className="text-xs text-muted mt-0.5">
@@ -146,7 +146,7 @@ export default function AIMissionPanel() {
           <button
             onClick={handleGenerateMissions}
             disabled={loading}
-            className="self-start px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
+            className="self-start px-5 py-2.5 rounded-lg bg-accent/90 text-background text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Generating..." : "Generate Strategic Missions"}
           </button>
@@ -196,7 +196,7 @@ export default function AIMissionPanel() {
             <button
               onClick={handleExpandTopic}
               disabled={loading || !expandInput.trim()}
-              className="px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="px-5 py-2.5 rounded-lg bg-accent/90 text-background text-sm font-medium cursor-pointer transition-colors hover:bg-accent-glow disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
             >
               {loading ? "Expanding..." : "Expand Topic"}
             </button>
@@ -252,7 +252,7 @@ function AIMissionCard({ mission }: { mission: AIMission }) {
   return (
     <div className="rounded-lg border border-card-border/60 bg-background/40 p-4 flex flex-col gap-2.5">
       <div className="flex items-start justify-between gap-2">
-        <h3 className="text-sm font-semibold text-white leading-snug">
+        <h3 className="text-sm font-semibold text-foreground-bright leading-snug">
           {mission.title}
         </h3>
         <span
@@ -315,7 +315,7 @@ function ExpansionCard({ expansion }: { expansion: TopicExpansion }) {
         <span className="text-[10px] text-muted">{expansion.estimatedTime}</span>
       </div>
 
-      <h3 className="text-sm font-semibold text-white leading-snug">
+      <h3 className="text-sm font-semibold text-foreground-bright leading-snug">
         {expansion.title}
       </h3>
 
