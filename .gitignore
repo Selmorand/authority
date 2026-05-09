@@ -47,6 +47,7 @@ prompt.txt
 data/memory.json
 prisma/authority-os.db
 prisma/authority-os.db-journal
+backups/
 
 # IDE
 .vscode/*

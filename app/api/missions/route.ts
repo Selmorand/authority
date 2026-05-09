@@ -1,5 +1,6 @@
 import { getMissions, createMission, updateMissionStatus } from "@/lib/db";
 import { missions as seedMissions } from "@/data/missions";
+import { validate, MissionSchema, MissionStatusUpdateSchema } from "@/lib/validation";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -21,32 +22,23 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     if (body.action === "update-status") {
-      const updated = await updateMissionStatus(body.id, body.status);
+      const v = validate(MissionStatusUpdateSchema, body);
+      if (!v.success) {
+        return Response.json({ success: false, error: v.error }, { status: 400 });
+      }
+      const updated = await updateMissionStatus(v.data.id, v.data.status);
       return Response.json({ success: true, mission: updated });
     }
 
-    const mission = await createMission({
-      date: body.date,
-      title: body.title,
-      category: body.category,
-      authorityFocus: body.authorityFocus,
-      platform: body.platform,
-      estimatedTime: body.estimatedTime,
-      objective: body.objective,
-      topic: body.topic,
-      description: body.description,
-      status: body.status,
-      priority: body.priority,
-      themeId: body.themeId,
-      contentAngle: body.contentAngle,
-    });
+    const v = validate(MissionSchema, body);
+    if (!v.success) {
+      return Response.json({ success: false, error: v.error }, { status: 400 });
+    }
 
+    const mission = await createMission(v.data);
     return Response.json({ success: true, mission });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    return Response.json(
-      { success: false, error: message },
-      { status: 500 }
-    );
+    return Response.json({ success: false, error: message }, { status: 500 });
   }
 }
