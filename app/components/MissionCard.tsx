@@ -73,7 +73,7 @@ export default function MissionCard({ mission }: { mission: Mission }) {
       <p className="text-xs text-muted">{mission.topic}</p>
 
       {/* Meta row */}
-      <div className="flex flex-wrap gap-2 text-[11px]">
+      <div className="flex flex-wrap gap-2 text-xs">
         <span className="px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
           {mission.category}
         </span>
@@ -93,7 +93,7 @@ export default function MissionCard({ mission }: { mission: Mission }) {
       {/* Status toggle */}
       <button
         onClick={cycleStatus}
-        className="self-start text-[11px] font-medium px-2.5 py-1 rounded-full cursor-pointer transition-colors"
+        className="self-start text-xs font-medium px-2.5 py-1 rounded-full cursor-pointer transition-colors"
         style={{
           color: s.color,
           backgroundColor: s.bg,

@@ -78,7 +78,7 @@ function FilterBtn({
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+      className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
         active
           ? "bg-accent/15 text-accent border-accent/30"
           : "bg-background/50 text-muted border-card-border hover:text-foreground"
@@ -108,7 +108,7 @@ function SignalCard({ scored }: { scored: ScoredSignal }) {
           {signal.title}
         </h3>
         <span
-          className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded"
+          className="shrink-0 text-xs font-bold px-1.5 py-0.5 rounded"
           style={{
             color: alert.color,
             backgroundColor: `${alert.color}15`,
@@ -119,7 +119,7 @@ function SignalCard({ scored }: { scored: ScoredSignal }) {
       </div>
 
       {/* Tags */}
-      <div className="flex flex-wrap gap-1.5 text-[10px]">
+      <div className="flex flex-wrap gap-1.5 text-xs">
         <span
           className="px-2 py-0.5 rounded-full border"
           style={{
@@ -162,7 +162,7 @@ function SignalCard({ scored }: { scored: ScoredSignal }) {
       {/* Expanded: scores + actions */}
       {expanded && (
         <div className="space-y-3 mt-1">
-          <div className="grid grid-cols-5 gap-1.5 text-[10px]">
+          <div className="grid grid-cols-5 gap-1.5 text-xs">
             <ScorePill label="Authority" value={score.authorityPotential} />
             <ScorePill label="Semantic" value={score.semanticRelevance} />
             <ScorePill label="Timing" value={score.marketTiming} />
@@ -170,7 +170,7 @@ function SignalCard({ scored }: { scored: ScoredSignal }) {
             <ScorePill label="Competitive" value={score.competitiveOpportunity} />
           </div>
           <div>
-            <p className="text-[10px] font-medium text-muted uppercase tracking-wider mb-1.5">
+            <p className="text-xs font-medium text-muted uppercase tracking-wider mb-1.5">
               Suggested Actions
             </p>
             <ul className="space-y-1">

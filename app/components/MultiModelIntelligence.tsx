@@ -72,7 +72,7 @@ export default function MultiModelIntelligence() {
         {modelRegistry.map((m) => (
           <div
             key={m.id}
-            className={`flex items-center gap-2 text-[11px] px-3 py-1.5 rounded-lg border ${
+            className={`flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg border ${
               m.available
                 ? "border-accent/20 bg-accent/5 text-accent"
                 : "border-card-border bg-background/40 text-muted"
@@ -85,7 +85,7 @@ export default function MultiModelIntelligence() {
             />
             {m.name}
             {!m.available && (
-              <span className="text-[9px] text-muted/60">coming soon</span>
+              <span className="text-xs text-muted/60">coming soon</span>
             )}
           </div>
         ))}
@@ -104,7 +104,7 @@ export default function MultiModelIntelligence() {
           {/* Overall confidence */}
           <div className="flex items-center gap-4 rounded-lg bg-background-raised border border-card-border-subtle px-4 py-3">
             <div>
-              <p className="text-[10px] text-muted uppercase tracking-wider">
+              <p className="text-xs text-muted uppercase tracking-wider">
                 Overall Confidence
               </p>
               <p className="text-2xl font-bold text-foreground-bright">
@@ -118,7 +118,7 @@ export default function MultiModelIntelligence() {
               />
             </div>
             <div className="text-right">
-              <p className="text-[10px] text-muted uppercase tracking-wider">
+              <p className="text-xs text-muted uppercase tracking-wider">
                 Models Active
               </p>
               <p className="text-lg font-bold text-foreground-bright">
@@ -275,7 +275,7 @@ function TabBtn({
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+      className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
         active
           ? "bg-accent/15 text-accent border-accent/30"
           : "bg-background/50 text-muted border-card-border hover:text-foreground"
@@ -321,7 +321,7 @@ function ModelCard({ insight }: { insight: ModelInsight }) {
           </span>
         </div>
         <span
-          className="text-[10px] font-bold px-2 py-0.5 rounded"
+          className="text-xs font-bold px-2 py-0.5 rounded"
           style={{
             color: confColor,
             backgroundColor: `${confColor}15`,
@@ -333,7 +333,7 @@ function ModelCard({ insight }: { insight: ModelInsight }) {
 
       {insight.keyInsights.length > 0 && (
         <div>
-          <p className="text-[10px] text-muted uppercase tracking-wider mb-1">
+          <p className="text-xs text-muted uppercase tracking-wider mb-1">
             Key Insights
           </p>
           <ul className="space-y-1">
@@ -352,7 +352,7 @@ function ModelCard({ insight }: { insight: ModelInsight }) {
 
       {insight.opportunities.length > 0 && (
         <div>
-          <p className="text-[10px] text-muted uppercase tracking-wider mb-1">
+          <p className="text-xs text-muted uppercase tracking-wider mb-1">
             Opportunities
           </p>
           <ul className="space-y-1">
@@ -371,7 +371,7 @@ function ModelCard({ insight }: { insight: ModelInsight }) {
 
       {insight.warnings.length > 0 && (
         <div>
-          <p className="text-[10px] text-muted uppercase tracking-wider mb-1">
+          <p className="text-xs text-muted uppercase tracking-wider mb-1">
             Warnings
           </p>
           <ul className="space-y-1">
@@ -390,7 +390,7 @@ function ModelCard({ insight }: { insight: ModelInsight }) {
 
       {insight.recommendedActions.length > 0 && (
         <div>
-          <p className="text-[10px] text-muted uppercase tracking-wider mb-1">
+          <p className="text-xs text-muted uppercase tracking-wider mb-1">
             Recommended Actions
           </p>
           <ul className="space-y-1">
@@ -421,7 +421,7 @@ function ConsensusRow({ item }: { item: ConsensusItem }) {
   return (
     <div className="flex items-start gap-3 bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2.5">
       <span
-        className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded mt-0.5"
+        className="shrink-0 text-xs font-bold px-1.5 py-0.5 rounded mt-0.5"
         style={{
           color,
           backgroundColor: `${color}12`,
@@ -433,7 +433,7 @@ function ConsensusRow({ item }: { item: ConsensusItem }) {
         <p className="text-xs text-foreground/90 leading-relaxed">
           {item.insight}
         </p>
-        <p className="text-[10px] text-muted mt-1">
+        <p className="text-xs text-muted mt-1">
           {item.models.join(" + ")} &middot; {item.type}
         </p>
       </div>
@@ -449,13 +449,13 @@ function ContradictionRow({ item }: { item: Contradiction }) {
       </p>
       {item.positions.map((p, i) => (
         <div key={i} className="flex items-start gap-2 text-xs">
-          <span className="text-[10px] font-medium text-muted shrink-0 min-w-[80px]">
+          <span className="text-xs font-medium text-muted shrink-0 min-w-[80px]">
             {p.model}:
           </span>
           <span className="text-foreground/70">{p.position}</span>
         </div>
       ))}
-      <p className="text-[11px] text-muted italic">{item.implication}</p>
+      <p className="text-xs text-muted italic">{item.implication}</p>
     </div>
   );
 }
@@ -473,7 +473,7 @@ function BlindSpotRow({ spot }: { spot: BlindSpot }) {
     >
       <div className="flex items-center gap-2 mb-1">
         <span
-          className="text-[10px] font-medium uppercase tracking-wider"
+          className="text-xs font-medium uppercase tracking-wider"
           style={{ color }}
         >
           {spot.severity}
@@ -482,8 +482,8 @@ function BlindSpotRow({ spot }: { spot: BlindSpot }) {
           {spot.area}
         </span>
       </div>
-      <p className="text-[11px] text-muted leading-relaxed">{spot.evidence}</p>
-      <p className="text-[11px] text-foreground/60 mt-1">
+      <p className="text-xs text-muted leading-relaxed">{spot.evidence}</p>
+      <p className="text-xs text-foreground/60 mt-1">
         {spot.suggestedAction}
       </p>
     </div>

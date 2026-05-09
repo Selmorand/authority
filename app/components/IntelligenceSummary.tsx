@@ -98,7 +98,7 @@ export default function IntelligenceSummary() {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span
-                    className="text-[10px] font-medium px-1.5 py-0.5 rounded-full border"
+                    className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
                     style={{
                       color: cfg.color,
                       borderColor: `${cfg.color}30`,
@@ -107,14 +107,14 @@ export default function IntelligenceSummary() {
                   >
                     {cfg.label}
                   </span>
-                  <span className="text-[10px] text-muted ml-auto">
+                  <span className="text-xs text-muted ml-auto">
                     impact {r.authorityImpact}/10
                   </span>
                 </div>
                 <p className="text-xs text-foreground/90 font-medium">
                   {r.title}
                 </p>
-                <p className="text-[11px] text-muted mt-0.5 leading-relaxed">
+                <p className="text-xs text-muted mt-0.5 leading-relaxed">
                   {r.rationale}
                 </p>
               </div>
@@ -167,7 +167,7 @@ function MiniStat({
       >
         {value}
       </p>
-      <p className="text-[10px] text-muted">{label}</p>
+      <p className="text-xs text-muted">{label}</p>
     </div>
   );
 }

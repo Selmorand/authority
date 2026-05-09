@@ -65,7 +65,7 @@ export default function StrategicInsights() {
               className="rounded-lg bg-background/40 border border-card-border/40 px-3 py-2.5"
             >
               <p className="text-xs font-medium text-foreground-bright">{t.name}</p>
-              <p className="text-[11px] text-muted mt-0.5 leading-relaxed">
+              <p className="text-xs text-muted mt-0.5 leading-relaxed">
                 {t.strategicGoal}
               </p>
             </div>
@@ -87,7 +87,7 @@ function InsightBlock({
 }) {
   return (
     <div className="rounded-lg bg-background/40 border border-card-border/40 px-4 py-3">
-      <p className="text-[11px] font-medium text-accent uppercase tracking-wider mb-1.5">
+      <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1.5">
         {label}
       </p>
       {isTags ? (
@@ -95,7 +95,7 @@ function InsightBlock({
           {content.split(" · ").map((tag) => (
             <span
               key={tag}
-              className="text-[10px] px-2 py-0.5 rounded-full bg-accent/8 text-foreground/70 border border-card-border/40"
+              className="text-xs px-2 py-0.5 rounded-full bg-accent/8 text-foreground/70 border border-card-border/40"
             >
               {tag}
             </span>
@@ -112,7 +112,7 @@ function MiniStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-background/50 border border-card-border/60 rounded-lg px-3 py-2 text-center">
       <p className="text-lg font-bold text-foreground-bright">{value}</p>
-      <p className="text-[10px] text-muted">{label}</p>
+      <p className="text-xs text-muted">{label}</p>
     </div>
   );
 }

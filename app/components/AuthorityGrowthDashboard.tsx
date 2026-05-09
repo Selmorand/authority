@@ -39,13 +39,13 @@ export default function AuthorityGrowthDashboard() {
             <p className="text-2xl font-bold text-foreground-bright">
               {report.overallScore}/10
             </p>
-            <p className="text-[10px] text-muted">Overall Health</p>
+            <p className="text-xs text-muted">Overall Health</p>
           </div>
           <div className="text-center">
             <p className="text-2xl font-bold text-accent">
               {report.aiVisibilityRate}%
             </p>
-            <p className="text-[10px] text-muted">AI Visibility</p>
+            <p className="text-xs text-muted">AI Visibility</p>
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default function AuthorityGrowthDashboard() {
 
       {/* Growth timeline (text-based sparkline) */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-3">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">
           8-Week Growth Timeline
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -71,7 +71,7 @@ export default function AuthorityGrowthDashboard() {
 
       {/* Momentum */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Authority Momentum
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -83,7 +83,7 @@ export default function AuthorityGrowthDashboard() {
 
       {/* External corroboration */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           External Corroboration ({externalCorroborations.length} signals)
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -107,7 +107,7 @@ export default function AuthorityGrowthDashboard() {
                   className="flex items-start gap-3 bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2.5"
                 >
                   <span
-                    className="shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded mt-0.5"
+                    className="shrink-0 text-xs font-bold px-1.5 py-0.5 rounded mt-0.5"
                     style={{ color, backgroundColor: `${color}12` }}
                   >
                     {c.authorityImpact}
@@ -116,7 +116,7 @@ export default function AuthorityGrowthDashboard() {
                     <p className="text-xs text-foreground/90 leading-snug">
                       {c.title}
                     </p>
-                    <div className="flex items-center gap-2 mt-1 text-[10px] text-muted">
+                    <div className="flex items-center gap-2 mt-1 text-xs text-muted">
                       <span>{c.source}</span>
                       <span
                         className="px-1.5 py-0.5 rounded-full border"
@@ -152,20 +152,20 @@ function HealthCard({ indicator }: { indicator: HealthIndicator }) {
       }}
     >
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[10px] text-muted">{indicator.area}</span>
+        <span className="text-xs text-muted">{indicator.area}</span>
         <div className="flex items-center gap-1">
           <span className="text-xs font-bold" style={{ color }}>
             {indicator.score}
           </span>
           <span
-            className="text-[10px] font-bold"
+            className="text-xs font-bold"
             style={{ color: trend.color }}
           >
             {trend.symbol}
           </span>
         </div>
       </div>
-      <p className="text-[10px] text-muted/80 leading-relaxed">
+      <p className="text-xs text-muted/80 leading-relaxed">
         {indicator.description}
       </p>
     </div>
@@ -179,8 +179,8 @@ function MomentumCard({ metric }: { metric: MomentumMetric }) {
       <p className="text-lg font-bold text-foreground-bright">
         {metric.current.toLocaleString()}
       </p>
-      <p className="text-[10px] text-muted">{metric.metric}</p>
-      <p className="text-[10px] font-medium mt-0.5" style={{ color: trend.color }}>
+      <p className="text-xs text-muted">{metric.metric}</p>
+      <p className="text-xs font-medium mt-0.5" style={{ color: trend.color }}>
         {metric.change >= 0 ? "+" : ""}
         {metric.change} ({metric.changePercent}%)
       </p>

@@ -20,7 +20,7 @@ export default function ThemeOverview() {
         <h2 className="text-base font-semibold text-foreground-bright tracking-wide uppercase">
           Strategic Themes
         </h2>
-        <div className="flex gap-3 text-[10px] text-muted">
+        <div className="flex gap-3 text-xs text-muted">
           {Object.entries(authorityColors).map(([key, { color, label }]) => (
             <span key={key} className="flex items-center gap-1.5">
               <span
@@ -85,7 +85,7 @@ function ThemeCard({
         {theme.description}
       </p>
 
-      <div className="flex items-center gap-2 text-[10px] text-muted mt-auto">
+      <div className="flex items-center gap-2 text-xs text-muted mt-auto">
         <span>{topicCount} topics</span>
         <span className="text-card-border">|</span>
         <span>{theme.keywords.length} keywords</span>
@@ -93,14 +93,14 @@ function ThemeCard({
 
       {isExpanded && (
         <div className="mt-2 pt-2 border-t border-card-border/40 space-y-2">
-          <p className="text-[11px] text-foreground/70 leading-relaxed">
+          <p className="text-xs text-foreground/70 leading-relaxed">
             {theme.strategicGoal}
           </p>
           <div className="flex flex-wrap gap-1">
             {related.map((r) => (
               <span
                 key={r.id}
-                className="text-[10px] px-1.5 py-0.5 rounded bg-card-bg border border-card-border/40 text-muted"
+                className="text-xs px-1.5 py-0.5 rounded bg-card-bg border border-card-border/40 text-muted"
               >
                 {r.name}
               </span>

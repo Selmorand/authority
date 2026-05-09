@@ -168,7 +168,7 @@ export default function AmplificationDashboard() {
           {warnings.map((w, i) => (
             <div
               key={i}
-              className="flex items-start gap-2 rounded-lg border px-3 py-2 text-[11px]"
+              className="flex items-start gap-2 rounded-lg border px-3 py-2 text-xs"
               style={{ borderColor: `${severityColors[w.severity]}15`, backgroundColor: `${severityColors[w.severity]}04` }}
             >
               <span style={{ color: severityColors[w.severity] }} className="shrink-0 font-bold">!</span>
@@ -181,7 +181,7 @@ export default function AmplificationDashboard() {
       {/* Amplified outputs */}
       {outputs.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Amplified Outputs ({outputs.length})
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -194,7 +194,7 @@ export default function AmplificationDashboard() {
 
       {/* Authority density */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Authority Density
         </h3>
         <div className="grid grid-cols-3 gap-2">
@@ -206,14 +206,14 @@ export default function AmplificationDashboard() {
 
       {/* Templates */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Amplification Templates
         </h3>
         <div className="flex flex-wrap gap-1.5">
           {amplificationTemplates.map((t) => (
             <span
               key={t.id}
-              className="text-[10px] px-2 py-0.5 rounded-full bg-background-raised border border-card-border-subtle text-muted"
+              className="text-xs px-2 py-0.5 rounded-full bg-background-raised border border-card-border-subtle text-muted"
               title={t.structure}
             >
               {t.name}
@@ -236,27 +236,27 @@ function OutputCard({ output }: { output: AmplifiedOutput }) {
     >
       <div className="flex items-center gap-2 flex-wrap">
         <span
-          className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border"
+          className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
           style={{ color, borderColor: `${color}25`, backgroundColor: `${color}08` }}
         >
           {output.platform}
         </span>
-        <span className="text-[9px] text-muted">{output.estimatedTime}</span>
+        <span className="text-xs text-muted">{output.estimatedTime}</span>
       </div>
       <p className="text-xs text-foreground-bright font-medium leading-snug">
         {output.title}
       </p>
-      <p className="text-[10px] text-muted">{output.authorityAngle}</p>
+      <p className="text-xs text-muted">{output.authorityAngle}</p>
       {expanded && (
         <div className="mt-1 pt-2 border-t border-card-border-subtle">
-          <p className="text-[11px] text-foreground/70 leading-relaxed whitespace-pre-wrap">
+          <p className="text-xs text-foreground/70 leading-relaxed whitespace-pre-wrap">
             {output.content}
           </p>
           <div className="flex flex-wrap gap-1 mt-2">
             {output.semanticKeywords.map((kw) => (
               <span
                 key={kw}
-                className="text-[9px] px-1.5 py-0.5 rounded bg-accent/8 text-accent/60"
+                className="text-xs px-1.5 py-0.5 rounded bg-accent/8 text-accent/60"
               >
                 {kw}
               </span>
@@ -273,7 +273,7 @@ function ScoreBox({ label, value }: { label: string; value: number }) {
   return (
     <div className="text-center">
       <p className="text-lg font-bold" style={{ color }}>{value}/10</p>
-      <p className="text-[9px] text-muted">{label}</p>
+      <p className="text-xs text-muted">{label}</p>
     </div>
   );
 }
@@ -283,7 +283,7 @@ function DensityStat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-lg bg-background-raised border border-card-border-subtle px-3 py-2.5 text-center">
       <p className="text-lg font-bold" style={{ color }}>{value}/10</p>
-      <p className="text-[9px] text-muted">{label}</p>
+      <p className="text-xs text-muted">{label}</p>
     </div>
   );
 }

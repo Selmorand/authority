@@ -93,7 +93,7 @@ function AuthorityNode({ data }: NodeProps) {
         style={{ width: size * 2.5 }}
       >
         <div
-          className="rounded-full flex items-center justify-center font-bold text-[10px]"
+          className="rounded-full flex items-center justify-center font-bold text-xs"
           style={{
             width: size,
             height: size,
@@ -105,7 +105,7 @@ function AuthorityNode({ data }: NodeProps) {
           {d.strength}
         </div>
         <span
-          className="text-[10px] font-medium text-center leading-tight"
+          className="text-xs font-medium text-center leading-tight"
           style={{ color }}
         >
           {d.label}
@@ -154,7 +154,7 @@ export default function AuthorityKnowledgeGraph() {
           {clusters.map((c) => (
             <span
               key={c.id}
-              className="flex items-center gap-1.5 text-[10px]"
+              className="flex items-center gap-1.5 text-xs"
               style={{ color: c.color }}
             >
               <span
@@ -197,7 +197,7 @@ export default function AuthorityKnowledgeGraph() {
             </span>
           </div>
           <p className="text-xs text-foreground/70">{selectedNode.description}</p>
-          <div className="flex gap-2 mt-2 text-[10px]">
+          <div className="flex gap-2 mt-2 text-xs">
             <span className="px-2 py-0.5 rounded-full bg-background-raised border border-card-border-subtle text-muted">
               {selectedNode.authorityLevel}
             </span>
@@ -219,7 +219,7 @@ export default function AuthorityKnowledgeGraph() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Strongest clusters */}
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Most Reinforced Clusters
           </h3>
           <div className="space-y-1.5">
@@ -237,7 +237,7 @@ export default function AuthorityKnowledgeGraph() {
                     />
                     <span className="text-xs text-foreground">{info?.label}</span>
                   </div>
-                  <span className="text-[10px] font-bold" style={{ color: info?.color }}>
+                  <span className="text-xs font-bold" style={{ color: info?.color }}>
                     {c.avgStrength}
                   </span>
                 </div>
@@ -248,7 +248,7 @@ export default function AuthorityKnowledgeGraph() {
 
         {/* Strategic insights */}
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Strategic Graph Insights
           </h3>
           <div className="space-y-1.5">
@@ -293,8 +293,8 @@ function InsightItem({
   const c = colors[type];
 
   return (
-    <div className="flex items-start gap-2 text-[11px] bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2">
-      <span className="shrink-0 font-mono font-bold text-[10px]" style={{ color: c.color }}>
+    <div className="flex items-start gap-2 text-xs bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2">
+      <span className="shrink-0 font-mono font-bold text-xs" style={{ color: c.color }}>
         {c.icon}
       </span>
       <span className="text-foreground/70 leading-relaxed">{text}</span>

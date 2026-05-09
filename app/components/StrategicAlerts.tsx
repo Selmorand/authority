@@ -57,25 +57,25 @@ export default function StrategicAlerts() {
             >
               <div className="flex items-center gap-2">
                 <span
-                  className="text-[10px] font-mono font-bold"
+                  className="text-xs font-mono font-bold"
                   style={{ color: cfg.color }}
                 >
                   {cfg.icon}
                 </span>
                 <span
-                  className="text-[10px] font-medium uppercase tracking-wider"
+                  className="text-xs font-medium uppercase tracking-wider"
                   style={{ color: cfg.color }}
                 >
                   {cfg.label}
                 </span>
-                <span className="text-[10px] text-muted ml-auto">
+                <span className="text-xs text-muted ml-auto">
                   {score.overall}/10
                 </span>
               </div>
               <p className="text-xs text-foreground/90 leading-snug font-medium">
                 {signal.title}
               </p>
-              <p className="text-[11px] text-muted leading-relaxed line-clamp-2">
+              <p className="text-xs text-muted leading-relaxed line-clamp-2">
                 {signal.insightSummary}
               </p>
             </div>

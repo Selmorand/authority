@@ -91,7 +91,7 @@ export default function StrategicFocus() {
           {contentAngles.map((a) => (
             <span
               key={a.id}
-              className="text-[10px] px-2 py-0.5 rounded-full bg-background/50 text-muted border border-card-border/60"
+              className="text-xs px-2 py-0.5 rounded-full bg-background/50 text-muted border border-card-border/60"
             >
               {a.name}
             </span>
@@ -106,7 +106,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-background/50 border border-card-border/60 rounded-lg px-3 py-2.5 text-center">
       <p className="text-xl font-bold text-foreground-bright">{value}</p>
-      <p className="text-[10px] text-muted mt-0.5">{label}</p>
+      <p className="text-xs text-muted mt-0.5">{label}</p>
     </div>
   );
 }

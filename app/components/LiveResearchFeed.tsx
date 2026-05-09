@@ -166,7 +166,7 @@ function FilterBtn({
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+      className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
         active
           ? "bg-accent/15 text-accent border-accent/30"
           : "bg-background/50 text-muted border-card-border hover:text-foreground"
@@ -207,7 +207,7 @@ function SignalCard({ signal }: { signal: LiveSignal }) {
           {signal.title}
         </a>
         <span
-          className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded"
+          className="shrink-0 text-xs font-bold px-1.5 py-0.5 rounded"
           style={{
             color:
               signal.relevanceScore >= 7
@@ -230,7 +230,7 @@ function SignalCard({ signal }: { signal: LiveSignal }) {
       )}
 
       {/* Tags */}
-      <div className="flex flex-wrap gap-1.5 text-[10px]">
+      <div className="flex flex-wrap gap-1.5 text-xs">
         <span
           className="px-2 py-0.5 rounded-full border"
           style={{
@@ -259,7 +259,7 @@ function SignalCard({ signal }: { signal: LiveSignal }) {
 
       {/* Matched keywords */}
       {signal.matchedKeywords.length > 0 && (
-        <div className="flex flex-wrap gap-1 text-[9px]">
+        <div className="flex flex-wrap gap-1 text-xs">
           {signal.matchedKeywords.slice(0, 5).map((kw) => (
             <span
               key={kw}

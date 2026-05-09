@@ -66,11 +66,11 @@ export default function Home() {
               <h1 className="text-lg sm:text-xl font-bold tracking-tight text-foreground-bright">
                 Interon Authority OS
               </h1>
-              <p className="text-[10px] text-muted tracking-wide uppercase hidden sm:block">
+              <p className="text-xs text-muted tracking-wide uppercase hidden sm:block">
                 AI Visibility & Authority Execution System
               </p>
             </div>
-            <div className="flex items-center gap-2 text-[10px] text-muted">
+            <div className="flex items-center gap-2 text-xs text-muted">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               <span className="hidden sm:inline">System Active</span>
             </div>
@@ -81,7 +81,7 @@ export default function Home() {
               <button
                 key={v.id}
                 onClick={() => setActiveView(v.id)}
-                className={`text-[11px] px-3 py-1.5 rounded-lg border cursor-pointer transition-colors whitespace-nowrap ${
+                className={`text-xs px-3 py-1.5 rounded-lg border cursor-pointer transition-colors whitespace-nowrap ${
                   activeView === v.id
                     ? "bg-accent/15 text-accent border-accent/30"
                     : "bg-transparent text-muted border-transparent hover:text-foreground hover:border-card-border-subtle"

@@ -85,7 +85,7 @@ export default function StrategicBriefing() {
         <>
           {/* Weekly priority */}
           <div className="rounded-lg bg-accent/5 border border-accent/15 px-4 py-3">
-            <p className="text-[11px] font-medium text-accent uppercase tracking-wider mb-1">
+            <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1">
               #1 Priority This Week
             </p>
             <p className="text-sm text-foreground-bright font-medium leading-relaxed">
@@ -179,7 +179,7 @@ function TabBtn({
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+      className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
         active
           ? "bg-accent/15 text-accent border-accent/30"
           : "bg-background/50 text-muted border-card-border hover:text-foreground"
@@ -200,7 +200,7 @@ function FindingCard({ finding }: { finding: KeyFinding }) {
           {finding.finding}
         </p>
         <span
-          className="shrink-0 text-[10px] font-medium px-2 py-0.5 rounded-full border"
+          className="shrink-0 text-xs font-medium px-2 py-0.5 rounded-full border"
           style={{
             color: urgColor,
             borderColor: `${urgColor}30`,
@@ -228,7 +228,7 @@ function FindingCard({ finding }: { finding: KeyFinding }) {
       />
 
       {finding.relevantThemes.length > 0 && (
-        <div className="flex flex-wrap gap-1 text-[10px]">
+        <div className="flex flex-wrap gap-1 text-xs">
           {finding.relevantThemes.map((t) => (
             <span
               key={t}
@@ -246,7 +246,7 @@ function FindingCard({ finding }: { finding: KeyFinding }) {
 function InsightRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[10px] font-medium text-muted uppercase tracking-wider mb-0.5">
+      <p className="text-xs font-medium text-muted uppercase tracking-wider mb-0.5">
         {label}
       </p>
       <p className="text-xs text-foreground/80 leading-relaxed">{value}</p>
@@ -262,7 +262,7 @@ function ShiftCard({ shift }: { shift: SemanticShift }) {
       <div className="flex items-center gap-2">
         <span className="text-sm font-bold text-foreground-bright">{shift.term}</span>
         <span
-          className="text-[10px] font-medium px-2 py-0.5 rounded-full border"
+          className="text-xs font-medium px-2 py-0.5 rounded-full border"
           style={{
             color: dir.color,
             borderColor: `${dir.color}30`,

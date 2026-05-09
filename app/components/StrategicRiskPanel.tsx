@@ -63,19 +63,19 @@ function RiskCard({ risk }: { risk: StrategicRisk }) {
     >
       <div className="flex items-center gap-2 flex-wrap">
         <span
-          className="text-[10px] font-medium uppercase tracking-wider"
+          className="text-xs font-medium uppercase tracking-wider"
           style={{ color: sev.color }}
         >
           {sev.label}
         </span>
-        <span className="text-[10px] text-muted px-1.5 py-0.5 rounded bg-background-raised border border-card-border-subtle">
+        <span className="text-xs text-muted px-1.5 py-0.5 rounded bg-background-raised border border-card-border-subtle">
           {catLabel}
         </span>
       </div>
       <p className="text-xs text-foreground/90 font-medium leading-snug">
         {risk.risk}
       </p>
-      <p className="text-[11px] text-muted leading-relaxed">
+      <p className="text-xs text-muted leading-relaxed">
         {risk.mitigation}
       </p>
     </div>

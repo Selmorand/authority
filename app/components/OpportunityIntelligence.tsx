@@ -35,7 +35,7 @@ export default function OpportunityIntelligence() {
 
       {/* Opportunities */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           High-Value Opportunities
         </h3>
         <div className="space-y-2">
@@ -47,7 +47,7 @@ export default function OpportunityIntelligence() {
 
       {/* Weekly recommendations */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Weekly Recommendations
         </h3>
         <div className="space-y-1.5">
@@ -72,7 +72,7 @@ function OppCard({ opp }: { opp: StrategicOpportunity }) {
         </p>
         <div className="flex gap-1 shrink-0">
           <span
-            className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border"
+            className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
             style={{
               color: levColor,
               borderColor: `${levColor}25`,
@@ -82,7 +82,7 @@ function OppCard({ opp }: { opp: StrategicOpportunity }) {
             {opp.leverage}
           </span>
           <span
-            className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border"
+            className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
             style={{
               color: tfColor,
               borderColor: `${tfColor}25`,
@@ -93,8 +93,8 @@ function OppCard({ opp }: { opp: StrategicOpportunity }) {
           </span>
         </div>
       </div>
-      <p className="text-[11px] text-muted leading-relaxed">{opp.rationale}</p>
-      <div className="flex items-start gap-2 text-[11px] text-foreground/70">
+      <p className="text-xs text-muted leading-relaxed">{opp.rationale}</p>
+      <div className="flex items-start gap-2 text-xs text-foreground/70">
         <span className="text-accent shrink-0">-&gt;</span>
         <span>{opp.suggestedAction}</span>
       </div>
@@ -108,7 +108,7 @@ function RecCard({ rec }: { rec: WeeklyRecommendation }) {
   return (
     <div className="flex items-start gap-3 bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2.5">
       <span
-        className="shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded mt-0.5"
+        className="shrink-0 text-xs font-bold px-1.5 py-0.5 rounded mt-0.5"
         style={{ color, backgroundColor: `${color}12` }}
       >
         {rec.priority}
@@ -117,7 +117,7 @@ function RecCard({ rec }: { rec: WeeklyRecommendation }) {
         <p className="text-xs text-foreground/90 leading-relaxed">
           {rec.recommendation}
         </p>
-        <div className="flex gap-2 mt-1 text-[10px] text-muted">
+        <div className="flex gap-2 mt-1 text-xs text-muted">
           <span>{rec.area}</span>
           <span
             className="px-1.5 py-0.5 rounded-full border"

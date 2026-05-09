@@ -62,7 +62,7 @@ export default function ExecutionDashboard() {
       {/* Today's reminders */}
       {reminders.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Reminders
           </h3>
           <div className="space-y-1.5">
@@ -85,7 +85,7 @@ export default function ExecutionDashboard() {
                   <p className="text-xs font-medium text-foreground-bright">
                     {r.title}
                   </p>
-                  <p className="text-[10px] text-muted mt-0.5 leading-relaxed">
+                  <p className="text-xs text-muted mt-0.5 leading-relaxed">
                     {r.description}
                   </p>
                 </div>
@@ -97,7 +97,7 @@ export default function ExecutionDashboard() {
 
       {/* Theme cadence */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Theme Cadence
         </h3>
         <div className="space-y-1.5">
@@ -116,7 +116,7 @@ export default function ExecutionDashboard() {
                 <span className="text-xs text-foreground">{c.theme}</span>
               </div>
               <span
-                className="text-[10px] font-medium"
+                className="text-xs font-medium"
                 style={{ color: frequencyColors[c.frequency] }}
               >
                 {c.frequency === "inactive"
@@ -131,7 +131,7 @@ export default function ExecutionDashboard() {
       {/* Drift indicators */}
       {drift.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Drift Detection
           </h3>
           <div className="space-y-1.5">
@@ -146,16 +146,16 @@ export default function ExecutionDashboard() {
               >
                 <div className="flex items-center gap-2 mb-0.5">
                   <span
-                    className="text-[9px] font-medium uppercase tracking-wider"
+                    className="text-xs font-medium uppercase tracking-wider"
                     style={{ color: severityColors[d.severity] }}
                   >
                     {driftTypeLabels[d.type]}
                   </span>
-                  <span className="text-[10px] text-foreground-bright font-medium">
+                  <span className="text-xs text-foreground-bright font-medium">
                     {d.area}
                   </span>
                 </div>
-                <p className="text-[10px] text-muted leading-relaxed">
+                <p className="text-xs text-muted leading-relaxed">
                   {d.correction}
                 </p>
               </div>
@@ -167,7 +167,7 @@ export default function ExecutionDashboard() {
       {/* Execution gaps */}
       {gaps.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Execution Gaps
           </h3>
           <div className="space-y-1.5">
@@ -182,7 +182,7 @@ export default function ExecutionDashboard() {
                 />
                 <div>
                   <span className="text-foreground font-medium">{g.area}</span>
-                  <p className="text-[10px] text-muted mt-0.5">
+                  <p className="text-xs text-muted mt-0.5">
                     {g.suggestion}
                   </p>
                 </div>
@@ -219,7 +219,7 @@ function StatBox({
       >
         {value}
       </p>
-      <p className="text-[10px] text-muted mt-0.5">{label}</p>
+      <p className="text-xs text-muted mt-0.5">{label}</p>
     </div>
   );
 }

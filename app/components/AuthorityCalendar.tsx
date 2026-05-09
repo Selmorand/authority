@@ -64,7 +64,7 @@ export default function AuthorityCalendar() {
         {recurringCycles.map((c) => (
           <div
             key={c.dayOfWeek}
-            className="text-[10px] px-2.5 py-1 rounded-lg bg-background-raised border border-card-border-subtle text-muted"
+            className="text-xs px-2.5 py-1 rounded-lg bg-background-raised border border-card-border-subtle text-muted"
           >
             <span className="text-foreground-bright font-medium">
               {c.dayName}
@@ -84,14 +84,14 @@ export default function AuthorityCalendar() {
       {/* Theme distribution */}
       {week.themeDistribution.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Theme Distribution
           </h3>
           <div className="flex flex-wrap gap-2">
             {week.themeDistribution.map((t) => (
               <span
                 key={t.theme}
-                className="text-[10px] px-2 py-0.5 rounded-full bg-accent/8 text-foreground/70 border border-card-border-subtle"
+                className="text-xs px-2 py-0.5 rounded-full bg-accent/8 text-foreground/70 border border-card-border-subtle"
               >
                 {t.theme}: {t.count}
               </span>
@@ -123,7 +123,7 @@ function DayColumn({ day }: { day: DaySchedule }) {
         <h3 className="text-xs font-semibold text-foreground-bright uppercase tracking-wider">
           {day.dayName.slice(0, 3)}
         </h3>
-        <span className="text-[10px] text-muted">{dateLabel}</span>
+        <span className="text-xs text-muted">{dateLabel}</span>
       </div>
 
       {/* Time blocks */}
@@ -140,7 +140,7 @@ function DayColumn({ day }: { day: DaySchedule }) {
         return (
           <div key={block}>
             <p
-              className="text-[9px] font-medium uppercase tracking-wider mb-1"
+              className="text-xs font-medium uppercase tracking-wider mb-1"
               style={{ color: cfg.color }}
             >
               {cfg.label}
@@ -155,7 +155,7 @@ function DayColumn({ day }: { day: DaySchedule }) {
       })}
 
       {/* Day stats */}
-      <div className="flex items-center justify-between text-[9px] text-muted mt-auto pt-1 border-t border-card-border-subtle">
+      <div className="flex items-center justify-between text-xs text-muted mt-auto pt-1 border-t border-card-border-subtle">
         <span>{allMissions.length} missions</span>
         <span>{day.totalEstimatedMins} min</span>
       </div>
@@ -166,14 +166,14 @@ function DayColumn({ day }: { day: DaySchedule }) {
 function MissionSlot({ mission }: { mission: ScheduledMission }) {
   return (
     <div
-      className={`rounded-md px-2 py-1.5 text-[10px] leading-snug border ${
+      className={`rounded-md px-2 py-1.5 text-xs leading-snug border ${
         mission.isHighPriority
           ? "border-accent/20 bg-accent/5"
           : "border-card-border-subtle/50 bg-card-bg/40"
       } ${mission.isOverdue ? "border-red-500/20 bg-red-500/5" : ""}`}
     >
       <p className="text-foreground/80 line-clamp-2">{mission.title}</p>
-      <div className="flex items-center gap-1.5 mt-1 text-[9px] text-muted">
+      <div className="flex items-center gap-1.5 mt-1 text-xs text-muted">
         <span>{mission.estimatedTime}</span>
         {mission.isHighPriority && (
           <span className="text-accent font-medium">priority</span>

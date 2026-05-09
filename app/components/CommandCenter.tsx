@@ -65,7 +65,7 @@ export default function CommandCenter() {
 
       {/* What matters most */}
       <div className="rounded-lg bg-accent/5 border border-accent/15 px-4 py-3.5">
-        <p className="text-[10px] font-medium text-accent uppercase tracking-wider mb-1.5">
+        <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1.5">
           What Matters Most This Week
         </p>
         <p className="text-sm text-foreground-bright leading-relaxed">
@@ -77,7 +77,7 @@ export default function CommandCenter() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Highest leverage */}
         <div className="rounded-lg bg-green-500/4 border border-green-500/12 px-4 py-3">
-          <p className="text-[10px] font-medium text-green-400 uppercase tracking-wider mb-1">
+          <p className="text-xs font-medium text-green-400 uppercase tracking-wider mb-1">
             Highest-Leverage Opportunity
           </p>
           <p className="text-xs text-foreground/90 leading-relaxed">
@@ -87,7 +87,7 @@ export default function CommandCenter() {
 
         {/* Biggest risk */}
         <div className="rounded-lg bg-red-500/4 border border-red-500/12 px-4 py-3">
-          <p className="text-[10px] font-medium text-red-400 uppercase tracking-wider mb-1">
+          <p className="text-xs font-medium text-red-400 uppercase tracking-wider mb-1">
             Biggest Strategic Risk
           </p>
           <p className="text-xs text-foreground/90 leading-relaxed">
@@ -99,7 +99,7 @@ export default function CommandCenter() {
       {/* Themes status */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Themes Strengthening
           </h3>
           <div className="space-y-1">
@@ -109,7 +109,7 @@ export default function CommandCenter() {
                   key={t}
                   className="flex items-center gap-2 text-xs text-foreground bg-green-500/4 border border-green-500/10 rounded-lg px-3 py-1.5"
                 >
-                  <span className="text-green-400 font-bold text-[10px]">^</span>
+                  <span className="text-green-400 font-bold text-xs">^</span>
                   {t}
                 </div>
               ))
@@ -119,7 +119,7 @@ export default function CommandCenter() {
           </div>
         </div>
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Areas Losing Momentum
           </h3>
           <div className="space-y-1">
@@ -129,7 +129,7 @@ export default function CommandCenter() {
                   key={t}
                   className="flex items-center gap-2 text-xs text-foreground bg-yellow-500/4 border border-yellow-500/10 rounded-lg px-3 py-1.5"
                 >
-                  <span className="text-yellow-400 font-bold text-[10px]">v</span>
+                  <span className="text-yellow-400 font-bold text-xs">v</span>
                   {t}
                 </div>
               ))
@@ -142,7 +142,7 @@ export default function CommandCenter() {
 
       {/* Recommended focus */}
       <div className="rounded-lg bg-background-raised border border-card-border-subtle px-4 py-3">
-        <p className="text-[10px] font-medium text-accent uppercase tracking-wider mb-1">
+        <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1">
           Recommended Strategic Focus
         </p>
         <p className="text-xs text-foreground/90 leading-relaxed">
@@ -152,7 +152,7 @@ export default function CommandCenter() {
 
       {/* Narrative positions */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Category Ownership
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -171,11 +171,11 @@ export default function CommandCenter() {
                 className="rounded-lg bg-background-raised border border-card-border-subtle px-3 py-2"
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] text-foreground font-medium truncate">
+                  <span className="text-xs text-foreground font-medium truncate">
                     {n.theme}
                   </span>
                   <span
-                    className="text-[9px] font-bold"
+                    className="text-xs font-bold"
                     style={{ color }}
                   >
                     {n.categoryOwnership}%
@@ -192,12 +192,12 @@ export default function CommandCenter() {
                 </div>
                 <div className="flex items-center justify-between mt-1">
                   <span
-                    className="text-[9px]"
+                    className="text-xs"
                     style={{ color }}
                   >
                     {n.strength}
                   </span>
-                  <span className="text-[9px] text-muted">
+                  <span className="text-xs text-muted">
                     {n.trend === "growing" ? "^" : n.trend === "declining" ? "v" : "="}
                   </span>
                 </div>
@@ -224,7 +224,7 @@ function ScoreCard({
       <p className="text-xl font-bold" style={{ color }}>
         {value}
       </p>
-      <p className="text-[10px] text-muted mt-0.5">{label}</p>
+      <p className="text-xs text-muted mt-0.5">{label}</p>
     </div>
   );
 }

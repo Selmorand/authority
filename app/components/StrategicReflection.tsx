@@ -22,7 +22,7 @@ export default function StrategicReflection() {
               <p className="text-xs text-foreground leading-relaxed">
                 {l.lesson}
               </p>
-              <div className="flex items-center gap-2 mt-1.5 text-[10px] text-muted">
+              <div className="flex items-center gap-2 mt-1.5 text-xs text-muted">
                 <span>{l.theme}</span>
                 <span className="text-card-border">|</span>
                 <span>impact {l.impact}/10</span>
@@ -42,7 +42,7 @@ export default function StrategicReflection() {
                 key={t.themeId}
                 className="flex items-center gap-2 text-xs text-foreground bg-green-500/5 border border-green-500/15 rounded-lg px-3 py-2"
               >
-                <span className="text-green-400 font-bold text-[10px]">
+                <span className="text-green-400 font-bold text-xs">
                   ^
                 </span>
                 <span>{t.themeName}</span>
@@ -69,7 +69,7 @@ export default function StrategicReflection() {
                 key={t}
                 className="flex items-center gap-2 text-xs text-foreground bg-yellow-500/5 border border-yellow-500/15 rounded-lg px-3 py-2"
               >
-                <span className="text-yellow-400 font-bold text-[10px]">
+                <span className="text-yellow-400 font-bold text-xs">
                   =
                 </span>
                 <span>{t}</span>
@@ -92,7 +92,7 @@ export default function StrategicReflection() {
                 key={t}
                 className="flex items-center gap-2 text-xs text-foreground bg-accent/5 border border-accent/15 rounded-lg px-3 py-2"
               >
-                <span className="text-accent font-bold text-[10px]">!</span>
+                <span className="text-accent font-bold text-xs">!</span>
                 <span>{t}</span>
               </div>
             ))}

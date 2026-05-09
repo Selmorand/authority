@@ -65,7 +65,7 @@ export default function TrendIntelligenceDashboard() {
           {report.insights.map((insight, i) => (
             <div
               key={i}
-              className="flex items-start gap-2 rounded-lg bg-accent/4 border border-accent/10 px-3.5 py-2.5 text-[11px]"
+              className="flex items-start gap-2 rounded-lg bg-accent/4 border border-accent/10 px-3.5 py-2.5 text-xs"
             >
               <span className="text-accent shrink-0 font-mono font-bold">i</span>
               <span className="text-foreground/80 leading-relaxed">{insight}</span>
@@ -139,7 +139,7 @@ function TabBtn({ label, active, onClick }: { label: string; active: boolean; on
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+      className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
         active ? "bg-accent/15 text-accent border-accent/30" : "bg-background/50 text-muted border-card-border hover:text-foreground"
       }`}
     >
@@ -154,16 +154,16 @@ function ClusterCard({ cluster }: { cluster: SemanticCluster }) {
     <div className="rounded-lg bg-background-raised border border-card-border-subtle px-4 py-3 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="text-xs text-foreground-bright font-semibold">{cluster.label}</span>
-        <span className="text-[10px] font-medium" style={{ color }}>
+        <span className="text-xs font-medium" style={{ color }}>
           {cluster.momentum} ({cluster.frequency})
         </span>
       </div>
-      <p className="text-[10px] text-muted">{cluster.description}</p>
+      <p className="text-xs text-muted">{cluster.description}</p>
       <div className="flex flex-wrap gap-1">
         {cluster.terms.slice(0, 6).map((t) => (
           <span
             key={t}
-            className="text-[9px] px-1.5 py-0.5 rounded bg-background border border-card-border-subtle text-muted/80"
+            className="text-xs px-1.5 py-0.5 rounded bg-background border border-card-border-subtle text-muted/80"
           >
             {t}
           </span>
@@ -184,11 +184,11 @@ function NarrativeCard({ narrative }: { narrative: NarrativeMomentum }) {
           {narrative.narrative}
         </p>
         <div className="flex gap-1.5 shrink-0">
-          <span className="text-[9px] font-bold" style={{ color: dirColor }}>
+          <span className="text-xs font-bold" style={{ color: dirColor }}>
             {narrative.strength}/10
           </span>
           <span
-            className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border"
+            className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
             style={{ color: opp.color, borderColor: `${opp.color}25`, backgroundColor: `${opp.color}08` }}
           >
             {opp.label}
@@ -197,7 +197,7 @@ function NarrativeCard({ narrative }: { narrative: NarrativeMomentum }) {
       </div>
       <div className="space-y-0.5">
         {narrative.evidence.map((e, i) => (
-          <p key={i} className="text-[10px] text-muted flex items-start gap-1.5">
+          <p key={i} className="text-xs text-muted flex items-start gap-1.5">
             <span className="text-accent/40 shrink-0">-</span> {e}
           </p>
         ))}
@@ -212,16 +212,16 @@ function WhitespaceCard({ opportunity }: { opportunity: WhitespaceOpportunity })
     <div className="rounded-lg bg-background-raised border border-card-border-subtle px-4 py-3 flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <span
-          className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border"
+          className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
           style={{ color: gapColor, borderColor: `${gapColor}25`, backgroundColor: `${gapColor}08` }}
         >
           {opportunity.competitiveGap} gap
         </span>
-        <span className="text-[9px] text-muted">{opportunity.urgency} urgency</span>
+        <span className="text-xs text-muted">{opportunity.urgency} urgency</span>
       </div>
       <p className="text-xs text-foreground-bright font-medium">{opportunity.area}</p>
-      <p className="text-[10px] text-muted leading-relaxed">{opportunity.description}</p>
-      <div className="flex items-start gap-1.5 text-[10px] text-foreground/60 bg-background/40 rounded px-2.5 py-1.5">
+      <p className="text-xs text-muted leading-relaxed">{opportunity.description}</p>
+      <div className="flex items-start gap-1.5 text-xs text-foreground/60 bg-background/40 rounded px-2.5 py-1.5">
         <span className="text-accent shrink-0">-&gt;</span>
         <span>{opportunity.suggestedAction}</span>
       </div>
@@ -234,14 +234,14 @@ function SaturationCard({ indicator }: { indicator: SaturationIndicator }) {
   return (
     <div className="rounded-lg bg-background-raised border border-card-border-subtle px-3 py-2.5">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[10px] text-foreground-bright font-medium truncate">
+        <span className="text-xs text-foreground-bright font-medium truncate">
           {indicator.term}
         </span>
-        <span className="text-[9px] font-medium" style={{ color }}>
+        <span className="text-xs font-medium" style={{ color }}>
           {indicator.saturationLevel}
         </span>
       </div>
-      <p className="text-[9px] text-muted leading-relaxed">{indicator.differentiation}</p>
+      <p className="text-xs text-muted leading-relaxed">{indicator.differentiation}</p>
     </div>
   );
 }
@@ -251,14 +251,14 @@ function TermCard({ term }: { term: TermFrequency }) {
   return (
     <div className="rounded-lg bg-background-raised border border-card-border-subtle px-3 py-2">
       <div className="flex items-center justify-between mb-0.5">
-        <span className="text-[10px] text-foreground-bright font-medium truncate">
+        <span className="text-xs text-foreground-bright font-medium truncate">
           {term.term}
         </span>
-        <span className="text-[9px] font-bold" style={{ color }}>
+        <span className="text-xs font-bold" style={{ color }}>
           {term.count}
         </span>
       </div>
-      <span className="text-[9px]" style={{ color }}>{term.momentum}</span>
+      <span className="text-xs" style={{ color }}>{term.momentum}</span>
     </div>
   );
 }

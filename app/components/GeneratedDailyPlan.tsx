@@ -140,7 +140,7 @@ function PlanMissionCard({ mission }: { mission: PlannedMission }) {
     >
       {/* Order + Title */}
       <div className="flex items-start gap-2.5">
-        <span className="shrink-0 w-6 h-6 rounded-full bg-background/80 border border-card-border flex items-center justify-center text-[10px] font-bold text-muted">
+        <span className="shrink-0 w-6 h-6 rounded-full bg-background/80 border border-card-border flex items-center justify-center text-xs font-bold text-muted">
           {mission.executionOrder}
         </span>
         <h3
@@ -156,7 +156,7 @@ function PlanMissionCard({ mission }: { mission: PlannedMission }) {
       <p className="text-xs text-muted leading-relaxed">{mission.objective}</p>
 
       {/* Meta */}
-      <div className="flex flex-wrap gap-1.5 text-[10px]">
+      <div className="flex flex-wrap gap-1.5 text-xs">
         <span className="px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
           {mission.theme.name}
         </span>
@@ -172,7 +172,7 @@ function PlanMissionCard({ mission }: { mission: PlannedMission }) {
       </div>
 
       {/* Priority scores */}
-      <div className="grid grid-cols-4 gap-1.5 text-[10px]">
+      <div className="grid grid-cols-4 gap-1.5 text-xs">
         <ScorePill label="Strategic" value={mission.priority.strategicPriority} />
         <ScorePill label="Impact" value={mission.priority.authorityImpact} />
         <ScorePill label="Semantic" value={mission.priority.semanticValue} />
@@ -182,7 +182,7 @@ function PlanMissionCard({ mission }: { mission: PlannedMission }) {
       {/* Status toggle */}
       <button
         onClick={cycleStatus}
-        className="self-start text-[11px] font-medium px-2.5 py-1 rounded-full cursor-pointer transition-colors"
+        className="self-start text-xs font-medium px-2.5 py-1 rounded-full cursor-pointer transition-colors"
         style={{
           color: s.color,
           backgroundColor: s.bg,

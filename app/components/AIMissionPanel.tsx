@@ -130,7 +130,7 @@ export default function AIMissionPanel() {
                 <button
                   key={t.id}
                   onClick={() => toggleTheme(t.id)}
-                  className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+                  className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
                     selectedThemes.includes(t.id)
                       ? "bg-accent/15 text-accent border-accent/30"
                       : "bg-background/50 text-muted border-card-border hover:text-foreground"
@@ -256,7 +256,7 @@ function AIMissionCard({ mission }: { mission: AIMission }) {
           {mission.title}
         </h3>
         <span
-          className="shrink-0 text-[10px] font-bold px-1.5 py-0.5 rounded"
+          className="shrink-0 text-xs font-bold px-1.5 py-0.5 rounded"
           style={{
             color: priorityColor,
             backgroundColor: `${priorityColor}15`,
@@ -272,7 +272,7 @@ function AIMissionCard({ mission }: { mission: AIMission }) {
         {mission.semanticGoal}
       </p>
 
-      <div className="flex flex-wrap gap-1.5 text-[10px] mt-auto">
+      <div className="flex flex-wrap gap-1.5 text-xs mt-auto">
         <span className="px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
           {mission.theme}
         </span>
@@ -309,10 +309,10 @@ function ExpansionCard({ expansion }: { expansion: TopicExpansion }) {
   return (
     <div className="rounded-lg border border-card-border/60 bg-background/40 p-4 flex flex-col gap-2.5">
       <div className="flex items-start justify-between gap-2">
-        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
+        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
           {expansion.angle}
         </span>
-        <span className="text-[10px] text-muted">{expansion.estimatedTime}</span>
+        <span className="text-xs text-muted">{expansion.estimatedTime}</span>
       </div>
 
       <h3 className="text-sm font-semibold text-foreground-bright leading-snug">
@@ -323,7 +323,7 @@ function ExpansionCard({ expansion }: { expansion: TopicExpansion }) {
         {expansion.keyPoint}
       </p>
 
-      <div className="flex items-center gap-2 text-[10px] mt-auto">
+      <div className="flex items-center gap-2 text-xs mt-auto">
         <span className="px-2 py-0.5 rounded-full bg-background/80 text-muted border border-card-border">
           {expansion.platform}
         </span>

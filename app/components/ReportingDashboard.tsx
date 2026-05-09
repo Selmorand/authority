@@ -139,7 +139,7 @@ export default function ReportingDashboard() {
             className="text-left rounded-lg bg-background-raised border border-card-border-subtle px-3.5 py-3 cursor-pointer transition-colors hover:border-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <p className="text-xs text-foreground-bright font-medium">{rt.label}</p>
-            <p className="text-[10px] text-muted mt-0.5">{rt.description}</p>
+            <p className="text-xs text-muted mt-0.5">{rt.description}</p>
           </button>
         ))}
       </div>
@@ -150,7 +150,7 @@ export default function ReportingDashboard() {
           {/* Report header */}
           <div className="rounded-lg bg-accent/5 border border-accent/15 px-4 py-3">
             <p className="text-sm font-semibold text-foreground-bright">{report.title}</p>
-            <p className="text-[10px] text-muted mt-0.5">
+            <p className="text-xs text-muted mt-0.5">
               {report.subtitle} &middot;{" "}
               {new Date(report.generatedAt).toLocaleString("en-GB")}
             </p>
@@ -166,7 +166,7 @@ export default function ReportingDashboard() {
       {/* Report history */}
       {history.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Report History ({history.length})
           </h3>
           <div className="space-y-1">
@@ -176,7 +176,7 @@ export default function ReportingDashboard() {
                 className="flex items-center justify-between bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2 text-xs"
               >
                 <span className="text-foreground">{h.title}</span>
-                <span className="text-muted text-[10px]">
+                <span className="text-muted text-xs">
                   {new Date(h.generatedAt).toLocaleString("en-GB", {
                     day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
                   })}
@@ -213,7 +213,7 @@ function SectionCard({ section }: { section: ReportSection }) {
       </div>
 
       {section.type === "metrics" ? (
-        <div className="flex flex-wrap gap-3 text-[11px]">
+        <div className="flex flex-wrap gap-3 text-xs">
           {section.content.split(" | ").map((m, i) => {
             const [label, value] = m.split(": ");
             return (
@@ -227,7 +227,7 @@ function SectionCard({ section }: { section: ReportSection }) {
       ) : section.type === "list" ? (
         <div className="space-y-1">
           {section.content.split("\n").filter(Boolean).map((line, i) => (
-            <p key={i} className="text-[11px] text-foreground/70 leading-relaxed flex items-start gap-2">
+            <p key={i} className="text-xs text-foreground/70 leading-relaxed flex items-start gap-2">
               <span className="text-muted/40 shrink-0">-</span>
               <span>{line}</span>
             </p>
@@ -235,14 +235,14 @@ function SectionCard({ section }: { section: ReportSection }) {
         </div>
       ) : section.type === "warning" ? (
         <div className="rounded bg-red-500/4 border border-red-500/10 px-3 py-2">
-          <p className="text-[11px] text-foreground/80 leading-relaxed">{section.content}</p>
+          <p className="text-xs text-foreground/80 leading-relaxed">{section.content}</p>
         </div>
       ) : section.type === "opportunity" ? (
         <div className="rounded bg-green-500/4 border border-green-500/10 px-3 py-2">
-          <p className="text-[11px] text-foreground/80 leading-relaxed">{section.content}</p>
+          <p className="text-xs text-foreground/80 leading-relaxed">{section.content}</p>
         </div>
       ) : (
-        <p className="text-[11px] text-foreground/70 leading-relaxed whitespace-pre-wrap">
+        <p className="text-xs text-foreground/70 leading-relaxed whitespace-pre-wrap">
           {section.content}
         </p>
       )}

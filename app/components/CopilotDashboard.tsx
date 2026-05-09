@@ -76,7 +76,7 @@ export default function CopilotDashboard() {
 
       {/* Overall assessment */}
       <div className="rounded-lg bg-background-raised border border-card-border-subtle px-4 py-3">
-        <p className="text-[10px] font-medium text-muted uppercase tracking-wider mb-1">
+        <p className="text-xs font-medium text-muted uppercase tracking-wider mb-1">
           Assessment
         </p>
         <p className="text-xs text-foreground/90 font-mono">{report.overallAssessment}</p>
@@ -84,7 +84,7 @@ export default function CopilotDashboard() {
 
       {/* Top priority */}
       <div className="rounded-lg bg-accent/5 border border-accent/15 px-4 py-3">
-        <p className="text-[10px] font-medium text-accent uppercase tracking-wider mb-1">
+        <p className="text-xs font-medium text-accent uppercase tracking-wider mb-1">
           Top Priority
         </p>
         <p className="text-sm text-foreground-bright font-medium leading-relaxed">
@@ -95,10 +95,10 @@ export default function CopilotDashboard() {
       {/* Momentum + Outlook */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="rounded-lg bg-background-raised border border-card-border-subtle px-4 py-3">
-          <p className="text-[10px] font-medium text-muted uppercase tracking-wider mb-2">
+          <p className="text-xs font-medium text-muted uppercase tracking-wider mb-2">
             Momentum Analysis
           </p>
-          <div className="space-y-1.5 text-[11px]">
+          <div className="space-y-1.5 text-xs">
             <p className="text-foreground/80">{report.momentumAnalysis.executionTrend}</p>
             <p className="text-foreground/80">{report.momentumAnalysis.semanticTrend}</p>
             {report.momentumAnalysis.growingClusters.length > 0 && (
@@ -115,10 +115,10 @@ export default function CopilotDashboard() {
         </div>
 
         <div className="rounded-lg bg-background-raised border border-card-border-subtle px-4 py-3">
-          <p className="text-[10px] font-medium text-muted uppercase tracking-wider mb-2">
+          <p className="text-xs font-medium text-muted uppercase tracking-wider mb-2">
             Strategic Outlook
           </p>
-          <p className="text-[11px] text-foreground/80 leading-relaxed">
+          <p className="text-xs text-foreground/80 leading-relaxed">
             {report.strategicOutlook}
           </p>
         </div>
@@ -150,7 +150,7 @@ export default function CopilotDashboard() {
 
       {/* Focus adjustments */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Focus Adjustments
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -176,7 +176,7 @@ function FilterBtn({ label, active, onClick }: { label: string; active: boolean;
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+      className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
         active ? "bg-accent/15 text-accent border-accent/30" : "bg-background/50 text-muted border-card-border hover:text-foreground"
       }`}
     >
@@ -195,30 +195,30 @@ function GuidanceCard({ guidance }: { guidance: CopilotGuidance }) {
       style={{ borderColor: `${pc}18` }}
     >
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-[9px] font-mono font-bold" style={{ color: tc.color }}>
+        <span className="text-xs font-mono font-bold" style={{ color: tc.color }}>
           {tc.icon}
         </span>
         <span
-          className="text-[9px] font-medium uppercase tracking-wider"
+          className="text-xs font-medium uppercase tracking-wider"
           style={{ color: pc }}
         >
           {guidance.priority}
         </span>
         <span
-          className="text-[9px] px-1.5 py-0.5 rounded-full border"
+          className="text-xs px-1.5 py-0.5 rounded-full border"
           style={{ color: tc.color, borderColor: `${tc.color}20`, backgroundColor: `${tc.color}06` }}
         >
           {tc.label}
         </span>
-        <span className="text-[9px] text-muted ml-auto">
+        <span className="text-xs text-muted ml-auto">
           conf. {guidance.confidence}/10
         </span>
       </div>
       <p className="text-xs text-foreground-bright font-medium leading-snug">
         {guidance.title}
       </p>
-      <p className="text-[11px] text-muted leading-relaxed">{guidance.rationale}</p>
-      <div className="flex items-start gap-1.5 text-[11px] text-foreground/70 bg-background/40 rounded px-2.5 py-1.5">
+      <p className="text-xs text-muted leading-relaxed">{guidance.rationale}</p>
+      <div className="flex items-start gap-1.5 text-xs text-foreground/70 bg-background/40 rounded px-2.5 py-1.5">
         <span className="text-accent shrink-0">-&gt;</span>
         <span>{guidance.suggestedAction}</span>
       </div>
@@ -233,14 +233,14 @@ function FocusCard({ adjustment }: { adjustment: FocusAdjustment }) {
   return (
     <div className="rounded-lg bg-background-raised border border-card-border-subtle px-3 py-2.5">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[10px] text-foreground font-medium truncate">
+        <span className="text-xs text-foreground font-medium truncate">
           {adjustment.theme}
         </span>
-        <span className="text-[10px] font-bold" style={{ color }}>
+        <span className="text-xs font-bold" style={{ color }}>
           {arrow}
         </span>
       </div>
-      <p className="text-[9px] text-muted leading-relaxed">{adjustment.reason}</p>
+      <p className="text-xs text-muted leading-relaxed">{adjustment.reason}</p>
     </div>
   );
 }

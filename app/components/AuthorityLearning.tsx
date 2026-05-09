@@ -36,7 +36,7 @@ export default function AuthorityLearning() {
                   {t.symbol}
                 </span>
               </div>
-              <p className="text-[10px] text-muted mt-0.5">{g.label}</p>
+              <p className="text-xs text-muted mt-0.5">{g.label}</p>
             </div>
           );
         })}
@@ -57,7 +57,7 @@ export default function AuthorityLearning() {
               >
                 <div className="flex items-center gap-2">
                   <span
-                    className="text-[10px] font-bold"
+                    className="text-xs font-bold"
                     style={{ color: trend.color }}
                   >
                     {trend.symbol}
@@ -66,7 +66,7 @@ export default function AuthorityLearning() {
                     {tp.themeName}
                   </span>
                 </div>
-                <div className="flex items-center gap-3 text-[10px] text-muted">
+                <div className="flex items-center gap-3 text-xs text-muted">
                   <span>{tp.totalEntries} entries</span>
                   <span>impact {tp.avgAuthorityImpact}</span>
                 </div>
@@ -103,7 +103,7 @@ export default function AuthorityLearning() {
           {analysis.semanticStrengths.map((s) => (
             <span
               key={s}
-              className="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20"
+              className="text-xs px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20"
             >
               {s}
             </span>
@@ -125,7 +125,7 @@ export default function AuthorityLearning() {
               <p className="text-xs text-foreground font-medium">
                 {p.pattern}
               </p>
-              <p className="text-[11px] text-muted mt-1 leading-relaxed">
+              <p className="text-xs text-muted mt-1 leading-relaxed">
                 {p.recommendation}
               </p>
             </div>

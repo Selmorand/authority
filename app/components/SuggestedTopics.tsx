@@ -94,7 +94,7 @@ function FilterButton({
   return (
     <button
       onClick={onClick}
-      className={`text-[11px] px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
+      className={`text-xs px-2.5 py-1 rounded-lg border cursor-pointer transition-colors ${
         active
           ? "bg-accent/15 text-accent border-accent/30"
           : "bg-background/50 text-muted border-card-border hover:text-foreground"
@@ -119,7 +119,7 @@ function TopicCard({ topic }: { topic: TopicIdea }) {
         {topic.semanticGoal}
       </p>
 
-      <div className="flex flex-wrap gap-1.5 text-[10px] mt-auto">
+      <div className="flex flex-wrap gap-1.5 text-xs mt-auto">
         <span className="px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/20">
           {themeName}
         </span>

@@ -65,10 +65,10 @@ export default function SystemStatus() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-[10px] text-muted">Uptime: {health.uptime}</span>
+          <span className="text-xs text-muted">Uptime: {health.uptime}</span>
           <button
             onClick={handleBackup}
-            className="text-[11px] px-3 py-1.5 rounded-lg border border-card-border-subtle bg-background-raised text-muted hover:text-foreground cursor-pointer transition-colors"
+            className="text-xs px-3 py-1.5 rounded-lg border border-card-border-subtle bg-background-raised text-muted hover:text-foreground cursor-pointer transition-colors"
           >
             {backupStatus ?? "Backup Database"}
           </button>
@@ -87,11 +87,11 @@ export default function SystemStatus() {
             >
               <div className="flex items-center gap-2 mb-1">
                 <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
-                <span className="text-[11px] text-foreground-bright font-medium">
+                <span className="text-xs text-foreground-bright font-medium">
                   {c.name}
                 </span>
               </div>
-              <p className="text-[10px] text-muted leading-relaxed">{c.message}</p>
+              <p className="text-xs text-muted leading-relaxed">{c.message}</p>
             </div>
           );
         })}
@@ -103,7 +103,7 @@ export default function SystemStatus() {
           {health.warnings.map((w, i) => (
             <div
               key={i}
-              className="flex items-start gap-2 text-[11px] text-yellow-400/80 bg-yellow-500/4 border border-yellow-500/10 rounded-lg px-3 py-2"
+              className="flex items-start gap-2 text-xs text-yellow-400/80 bg-yellow-500/4 border border-yellow-500/10 rounded-lg px-3 py-2"
             >
               <span className="shrink-0">!</span> {w}
             </div>

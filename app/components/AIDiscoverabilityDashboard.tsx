@@ -62,7 +62,7 @@ export default function AIDiscoverabilityDashboard() {
 
       {/* Visibility signals */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           AI Visibility Signals
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -76,20 +76,20 @@ export default function AIDiscoverabilityDashboard() {
                 style={{ borderColor: `${color}20`, backgroundColor: `${color}04` }}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] text-foreground font-medium truncate">
+                  <span className="text-xs text-foreground font-medium truncate">
                     {s.theme}
                   </span>
-                  <span className="text-[9px] font-bold" style={{ color: trend.c }}>
+                  <span className="text-xs font-bold" style={{ color: trend.c }}>
                     {trend.s}
                   </span>
                 </div>
                 <span
-                  className="text-[10px] font-medium"
+                  className="text-xs font-medium"
                   style={{ color }}
                 >
                   {s.strength}
                 </span>
-                <p className="text-[9px] text-muted mt-1 line-clamp-2">
+                <p className="text-xs text-muted mt-1 line-clamp-2">
                   {s.evidence}
                 </p>
               </div>
@@ -100,7 +100,7 @@ export default function AIDiscoverabilityDashboard() {
 
       {/* Entity reinforcement */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Entity Confidence Indicators
         </h3>
         <div className="space-y-2">
@@ -117,12 +117,12 @@ export default function AIDiscoverabilityDashboard() {
                   </span>
                   <div className="flex items-center gap-2">
                     <span
-                      className="text-[10px] font-medium px-1.5 py-0.5 rounded-full border"
+                      className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
                       style={{ color, borderColor: `${color}25`, backgroundColor: `${color}08` }}
                     >
                       {e.status}
                     </span>
-                    <span className="text-[10px] font-bold" style={{ color }}>
+                    <span className="text-xs font-bold" style={{ color }}>
                       {e.score}/10
                     </span>
                   </div>
@@ -130,7 +130,7 @@ export default function AIDiscoverabilityDashboard() {
                 {e.gaps.length > 0 && (
                   <div className="space-y-0.5 mt-1.5">
                     {e.gaps.slice(0, 2).map((g, i) => (
-                      <p key={i} className="text-[10px] text-yellow-400/80 flex items-start gap-1.5">
+                      <p key={i} className="text-xs text-yellow-400/80 flex items-start gap-1.5">
                         <span className="shrink-0">!</span> {g}
                       </p>
                     ))}
@@ -145,7 +145,7 @@ export default function AIDiscoverabilityDashboard() {
       {/* Semantic consistency */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Semantic Issues
           </h3>
           {report.semanticConsistency.issues.length > 0 ? (
@@ -159,12 +159,12 @@ export default function AIDiscoverabilityDashboard() {
                     style={{ borderColor: `${sevColor}15`, backgroundColor: `${sevColor}04` }}
                   >
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-[9px] font-medium uppercase" style={{ color: sevColor }}>
+                      <span className="text-xs font-medium uppercase" style={{ color: sevColor }}>
                         {issue.severity}
                       </span>
-                      <span className="text-[10px] text-foreground font-medium">{issue.area}</span>
+                      <span className="text-xs text-foreground font-medium">{issue.area}</span>
                     </div>
-                    <p className="text-[10px] text-muted">{issue.correction}</p>
+                    <p className="text-xs text-muted">{issue.correction}</p>
                   </div>
                 );
               })}
@@ -174,14 +174,14 @@ export default function AIDiscoverabilityDashboard() {
           )}
         </div>
         <div>
-          <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+          <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
             Semantic Strengths
           </h3>
           <div className="space-y-1.5">
             {report.semanticConsistency.strengths.map((s, i) => (
               <div
                 key={i}
-                className="flex items-start gap-2 text-[11px] text-foreground/80 bg-green-500/4 border border-green-500/10 rounded-lg px-3 py-2"
+                className="flex items-start gap-2 text-xs text-foreground/80 bg-green-500/4 border border-green-500/10 rounded-lg px-3 py-2"
               >
                 <span className="text-green-400 shrink-0">+</span>
                 {s}
@@ -193,7 +193,7 @@ export default function AIDiscoverabilityDashboard() {
 
       {/* Recommendations */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Visibility Recommendations
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -206,13 +206,13 @@ export default function AIDiscoverabilityDashboard() {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span
-                    className="text-[9px] font-bold px-1.5 py-0.5 rounded"
+                    className="text-xs font-bold px-1.5 py-0.5 rounded"
                     style={{ color, backgroundColor: `${color}12` }}
                   >
                     {r.priority}
                   </span>
                   <span
-                    className="text-[9px] font-medium px-1.5 py-0.5 rounded-full border"
+                    className="text-xs font-medium px-1.5 py-0.5 rounded-full border"
                     style={{ color, borderColor: `${color}20`, backgroundColor: `${color}06` }}
                   >
                     {r.type}
@@ -221,7 +221,7 @@ export default function AIDiscoverabilityDashboard() {
                 <p className="text-xs text-foreground-bright font-medium">
                   {r.title}
                 </p>
-                <p className="text-[10px] text-muted mt-0.5 leading-relaxed">
+                <p className="text-xs text-muted mt-0.5 leading-relaxed">
                   {r.rationale}
                 </p>
               </div>
@@ -240,7 +240,7 @@ function ScoreBox({ label, value }: { label: string; value: number }) {
       <p className="text-lg font-bold" style={{ color }}>
         {value}/10
       </p>
-      <p className="text-[9px] text-muted">{label}</p>
+      <p className="text-xs text-muted">{label}</p>
     </div>
   );
 }

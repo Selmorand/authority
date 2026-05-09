@@ -67,7 +67,7 @@ export default function WeeklyMissionView() {
                 <h3 className="text-xs font-semibold text-foreground-bright uppercase tracking-wider">
                   {dayNames[i]}
                 </h3>
-                <span className="text-[10px] text-muted">
+                <span className="text-xs text-muted">
                   {new Date(date + "T00:00:00").toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "short",
@@ -78,7 +78,7 @@ export default function WeeklyMissionView() {
                 {dayMissions.map((m) => (
                   <div
                     key={m.id}
-                    className="rounded-md bg-card-bg/80 border border-card-border/40 px-2.5 py-2 text-[11px] leading-snug"
+                    className="rounded-md bg-card-bg/80 border border-card-border/40 px-2.5 py-2 text-xs leading-snug"
                   >
                     <div className="flex items-start gap-1.5">
                       <span
@@ -89,7 +89,7 @@ export default function WeeklyMissionView() {
                         {m.title}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 mt-1.5 text-[10px] text-muted">
+                    <div className="flex items-center gap-2 mt-1.5 text-xs text-muted">
                       <span>{m.estimatedTime}</span>
                       <span
                         className="w-1.5 h-1.5 rounded-full"

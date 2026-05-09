@@ -37,25 +37,25 @@ export default function EntityVisibilityTracker() {
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2.5 text-center">
           <p className="text-xl font-bold text-accent">{report.aiVisibilityRate}%</p>
-          <p className="text-[10px] text-muted">AI Citation Rate</p>
+          <p className="text-xs text-muted">AI Citation Rate</p>
         </div>
         <div className="bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2.5 text-center">
           <p className="text-xl font-bold text-foreground-bright">
             {citedCount}/{totalChecks}
           </p>
-          <p className="text-[10px] text-muted">Queries Cited</p>
+          <p className="text-xs text-muted">Queries Cited</p>
         </div>
         <div className="bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2.5 text-center">
           <p className="text-xl font-bold text-foreground-bright">
             {report.corroborationScore}/10
           </p>
-          <p className="text-[10px] text-muted">Corroboration</p>
+          <p className="text-xs text-muted">Corroboration</p>
         </div>
       </div>
 
       {/* Platform visibility */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Platform Visibility
         </h3>
         <div className="space-y-2">
@@ -83,7 +83,7 @@ export default function EntityVisibilityTracker() {
 
       {/* Theme visibility */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Theme AI Visibility
         </h3>
         <div className="space-y-1.5">
@@ -95,7 +95,7 @@ export default function EntityVisibilityTracker() {
 
       {/* Recent AI visibility checks */}
       <div>
-        <h3 className="text-[10px] font-semibold text-muted uppercase tracking-wider mb-2">
+        <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           AI Citation Checks
         </h3>
         <div className="space-y-1.5">
@@ -119,9 +119,9 @@ export default function EntityVisibilityTracker() {
                 </span>
               </div>
               <div className="flex items-center gap-2 shrink-0 ml-2">
-                <span className="text-[10px] text-muted">{check.platform}</span>
+                <span className="text-xs text-muted">{check.platform}</span>
                 {check.cited && check.position && (
-                  <span className="text-[10px] font-medium text-green-400">
+                  <span className="text-xs font-medium text-green-400">
                     #{check.position}
                   </span>
                 )}
@@ -146,7 +146,7 @@ function ThemeVisibilityRow({ visibility }: { visibility: ThemeVisibility }) {
         />
         <span className="text-xs text-foreground">{visibility.theme}</span>
       </div>
-      <div className="flex items-center gap-3 text-[10px]">
+      <div className="flex items-center gap-3 text-xs">
         {visibility.avgPosition && (
           <span className="text-muted">avg #{visibility.avgPosition}</span>
         )}
