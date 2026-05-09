@@ -1,3 +1,6 @@
+import CommandCenter from "./components/CommandCenter";
+import StrategicRiskPanel from "./components/StrategicRiskPanel";
+import OpportunityIntelligence from "./components/OpportunityIntelligence";
 import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import StrategicInsights from "./components/StrategicInsights";
 import AIMissionPanel from "./components/AIMissionPanel";
@@ -42,6 +45,11 @@ export default function Home() {
       {/* Dashboard Grid */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+          {/* Strategic Command Center */}
+          <CommandCenter />
+          <StrategicRiskPanel />
+          <OpportunityIntelligence />
+
           {/* Generated Daily Plan — spans full width */}
           <GeneratedDailyPlan />
 
