@@ -1,5 +1,6 @@
 import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import StrategicInsights from "./components/StrategicInsights";
+import AIMissionPanel from "./components/AIMissionPanel";
 import WeeklyMissionView from "./components/WeeklyMissionView";
 import ThemeOverview from "./components/ThemeOverview";
 import SuggestedTopics from "./components/SuggestedTopics";
@@ -29,6 +30,9 @@ export default function Home() {
           {/* Strategic Intelligence — side by side */}
           <StrategicInsights />
           <StrategicFocus />
+
+          {/* AI Strategic Assistant — full width */}
+          <AIMissionPanel />
 
           {/* Weekly + Themes — full width */}
           <WeeklyMissionView />
