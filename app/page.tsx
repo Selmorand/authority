@@ -1,3 +1,6 @@
+import TodaysMissions from "./components/TodaysMissions";
+import WeeklyMissionView from "./components/WeeklyMissionView";
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -16,8 +19,11 @@ export default function Home() {
       {/* Dashboard Grid */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-          <TodaysMission />
-          <WeeklyGoals />
+          {/* Mission Engine — spans full width */}
+          <TodaysMissions />
+          <WeeklyMissionView />
+
+          {/* Supporting Dashboard Cards */}
           <ContentPipeline />
           <ResearchVault />
           <CaseStudyVault />
@@ -28,7 +34,7 @@ export default function Home() {
   );
 }
 
-/* ─── Dashboard Cards ─────────────────────────────────────── */
+/* ─── Shared Card Wrapper ─────────────────────────────────── */
 
 function Card({
   title,
@@ -47,96 +53,7 @@ function Card({
   );
 }
 
-/* ─── A. Today's Mission ──────────────────────────────────── */
-
-function TodaysMission() {
-  const tasks = [
-    {
-      label: "Primary Task",
-      value: "Write LinkedIn post on AI visibility for Umbraco agencies",
-      tag: "LinkedIn",
-    },
-    {
-      label: "Secondary Task",
-      value: "Draft GEO content brief: machine-readable website patterns",
-      tag: "GEO",
-    },
-    {
-      label: "Authority Focus",
-      value: "Update Umbraco AI readiness case study with new performance data",
-      tag: "Case Study",
-    },
-    {
-      label: "Estimated Time",
-      value: "2.5 hours focused work",
-      tag: null,
-    },
-  ];
-
-  return (
-    <Card title="Today's Mission">
-      <div className="space-y-3">
-        {tasks.map((t) => (
-          <div
-            key={t.label}
-            className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3 rounded-lg bg-background/50 px-4 py-3 border border-card-border/60"
-          >
-            <span className="text-xs font-medium text-muted uppercase tracking-wider whitespace-nowrap min-w-[120px]">
-              {t.label}
-            </span>
-            <span className="text-sm text-foreground flex-1">{t.value}</span>
-            {t.tag && (
-              <span className="self-start text-[11px] font-medium px-2 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/25 whitespace-nowrap">
-                {t.tag}
-              </span>
-            )}
-          </div>
-        ))}
-      </div>
-    </Card>
-  );
-}
-
-/* ─── B. Weekly Authority Goals ────────────────────────────── */
-
-function ProgressBar({ label, percent }: { label: string; percent: number }) {
-  return (
-    <div className="space-y-1.5">
-      <div className="flex justify-between text-sm">
-        <span className="text-foreground">{label}</span>
-        <span className="text-muted">{percent}%</span>
-      </div>
-      <div className="h-2 rounded-full bg-background/80 overflow-hidden">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-accent-glow to-accent transition-all"
-          style={{ width: `${percent}%` }}
-        />
-      </div>
-    </div>
-  );
-}
-
-function WeeklyGoals() {
-  const goals = [
-    { label: "LinkedIn posts published", percent: 60 },
-    { label: "GEO content pieces drafted", percent: 40 },
-    { label: "Technical SEO audits completed", percent: 80 },
-    { label: "Case study progress", percent: 25 },
-    { label: "Research topics explored", percent: 50 },
-  ];
-
-  return (
-    <Card title="Weekly Authority Goals">
-      <div className="space-y-4">
-        {goals.map((g) => (
-          <ProgressBar key={g.label} label={g.label} percent={g.percent} />
-        ))}
-      </div>
-    </Card>
-  );
-}
-
-/* ─── C. Content Pipeline ─────────────────────────────────── */
+/* ─── Content Pipeline ────────────────────────────────────── */
 
 function PipelineColumn({
   title,
@@ -208,7 +125,7 @@ function ContentPipeline() {
   );
 }
 
-/* ─── D. Research Vault ───────────────────────────────────── */
+/* ─── Research Vault ──────────────────────────────────────── */
 
 function ResearchVault() {
   const topics = [
@@ -237,7 +154,7 @@ function ResearchVault() {
   );
 }
 
-/* ─── E. Case Study Vault ─────────────────────────────────── */
+/* ─── Case Study Vault ────────────────────────────────────── */
 
 function CaseStudyVault() {
   const studies = [
@@ -289,7 +206,7 @@ function CaseStudyVault() {
   );
 }
 
-/* ─── F. Authority Metrics ────────────────────────────────── */
+/* ─── Authority Metrics ───────────────────────────────────── */
 
 function MetricCard({
   label,
