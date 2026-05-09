@@ -39,8 +39,9 @@ import ThemeOverview from "./components/ThemeOverview";
 import SuggestedTopics from "./components/SuggestedTopics";
 import ReportingDashboard from "./components/ReportingDashboard";
 import SystemStatus from "./components/SystemStatus";
+import ManualViewer from "./components/ManualViewer";
 
-type View = "daily" | "strategy" | "research" | "authority" | "tools" | "operations";
+type View = "daily" | "strategy" | "research" | "authority" | "tools" | "operations" | "manual";
 
 const views: { id: View; label: string; shortLabel: string }[] = [
   { id: "daily", label: "Daily Operations", shortLabel: "Daily" },
@@ -49,6 +50,7 @@ const views: { id: View; label: string; shortLabel: string }[] = [
   { id: "authority", label: "Authority & Visibility", shortLabel: "Authority" },
   { id: "tools", label: "AI Tools", shortLabel: "Tools" },
   { id: "operations", label: "Operations & Reports", shortLabel: "Ops" },
+  { id: "manual", label: "Manual", shortLabel: "Manual" },
 ];
 
 export default function Home() {
@@ -102,6 +104,7 @@ export default function Home() {
           {activeView === "authority" && <AuthorityView />}
           {activeView === "tools" && <ToolsView />}
           {activeView === "operations" && <OperationsView />}
+          {activeView === "manual" && <ManualView />}
         </div>
       </main>
     </div>
@@ -168,6 +171,10 @@ function ToolsView() {
       <MultiModelIntelligence />
     </>
   );
+}
+
+function ManualView() {
+  return <ManualViewer />;
 }
 
 function OperationsView() {
