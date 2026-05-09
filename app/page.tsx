@@ -1,4 +1,5 @@
-import TodaysMissions from "./components/TodaysMissions";
+import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
+import StrategicInsights from "./components/StrategicInsights";
 import WeeklyMissionView from "./components/WeeklyMissionView";
 import ThemeOverview from "./components/ThemeOverview";
 import SuggestedTopics from "./components/SuggestedTopics";
@@ -22,14 +23,17 @@ export default function Home() {
       {/* Dashboard Grid */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-          {/* Mission Engine — spans full width */}
-          <TodaysMissions />
-          <WeeklyMissionView />
+          {/* Generated Daily Plan — spans full width */}
+          <GeneratedDailyPlan />
 
-          {/* Strategic Theme Engine */}
+          {/* Strategic Intelligence — side by side */}
+          <StrategicInsights />
+          <StrategicFocus />
+
+          {/* Weekly + Themes — full width */}
+          <WeeklyMissionView />
           <ThemeOverview />
           <SuggestedTopics />
-          <StrategicFocus />
 
           {/* Supporting Dashboard Cards */}
           <ContentPipeline />
