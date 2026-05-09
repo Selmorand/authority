@@ -26,6 +26,7 @@ import EntityVisibilityTracker from "./components/EntityVisibilityTracker";
 import AuthorityKnowledgeGraph from "./components/AuthorityKnowledgeGraph";
 import AIDiscoverabilityDashboard from "./components/AIDiscoverabilityDashboard";
 import SearchEcosystemMonitor from "./components/SearchEcosystemMonitor";
+import TrendIntelligenceDashboard from "./components/TrendIntelligenceDashboard";
 
 export default function Home() {
   return (
@@ -100,6 +101,7 @@ export default function Home() {
           {/* AI Visibility Intelligence */}
           <AIDiscoverabilityDashboard />
           <SearchEcosystemMonitor />
+          <TrendIntelligenceDashboard />
 
           {/* Authority Monitoring */}
           <AuthorityGrowthDashboard />
