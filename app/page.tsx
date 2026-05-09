@@ -1,5 +1,8 @@
 import TodaysMissions from "./components/TodaysMissions";
 import WeeklyMissionView from "./components/WeeklyMissionView";
+import ThemeOverview from "./components/ThemeOverview";
+import SuggestedTopics from "./components/SuggestedTopics";
+import StrategicFocus from "./components/StrategicFocus";
 
 export default function Home() {
   return (
@@ -23,9 +26,13 @@ export default function Home() {
           <TodaysMissions />
           <WeeklyMissionView />
 
+          {/* Strategic Theme Engine */}
+          <ThemeOverview />
+          <SuggestedTopics />
+          <StrategicFocus />
+
           {/* Supporting Dashboard Cards */}
           <ContentPipeline />
-          <ResearchVault />
           <CaseStudyVault />
           <AuthorityMetrics />
         </div>
@@ -121,35 +128,6 @@ function ContentPipeline() {
           ]}
         />
       </div>
-    </Card>
-  );
-}
-
-/* ─── Research Vault ──────────────────────────────────────── */
-
-function ResearchVault() {
-  const topics = [
-    "Google SGE impact on organic traffic",
-    "Structured data best practices 2026",
-    "LLM citation patterns and source preferences",
-    "Umbraco 14+ headless API capabilities",
-    "Competitor analysis: AI-first SEO agencies",
-    "Machine-readable content specifications",
-  ];
-
-  return (
-    <Card title="Research Vault">
-      <ul className="space-y-2">
-        {topics.map((t) => (
-          <li
-            key={t}
-            className="flex items-center gap-3 text-sm text-foreground bg-background/50 border border-card-border/60 rounded-lg px-4 py-2.5"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-            {t}
-          </li>
-        ))}
-      </ul>
     </Card>
   );
 }
