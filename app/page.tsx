@@ -20,6 +20,8 @@ import SuggestedTopics from "./components/SuggestedTopics";
 import StrategicFocus from "./components/StrategicFocus";
 import AuthorityGrowthDashboard from "./components/AuthorityGrowthDashboard";
 import EntityVisibilityTracker from "./components/EntityVisibilityTracker";
+import AIDiscoverabilityDashboard from "./components/AIDiscoverabilityDashboard";
+import SearchEcosystemMonitor from "./components/SearchEcosystemMonitor";
 
 export default function Home() {
   return (
@@ -80,6 +82,10 @@ export default function Home() {
           <WeeklyMissionView />
           <ThemeOverview />
           <SuggestedTopics />
+
+          {/* AI Visibility Intelligence */}
+          <AIDiscoverabilityDashboard />
+          <SearchEcosystemMonitor />
 
           {/* Authority Monitoring */}
           <AuthorityGrowthDashboard />
