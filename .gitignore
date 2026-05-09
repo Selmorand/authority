@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+.idea/
+
+# OS
+Thumbs.db
+
+# lock files are kept — do not ignore package-lock.json
