@@ -20,6 +20,7 @@ import SuggestedTopics from "./components/SuggestedTopics";
 import StrategicFocus from "./components/StrategicFocus";
 import AuthorityGrowthDashboard from "./components/AuthorityGrowthDashboard";
 import EntityVisibilityTracker from "./components/EntityVisibilityTracker";
+import AuthorityKnowledgeGraph from "./components/AuthorityKnowledgeGraph";
 import AIDiscoverabilityDashboard from "./components/AIDiscoverabilityDashboard";
 import SearchEcosystemMonitor from "./components/SearchEcosystemMonitor";
 
@@ -82,6 +83,9 @@ export default function Home() {
           <WeeklyMissionView />
           <ThemeOverview />
           <SuggestedTopics />
+
+          {/* Authority Knowledge Graph */}
+          <AuthorityKnowledgeGraph />
 
           {/* AI Visibility Intelligence */}
           <AIDiscoverabilityDashboard />
