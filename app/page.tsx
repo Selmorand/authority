@@ -2,6 +2,7 @@ import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import StrategicInsights from "./components/StrategicInsights";
 import AIMissionPanel from "./components/AIMissionPanel";
 import ResearchIntelligence from "./components/ResearchIntelligence";
+import LiveResearchFeed from "./components/LiveResearchFeed";
 import StrategicAlerts from "./components/StrategicAlerts";
 import IntelligenceSummary from "./components/IntelligenceSummary";
 import WeeklyMissionView from "./components/WeeklyMissionView";
@@ -38,6 +39,7 @@ export default function Home() {
           <AIMissionPanel />
 
           {/* Research Intelligence */}
+          <LiveResearchFeed />
           <ResearchIntelligence />
           <StrategicAlerts />
           <IntelligenceSummary />
