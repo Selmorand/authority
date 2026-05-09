@@ -6,6 +6,7 @@ import MorningBriefing from "./components/MorningBriefing";
 import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import StrategicInsights from "./components/StrategicInsights";
 import AIMissionPanel from "./components/AIMissionPanel";
+import AmplificationDashboard from "./components/AmplificationDashboard";
 import MultiModelIntelligence from "./components/MultiModelIntelligence";
 import ResearchIntelligence from "./components/ResearchIntelligence";
 import LiveResearchFeed from "./components/LiveResearchFeed";
@@ -70,6 +71,7 @@ export default function Home() {
 
           {/* AI Strategic Assistant — full width */}
           <AIMissionPanel />
+          <AmplificationDashboard />
           <MultiModelIntelligence />
 
           {/* Research Intelligence */}
