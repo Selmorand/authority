@@ -15,6 +15,8 @@ import WeeklyMissionView from "./components/WeeklyMissionView";
 import ThemeOverview from "./components/ThemeOverview";
 import SuggestedTopics from "./components/SuggestedTopics";
 import StrategicFocus from "./components/StrategicFocus";
+import AuthorityGrowthDashboard from "./components/AuthorityGrowthDashboard";
+import EntityVisibilityTracker from "./components/EntityVisibilityTracker";
 
 export default function Home() {
   return (
@@ -71,10 +73,13 @@ export default function Home() {
           <ThemeOverview />
           <SuggestedTopics />
 
+          {/* Authority Monitoring */}
+          <AuthorityGrowthDashboard />
+          <EntityVisibilityTracker />
+
           {/* Supporting Dashboard Cards */}
           <ContentPipeline />
           <CaseStudyVault />
-          <AuthorityMetrics />
         </div>
       </main>
     </div>
@@ -224,46 +229,3 @@ function CaseStudyVault() {
   );
 }
 
-/* ─── Authority Metrics ───────────────────────────────────── */
-
-function MetricCard({
-  label,
-  value,
-  change,
-}: {
-  label: string;
-  value: string;
-  change: string;
-}) {
-  const isPositive = change.startsWith("+");
-  return (
-    <div className="bg-background/50 border border-card-border/60 rounded-lg px-4 py-3 text-center">
-      <p className="text-2xl font-bold text-foreground-bright">{value}</p>
-      <p className="text-xs text-muted mt-1">{label}</p>
-      <p
-        className={`text-xs mt-1 font-medium ${isPositive ? "text-green-400" : "text-muted"}`}
-      >
-        {change}
-      </p>
-    </div>
-  );
-}
-
-function AuthorityMetrics() {
-  const metrics = [
-    { label: "LinkedIn Followers", value: "2,847", change: "+124 this month" },
-    { label: "Published Articles", value: "18", change: "+3 this month" },
-    { label: "Case Studies", value: "4", change: "+1 this month" },
-    { label: "External Mentions", value: "12", change: "+5 this month" },
-  ];
-
-  return (
-    <Card title="Authority Metrics">
-      <div className="grid grid-cols-2 gap-3">
-        {metrics.map((m) => (
-          <MetricCard key={m.label} {...m} />
-        ))}
-      </div>
-    </Card>
-  );
-}
