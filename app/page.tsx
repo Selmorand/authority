@@ -64,10 +64,10 @@ export default function Home() {
           <div className="flex items-center justify-between py-3 sm:py-4">
             <div>
               <h1 className="text-lg sm:text-xl font-bold tracking-tight text-foreground-bright">
-                Interon Authority OS
+                sig:nal
               </h1>
               <p className="text-xs text-muted tracking-wide uppercase hidden sm:block">
-                AI Visibility & Authority Execution System
+                Your authority signal.
               </p>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted">

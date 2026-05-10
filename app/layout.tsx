@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Interon Authority OS",
-  description: "AI Visibility & Authority Execution System",
+  title: "sig:nal",
+  description: "Your authority signal.",
   manifest: "/manifest.json",
   themeColor: "#0f172a",
 };

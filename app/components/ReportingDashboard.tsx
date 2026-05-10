@@ -98,13 +98,13 @@ export default function ReportingDashboard() {
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
       doc.text(
-        `Interon Authority OS — ${report.title} — Page ${i}/${pageCount}`,
+        `sig:nal — ${report.title} — Page ${i}/${pageCount}`,
         margin,
         290
       );
     }
 
-    doc.save(`interon-${report.type}-${new Date().toISOString().split("T")[0]}.pdf`);
+    doc.save(`signal-${report.type}-${new Date().toISOString().split("T")[0]}.pdf`);
   }, [report]);
 
   return (

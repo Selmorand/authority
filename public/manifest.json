@@ -1,7 +1,7 @@
 {
-  "name": "Interon Authority OS",
-  "short_name": "Authority OS",
-  "description": "AI Visibility & Authority Execution System",
+  "name": "sig:nal",
+  "short_name": "sig:nal",
+  "description": "Your authority signal.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",

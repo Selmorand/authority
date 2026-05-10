@@ -95,7 +95,7 @@ function buildExecutiveBriefingReport(id: string, generatedAt: string): Strategi
   return {
     id, type: "executive-briefing",
     title: "Executive Authority Briefing",
-    subtitle: `Interon Authority OS — ${dateLabel}`,
+    subtitle: `sig:nal — ${dateLabel}`,
     generatedAt,
     sections: [
       { title: "Strategic Overview", type: "text", content: briefing.whatMattersmost },

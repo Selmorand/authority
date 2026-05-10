@@ -122,7 +122,7 @@ const noisePatterns = [
 const parser = new RSSParser({
   timeout: 10000,
   headers: {
-    "User-Agent": "Interon-Authority-OS/1.0 (Research Intelligence)",
+    "User-Agent": "Signal/1.0 (Research Intelligence)",
   },
 });
 
@@ -148,7 +148,7 @@ async function fetchRedditSource(
     const { data } = await axios.get(source.feedUrl, {
       timeout: 10000,
       headers: {
-        "User-Agent": "Interon-Authority-OS/1.0 (Research Intelligence)",
+        "User-Agent": "Signal/1.0 (Research Intelligence)",
       },
     });
 

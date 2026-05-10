@@ -1,24 +1,24 @@
-# Interon Authority OS — Operational Manual
+# sig:nal — Operational Manual
 
 ## 1. Platform Overview
 
 ### What It Is
 
-Interon Authority OS is a local-first strategic intelligence platform built for a consultancy focused on AI visibility, Generative Engine Optimisation (GEO), semantic authority, and technical SEO. It is not a marketing dashboard. It is an operational system for building, tracking, and compounding authority that makes your brand visible to AI systems.
+sig:nal is a local-first strategic intelligence platform built for a consultancy focused on AI visibility, Generative Engine Optimisation (GEO), semantic authority, and technical SEO. It is not a marketing dashboard. It is an operational system for building, tracking, and compounding authority that makes your brand visible to AI systems.
 
 ### What Problem It Solves
 
 The platform eliminates three problems that undermine strategic authority:
 
-**Decision fatigue.** Without a system, each day starts with "what should I work on?" Authority OS answers that question with a structured daily briefing, prioritised missions, and strategic guidance — before you open LinkedIn or check email.
+**Decision fatigue.** Without a system, each day starts with "what should I work on?" sig:nal answers that question with a structured daily briefing, prioritised missions, and strategic guidance — before you open LinkedIn or check email.
 
-**Strategic drift.** Consultancies gradually lose positioning focus. One week you publish about GEO, the next about something unrelated. Authority OS tracks semantic consistency, detects drift, and warns when messaging fragments.
+**Strategic drift.** Consultancies gradually lose positioning focus. One week you publish about GEO, the next about something unrelated. sig:nal tracks semantic consistency, detects drift, and warns when messaging fragments.
 
-**Invisible progress.** Authority compounds slowly. Without measurement, it feels like nothing is happening. Authority OS tracks entity confidence, AI citation rates, external corroboration, and theme coverage — making invisible progress visible.
+**Invisible progress.** Authority compounds slowly. Without measurement, it feels like nothing is happening. sig:nal tracks entity confidence, AI citation rates, external corroboration, and theme coverage — making invisible progress visible.
 
 ### How It Differs from Marketing Dashboards
 
-Marketing dashboards show traffic, clicks, and rankings. Authority OS tracks:
+Marketing dashboards show traffic, clicks, and rankings. sig:nal tracks:
 
 - **Semantic coverage** — are you consistently reinforcing the same 8 authority themes?
 - **Entity confidence** — do AI systems recognise you as a credible source?
@@ -40,7 +40,7 @@ Authority compounds. Each piece of content reinforces the previous. Each externa
 
 ### Morning Routine (15 minutes)
 
-1. **Open Authority OS.** The Daily Operations tab loads by default.
+1. **Open sig:nal.** The Daily Operations tab loads by default.
 2. **Read the Morning Briefing.** It tells you: today's top priority, your consistency streak, execution flow, reminders, and any overdue areas.
 3. **Review the Daily Plan.** 3-5 missions are generated based on the day of the week, theme rotation, and strategic priorities. Each has a priority score, estimated time, and content angle.
 4. **Start with Mission 1.** The highest-priority mission is first. Complete it before checking anything else.
@@ -450,7 +450,7 @@ The terminology and concepts in AI visibility are evolving rapidly. "GEO" barely
 
 ### Daily Habits
 
-- Open Authority OS first, before email or social media
+- Open sig:nal first, before email or social media
 - Read the morning briefing (2 minutes)
 - Complete the top-priority mission (30-60 minutes)
 - Complete 1-2 additional missions during the day
@@ -547,4 +547,4 @@ cp prisma/authority-os.db backups/authority-os-$(date +%Y%m%d).db
 
 ---
 
-*Interon Authority OS — Built for long-term semantic authority and AI visibility positioning.*
+*sig:nal — Built for long-term semantic authority and AI visibility positioning.*
