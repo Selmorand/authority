@@ -40,6 +40,7 @@ import SuggestedTopics from "./components/SuggestedTopics";
 import ReportingDashboard from "./components/ReportingDashboard";
 import SystemStatus from "./components/SystemStatus";
 import ManualViewer from "./components/ManualViewer";
+import HelpPanel from "./components/HelpPanel";
 
 type View = "daily" | "strategy" | "research" | "authority" | "tools" | "operations" | "manual";
 
@@ -107,6 +108,7 @@ export default function Home() {
           {activeView === "manual" && <ManualView />}
         </div>
       </main>
+      <HelpPanel />
     </div>
   );
 }
