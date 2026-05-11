@@ -1,16 +1,12 @@
 import { getMemories, createMemory } from "@/lib/db";
-import { seedMemory } from "@/data/strategicMemory";
 import { validate, MemoryItemSchema } from "@/lib/validation";
 
 export async function GET() {
   try {
     const memory = await getMemories();
-    if (memory.length === 0) {
-      return Response.json({ success: true, memory: seedMemory, source: "seed" });
-    }
     return Response.json({ success: true, memory, source: "database" });
   } catch {
-    return Response.json({ success: true, memory: seedMemory, source: "seed" });
+    return Response.json({ success: true, memory: [], source: "database" });
   }
 }
 

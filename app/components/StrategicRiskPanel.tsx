@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { generateExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
+import { generateExecutiveBriefingFromMemory } from "@/lib/generateExecutiveBriefing";
 import type { ExecutiveBriefing, StrategicRisk } from "@/lib/generateExecutiveBriefing";
 
 const severityConfig: Record<string, { color: string; label: string }> = {
@@ -22,7 +22,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function StrategicRiskPanel() {
-  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefing());
+  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefingFromMemory([]));
 
   useEffect(() => {
     fetch("/api/briefing/live")

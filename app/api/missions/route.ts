@@ -1,5 +1,4 @@
 import { getMissions, createMission, updateMissionStatus } from "@/lib/db";
-import { missions as seedMissions } from "@/data/missions";
 import { validate, MissionSchema, MissionStatusUpdateSchema } from "@/lib/validation";
 
 export async function GET(request: Request) {
@@ -8,12 +7,9 @@ export async function GET(request: Request) {
 
   try {
     const missions = await getMissions(date);
-    if (missions.length === 0 && !date) {
-      return Response.json({ success: true, missions: seedMissions, source: "seed" });
-    }
     return Response.json({ success: true, missions, source: "database" });
   } catch {
-    return Response.json({ success: true, missions: seedMissions, source: "seed" });
+    return Response.json({ success: true, missions: [], source: "database" });
   }
 }
 

@@ -12,7 +12,7 @@ const trendIcons: Record<string, { symbol: string; color: string }> = {
 };
 
 export default function AuthorityLearning() {
-  const [analysis, setAnalysis] = useState<MemoryAnalysis>(() => analyzeMemory());
+  const [analysis, setAnalysis] = useState<MemoryAnalysis>(() => analyzeMemory([]));
 
   useEffect(() => {
     fetch("/api/memory-analysis")

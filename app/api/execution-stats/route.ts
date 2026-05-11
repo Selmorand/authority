@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { seedMemory } from "@/data/strategicMemory";
 import type { MemoryItem } from "@/data/strategicMemory";
 import {
   calculateExecutionStats,
@@ -10,12 +9,11 @@ import {
 
 export async function GET() {
   try {
-    // Merge seed memory with real DB memory
     const dbMemory = await prisma.strategicMemory.findMany({
       orderBy: { date: "desc" },
     });
 
-    const realMemory: MemoryItem[] = dbMemory.map((m) => ({
+    const allMemory: MemoryItem[] = dbMemory.map((m) => ({
       id: m.id,
       date: m.date,
       type: m.type as MemoryItem["type"],
@@ -28,9 +26,6 @@ export async function GET() {
       category: m.category ?? undefined,
       platform: m.platform ?? undefined,
     }));
-
-    // Combine: real DB entries take priority, seed fills in history
-    const allMemory = [...realMemory, ...seedMemory];
 
     // Also get today's completion count from MissionProgress
     const today = new Date().toISOString().split("T")[0];

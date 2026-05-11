@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { seedMemory } from "@/data/strategicMemory";
 import type { MemoryItem } from "@/data/strategicMemory";
 import { generateExecutiveBriefingFromMemory } from "@/lib/generateExecutiveBriefing";
 
@@ -9,7 +8,7 @@ export async function GET() {
       orderBy: { date: "desc" },
     });
 
-    const realMemory: MemoryItem[] = dbMemory.map((m) => ({
+    const allMemory: MemoryItem[] = dbMemory.map((m) => ({
       id: m.id,
       date: m.date,
       type: m.type as MemoryItem["type"],
@@ -23,7 +22,6 @@ export async function GET() {
       platform: m.platform ?? undefined,
     }));
 
-    const allMemory = [...realMemory, ...seedMemory];
     const briefing = generateExecutiveBriefingFromMemory(allMemory);
 
     return Response.json({ success: true, briefing });

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { ExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
-import { generateExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
+import { generateExecutiveBriefingFromMemory } from "@/lib/generateExecutiveBriefing";
 
 const momentumColors: Record<string, { color: string; label: string }> = {
   accelerating: { color: "#22c55e", label: "Accelerating" },
@@ -12,7 +12,7 @@ const momentumColors: Record<string, { color: string; label: string }> = {
 
 export default function CommandCenter() {
   // Start with client-side seed data, then upgrade to live DB data
-  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefing());
+  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefingFromMemory([]));
 
   useEffect(() => {
     fetch("/api/briefing/live")

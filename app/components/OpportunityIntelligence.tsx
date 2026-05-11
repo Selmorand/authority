@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { generateExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
+import { generateExecutiveBriefingFromMemory } from "@/lib/generateExecutiveBriefing";
 import type { ExecutiveBriefing, StrategicOpportunity, WeeklyRecommendation } from "@/lib/generateExecutiveBriefing";
 
 const leverageColors: Record<string, string> = {
@@ -25,7 +25,7 @@ const recTypeColors: Record<string, string> = {
 };
 
 export default function OpportunityIntelligence() {
-  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefing());
+  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefingFromMemory([]));
 
   useEffect(() => {
     fetch("/api/briefing/live")

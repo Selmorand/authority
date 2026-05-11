@@ -5,7 +5,7 @@ import { analyzeMemory } from "@/lib/analyzeStrategicMemory";
 import type { MemoryAnalysis } from "@/lib/analyzeStrategicMemory";
 
 export default function StrategicReflection() {
-  const [analysis, setAnalysis] = useState<MemoryAnalysis>(() => analyzeMemory());
+  const [analysis, setAnalysis] = useState<MemoryAnalysis>(() => analyzeMemory([]));
 
   useEffect(() => {
     fetch("/api/memory-analysis")
