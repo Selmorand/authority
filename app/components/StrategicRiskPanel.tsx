@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { generateExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
-import type { StrategicRisk } from "@/lib/generateExecutiveBriefing";
+import type { ExecutiveBriefing, StrategicRisk } from "@/lib/generateExecutiveBriefing";
 
 const severityConfig: Record<string, { color: string; label: string }> = {
   critical: { color: "#ef4444", label: "Critical" },
@@ -22,7 +22,14 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function StrategicRiskPanel() {
-  const briefing = useMemo(() => generateExecutiveBriefing(), []);
+  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefing());
+
+  useEffect(() => {
+    fetch("/api/briefing/live")
+      .then((r) => r.json())
+      .then((data) => { if (data.success) setBriefing(data.briefing); })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-4">

@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { generateExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
-import type { StrategicOpportunity, WeeklyRecommendation } from "@/lib/generateExecutiveBriefing";
+import type { ExecutiveBriefing, StrategicOpportunity, WeeklyRecommendation } from "@/lib/generateExecutiveBriefing";
 
 const leverageColors: Record<string, string> = {
   high: "#22c55e",
@@ -25,7 +25,14 @@ const recTypeColors: Record<string, string> = {
 };
 
 export default function OpportunityIntelligence() {
-  const briefing = useMemo(() => generateExecutiveBriefing(), []);
+  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefing());
+
+  useEffect(() => {
+    fetch("/api/briefing/live")
+      .then((r) => r.json())
+      .then((data) => { if (data.success) setBriefing(data.briefing); })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-5">

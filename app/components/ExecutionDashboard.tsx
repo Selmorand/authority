@@ -1,15 +1,15 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   scheduleDayMissions,
   generateReminders,
 } from "@/lib/scheduleAuthorityMissions";
-import {
-  calculateExecutionStats,
-  analyzeCadence,
-  detectExecutionGaps,
-  detectStrategicDrift,
+import type {
+  ExecutionStats,
+  CadenceMetric,
+  ExecutionGap,
+  DriftIndicator,
 } from "@/lib/executionTracker";
 
 const frequencyColors: Record<string, string> = {
@@ -37,10 +37,29 @@ export default function ExecutionDashboard() {
   const today = new Date().toISOString().split("T")[0];
   const schedule = useMemo(() => scheduleDayMissions(today), [today]);
   const reminders = useMemo(() => generateReminders(today), [today]);
-  const stats = useMemo(() => calculateExecutionStats(), []);
-  const cadence = useMemo(() => analyzeCadence(), []);
-  const gaps = useMemo(() => detectExecutionGaps(), []);
-  const drift = useMemo(() => detectStrategicDrift(), []);
+
+  const [stats, setStats] = useState<ExecutionStats | null>(null);
+  const [cadence, setCadence] = useState<CadenceMetric[]>([]);
+  const [gaps, setGaps] = useState<ExecutionGap[]>([]);
+  const [drift, setDrift] = useState<DriftIndicator[]>([]);
+  const [todayCompleted, setTodayCompleted] = useState(0);
+  const [todayTotal, setTodayTotal] = useState(0);
+
+  useEffect(() => {
+    fetch("/api/execution-stats")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          setStats(data.stats);
+          setCadence(data.cadence);
+          setGaps(data.gaps);
+          setDrift(data.drift);
+          setTodayCompleted(data.todayCompleted);
+          setTodayTotal(data.todayTotal);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-5">
@@ -49,14 +68,19 @@ export default function ExecutionDashboard() {
       </h2>
 
       {/* Consistency stats */}
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-4 gap-2">
         <StatBox
           label="Consistency"
-          value={`${stats.consistencyScore}/10`}
-          highlight={stats.consistencyScore >= 7}
+          value={stats ? `${stats.consistencyScore}/10` : "—"}
+          highlight={stats ? stats.consistencyScore >= 7 : false}
         />
-        <StatBox label="Current Streak" value={`${stats.currentStreak}d`} />
-        <StatBox label="Weekly Rate" value={`${stats.weeklyRate}/wk`} />
+        <StatBox label="Current Streak" value={stats ? `${stats.currentStreak}d` : "—"} />
+        <StatBox label="Weekly Rate" value={stats ? `${stats.weeklyRate}/wk` : "—"} />
+        <StatBox
+          label="Today"
+          value={`${todayCompleted}/${todayTotal}`}
+          highlight={todayTotal > 0 && todayCompleted === todayTotal}
+        />
       </div>
 
       {/* Today's reminders */}

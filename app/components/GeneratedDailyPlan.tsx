@@ -52,12 +52,25 @@ export default function GeneratedDailyPlan() {
   }, [dateStr]);
 
   const handleStatusChange = useCallback(
-    (id: string, newStatus: MissionStatus) => {
+    (id: string, newStatus: MissionStatus, mission?: PlannedMission) => {
       setStatusMap((prev) => ({ ...prev, [id]: newStatus }));
+      const payload: Record<string, unknown> = { id, date: dateStr, status: newStatus };
+      if (newStatus === "completed" && mission) {
+        payload.mission = {
+          title: mission.title,
+          category: mission.category,
+          platform: mission.platform,
+          objective: mission.objective,
+          contentAngle: mission.contentAngle,
+          themeId: mission.theme.id,
+          authorityImpact: Math.round(mission.priority.authorityImpact),
+          semanticValue: Math.round(mission.priority.semanticValue),
+        };
+      }
       fetch("/api/mission-progress", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, date: dateStr, status: newStatus }),
+        body: JSON.stringify(payload),
       });
     },
     [dateStr]
@@ -151,13 +164,14 @@ function PlanMissionCard({
 }: {
   mission: PlannedMission;
   status: MissionStatus;
-  onStatusChange: (id: string, status: MissionStatus) => void;
+  onStatusChange: (id: string, status: MissionStatus, mission?: PlannedMission) => void;
 }) {
   const s = statusConfig[status];
 
   function cycleStatus() {
     const idx = statusCycle.indexOf(status);
-    onStatusChange(mission.id, statusCycle[(idx + 1) % statusCycle.length]);
+    const next = statusCycle[(idx + 1) % statusCycle.length];
+    onStatusChange(mission.id, next, mission);
   }
 
   const priorityColor =

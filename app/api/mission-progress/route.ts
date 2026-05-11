@@ -35,5 +35,34 @@ export async function POST(request: Request) {
     update: { status },
   });
 
+  // When a mission is completed, auto-create a StrategicMemory entry
+  if (status === "completed" && body.mission) {
+    const m = body.mission;
+    const memoryId = `mem-${id}`;
+    // Only create if not already exists
+    const existing = await prisma.strategicMemory.findUnique({
+      where: { id: memoryId },
+    });
+    if (!existing) {
+      await prisma.strategicMemory.create({
+        data: {
+          id: memoryId,
+          date,
+          type: "completed-mission",
+          theme: m.themeId ?? "general",
+          insight: `Completed: ${m.title}`,
+          authorityImpact: m.authorityImpact ?? 6,
+          semanticValue: m.semanticValue ?? 6,
+          outcomeSummary: m.objective ?? "",
+          strategicNotes: m.contentAngle
+            ? `${m.category} on ${m.platform} — ${m.contentAngle}`
+            : `${m.category} on ${m.platform}`,
+          category: m.category ?? null,
+          platform: m.platform ?? null,
+        },
+      });
+    }
+  }
+
   return Response.json({ success: true, record });
 }

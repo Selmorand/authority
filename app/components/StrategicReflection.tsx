@@ -1,9 +1,18 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { analyzeMemory } from "@/lib/analyzeStrategicMemory";
+import type { MemoryAnalysis } from "@/lib/analyzeStrategicMemory";
 
 export default function StrategicReflection() {
-  const analysis = analyzeMemory();
+  const [analysis, setAnalysis] = useState<MemoryAnalysis>(() => analyzeMemory());
+
+  useEffect(() => {
+    fetch("/api/memory-analysis")
+      .then((r) => r.json())
+      .then((data) => { if (data.success) setAnalysis(data.analysis); })
+      .catch(() => {});
+  }, []);
 
   return (
     <section className="rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-5">

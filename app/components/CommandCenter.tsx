@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
+import type { ExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
 import { generateExecutiveBriefing } from "@/lib/generateExecutiveBriefing";
 
 const momentumColors: Record<string, { color: string; label: string }> = {
@@ -10,7 +11,18 @@ const momentumColors: Record<string, { color: string; label: string }> = {
 };
 
 export default function CommandCenter() {
-  const briefing = useMemo(() => generateExecutiveBriefing(), []);
+  // Start with client-side seed data, then upgrade to live DB data
+  const [briefing, setBriefing] = useState<ExecutiveBriefing>(() => generateExecutiveBriefing());
+
+  useEffect(() => {
+    fetch("/api/briefing/live")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) setBriefing(data.briefing);
+      })
+      .catch(() => {});
+  }, []);
+
   const momentum = momentumColors[briefing.momentumDirection];
 
   return (

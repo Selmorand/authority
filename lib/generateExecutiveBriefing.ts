@@ -66,6 +66,22 @@ export interface ExecutiveBriefing {
 
 // ─── Main Generator ──────────────────────────────────────────
 
+export function generateExecutiveBriefingFromMemory(
+  memoryItems: import("@/data/strategicMemory").MemoryItem[]
+): ExecutiveBriefing {
+  const health = generateHealthReport();
+  const memory = analyzeMemory(memoryItems);
+  const execStats = calculateExecutionStats(memoryItems);
+  const drift = detectStrategicDrift(memoryItems);
+  const cadence = analyzeCadence(memoryItems);
+  const signals = getScoredSignals();
+  const recommendations = generateRecommendations();
+  const latest = getLatestSnapshot();
+  const previous = getPreviousSnapshot();
+
+  return buildBriefing(health, memory, execStats, drift, cadence, signals, recommendations, latest, previous);
+}
+
 export function generateExecutiveBriefing(): ExecutiveBriefing {
   const health = generateHealthReport();
   const memory = analyzeMemory();
@@ -77,6 +93,20 @@ export function generateExecutiveBriefing(): ExecutiveBriefing {
   const latest = getLatestSnapshot();
   const previous = getPreviousSnapshot();
 
+  return buildBriefing(health, memory, execStats, drift, cadence, signals, recommendations, latest, previous);
+}
+
+function buildBriefing(
+  health: ReturnType<typeof generateHealthReport>,
+  memory: ReturnType<typeof analyzeMemory>,
+  execStats: ReturnType<typeof calculateExecutionStats>,
+  drift: ReturnType<typeof detectStrategicDrift>,
+  cadence: ReturnType<typeof analyzeCadence>,
+  signals: ReturnType<typeof getScoredSignals>,
+  recommendations: ReturnType<typeof generateRecommendations>,
+  latest: ReturnType<typeof getLatestSnapshot>,
+  previous: ReturnType<typeof getPreviousSnapshot>,
+): ExecutiveBriefing {
   const risks = synthesizeRisks(health.healthIndicators, drift, cadence);
   const opportunities = synthesizeOpportunities(health.themeVisibility, signals, memory);
   const weeklyRecs = generateWeeklyRecommendations(health, memory, risks, opportunities);
