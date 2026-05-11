@@ -41,7 +41,7 @@ export async function checkSystemHealth(): Promise<SystemHealthReport> {
     components.push({
       name: "Database",
       status: "error",
-      message: "Cannot connect to SQLite database",
+      message: "Cannot connect to database",
       lastChecked: now,
     });
     warnings.push("Database unavailable — using seed data fallback");
@@ -135,20 +135,8 @@ export async function checkSystemHealth(): Promise<SystemHealthReport> {
 
 // ─── Backup Utility ──────────────────────────────────────────
 
-import { promises as fs } from "fs";
-import path from "path";
-
-export async function createBackup(): Promise<{ success: boolean; path?: string; error?: string }> {
-  const dbPath = path.join(process.cwd(), "prisma", "authority-os.db");
-  const backupDir = path.join(process.cwd(), "backups");
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const backupPath = path.join(backupDir, `authority-os-${timestamp}.db`);
-
-  try {
-    await fs.mkdir(backupDir, { recursive: true });
-    await fs.copyFile(dbPath, backupPath);
-    return { success: true, path: backupPath };
-  } catch (err) {
-    return { success: false, error: err instanceof Error ? err.message : "Backup failed" };
-  }
+export async function createBackup(): Promise<{ success: boolean; error?: string }> {
+  // With PostgreSQL, backups are managed by the database provider (Railway).
+  // File-based backup is no longer applicable.
+  return { success: false, error: "Database backups are managed by Railway PostgreSQL. Use Railway's backup features." };
 }
