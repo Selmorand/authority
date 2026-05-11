@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Mission, MissionStatus } from "@/data/missions";
 
 const statusConfig: Record<
@@ -39,9 +39,31 @@ export default function MissionCard({ mission }: { mission: Mission }) {
   const [status, setStatus] = useState<MissionStatus>(mission.status);
   const s = statusConfig[status];
 
+  // Load persisted status on mount
+  useEffect(() => {
+    fetch(`/api/mission-progress?date=${mission.date ?? ""}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.statusMap[mission.id]) {
+          setStatus(data.statusMap[mission.id] as MissionStatus);
+        }
+      })
+      .catch(() => {});
+  }, [mission.id, mission.date]);
+
   function cycleStatus() {
     const idx = statusCycle.indexOf(status);
-    setStatus(statusCycle[(idx + 1) % statusCycle.length]);
+    const next = statusCycle[(idx + 1) % statusCycle.length];
+    setStatus(next);
+    fetch("/api/mission-progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: mission.id,
+        date: mission.date ?? new Date().toISOString().split("T")[0],
+        status: next,
+      }),
+    });
   }
 
   return (

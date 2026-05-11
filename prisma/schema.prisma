@@ -6,6 +6,17 @@ datasource db {
   provider = "sqlite"
 }
 
+// ─── Mission Progress (persists status across navigations) ───
+
+model MissionProgress {
+  id        String   @id // matches mission id (e.g. "gen-2026-05-11-0" or cuid)
+  date      String   // YYYY-MM-DD
+  status    String   @default("pending") // pending | in-progress | completed
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
+}
+
 // ─── Missions ────────────────────────────────────────────────
 
 model Mission {

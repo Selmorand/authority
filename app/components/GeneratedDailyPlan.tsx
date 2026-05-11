@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import {
   generateDailyPlan,
   getTodayDateStr,
@@ -38,6 +38,30 @@ const statusCycle: MissionStatus[] = ["pending", "in-progress", "completed"];
 export default function GeneratedDailyPlan() {
   const [dateStr, setDateStr] = useState(getTodayDateStr);
   const plan = useMemo(() => generateDailyPlan(dateStr), [dateStr]);
+  const [statusMap, setStatusMap] = useState<Record<string, MissionStatus>>({});
+
+  // Load saved statuses from DB whenever the date changes
+  useEffect(() => {
+    fetch(`/api/mission-progress?date=${dateStr}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) setStatusMap(data.statusMap);
+        else setStatusMap({});
+      })
+      .catch(() => setStatusMap({}));
+  }, [dateStr]);
+
+  const handleStatusChange = useCallback(
+    (id: string, newStatus: MissionStatus) => {
+      setStatusMap((prev) => ({ ...prev, [id]: newStatus }));
+      fetch("/api/mission-progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, date: dateStr, status: newStatus }),
+      });
+    },
+    [dateStr]
+  );
 
   const dayLabel = new Date(dateStr + "T00:00:00").toLocaleDateString("en-GB", {
     weekday: "long",
@@ -108,20 +132,32 @@ export default function GeneratedDailyPlan() {
       {/* Missions */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {plan.missions.map((m) => (
-          <PlanMissionCard key={m.id} mission={m} />
+          <PlanMissionCard
+            key={m.id}
+            mission={m}
+            status={statusMap[m.id] ?? "pending"}
+            onStatusChange={handleStatusChange}
+          />
         ))}
       </div>
     </section>
   );
 }
 
-function PlanMissionCard({ mission }: { mission: PlannedMission }) {
-  const [status, setStatus] = useState<MissionStatus>("pending");
+function PlanMissionCard({
+  mission,
+  status,
+  onStatusChange,
+}: {
+  mission: PlannedMission;
+  status: MissionStatus;
+  onStatusChange: (id: string, status: MissionStatus) => void;
+}) {
   const s = statusConfig[status];
 
   function cycleStatus() {
     const idx = statusCycle.indexOf(status);
-    setStatus(statusCycle[(idx + 1) % statusCycle.length]);
+    onStatusChange(mission.id, statusCycle[(idx + 1) % statusCycle.length]);
   }
 
   const priorityColor =
