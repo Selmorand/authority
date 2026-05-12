@@ -12,46 +12,81 @@ export const helpContent: HelpEntry[] = [
   {
     id: "morning-briefing",
     title: "Morning Briefing",
-    keywords: ["morning", "briefing", "daily", "greeting", "reminders", "execution flow", "momentum", "overdue", "scheduled operations"],
+    keywords: ["morning", "briefing", "daily", "greeting", "reminders", "execution flow", "momentum", "overdue", "scheduled operations", "anchor"],
     category: "Daily Operations",
-    summary: "Your daily authority briefing with mission stats, health scores, and execution plan.",
-    details: `The Morning Briefing is your daily command overview. It shows:
+    summary: "Your daily authority briefing — anchors the day to the week's core asset and surfaces reminders.",
+    details: `The Morning Briefing is your daily command overview, calibrated to the 1→many reinforcement model:
 
-- **Mission Stats**: How many missions today, total estimated time
-- **Health Scores**: Authority Health (1-10), Consistency Streak (consecutive days meeting targets), AI Visibility (% of AI queries citing your content)
-- **Momentum Status**: Whether your execution velocity is improving, neutral, or declining
-- **Execution Flow**: The recommended order to complete today's missions, with time blocks and themes
-- **Reminders**: Up to 5 priority items categorized as priority, strategic, research, founder, or semantic
+- **Greeting**: Each weekday has a distinct role. Monday anchors the week with the Core Authority Asset; Tue–Fri reinforce it across LinkedIn, communities, YouTube, and entity platforms.
+- **Task Stats**: How many tasks today, total estimated time, cognitive load mix (heavy / medium / light)
+- **Health Scores**: Authority Health (1-10), Consistency Streak, AI Visibility (% of AI queries citing your content)
+- **Momentum Status**: Calibrated to sustainability — strong cadence is "protect it", not "produce more"
+- **Execution Flow**: The recommended order (Core Asset → reinforcement → research → review)
+- **Reminders**: Up to 5 priority items including the anchor for the day, mid-week community participation prompts, and Friday's close-the-loop reminder
 - **Focus Themes**: Which themes are active today
 - **Semantic Reinforcement**: How today's work strengthens your topical authority
-- **Overdue Areas**: Any missions or themes that need urgent attention
+- **Overdue Areas**: Themes that need urgent attention
 - **Top Opportunity**: The single highest-value action for today
-- **Weekly Review**: Summary of your strongest themes and next week's focus
-- **Scheduled Operations**: Automated system tasks (Morning Briefing, Weekly Review, Cadence Check, Research Refresh) with their schedules`
+- **Scheduled Operations**: Automated jobs (Morning Briefing, Weekly Review, Cadence Check, Research Refresh, Monthly Reinforcement Report on the 1st, Mid-Month Entity Sweep on the 15th)`
   },
   {
     id: "generated-daily-plan",
     title: "Generated Daily Plan",
-    keywords: ["daily plan", "missions", "execution order", "priority scores", "strategic", "impact", "semantic", "content angle", "day strategy", "status"],
+    keywords: ["daily plan", "missions", "core authority asset", "reinforcement", "maintenance", "research", "strategic review", "load tier", "heavy", "medium", "light", "execution prompt", "status"],
     category: "Daily Operations",
-    summary: "Your detailed daily mission plan with priority scoring and status tracking.",
-    details: `The Generated Daily Plan shows your missions for the day with full detail:
+    summary: "Your daily mission plan grouped by task kind — Core Asset, Reinforcement, Maintenance, Research, Review.",
+    details: `The Generated Daily Plan implements the 1→many operational model. Tasks are grouped by kind, not just listed:
 
-- **Day Strategy**: Explains why today's missions are structured this way (tailored to the day of week)
-- **Date Navigation**: Browse previous and future days with Prev/Today/Next buttons
-- **Mission Cards** each show:
-  - **Execution Order**: Numbered sequence for optimal completion
-  - **Title & Objective**: What to do and why
-  - **Theme**: Which authority theme this supports
-  - **Platform**: Where to publish (LinkedIn, blog, etc.)
-  - **Content Angle**: The specific approach or perspective to take
-  - **Time Estimate**: How long it should take
-  - **Priority Scores**: Four dimensions rated 1-10:
-    - Strategic: How aligned with your weekly strategy
-    - Impact: How much it builds authority
-    - Semantic: How much it deepens topical expertise
-    - Overall: Composite score (highlighted)
-  - **Status Button**: Click to cycle through Pending > In Progress > Completed`
+- **Day Strategy**: Explains today's role (Mon = Core Asset, Tue = LinkedIn, Wed = Community, Thu = Video, Fri = Entity + Review)
+- **Load Mix**: Coloured counters showing how many Heavy / Medium / Light tasks the day contains
+- **Date Navigation**: Prev / Today / Next buttons
+- **Core Authority Asset Banner** (Monday only by default): the week's anchor, full-width, distinct purple border. This is the one heavy publication that the rest of the week reinforces.
+- **Reinforcement Section**: light/medium tasks that compound the week's core — LinkedIn posts, Reddit answers, community contributions, YouTube clips, founder snippets
+- **Maintenance Section** (typically Friday): entity updates, schema refinement, internal linking, author bio sync, terminology passes
+- **Research Section**: weekly intelligence intake
+- **Strategic Review Section** (Friday): closes the loop and sets next week's core asset
+
+Every task card carries a **Load Tier badge** (Heavy / Medium / Light) so the cost of each task is visible at a glance. Reinforcement task cards include an **Execution Prompt** telling you exactly what to do (e.g. "Find an honest question about generative engine optimisation on r/SEO from the last 14 days. Write a substantive, non-promotional answer 200–400 words").
+
+Click the status button on any card to cycle Pending → In Progress → Completed.`
+  },
+  {
+    id: "one-to-many-model",
+    title: "1→Many Reinforcement Model",
+    keywords: ["1+many", "1 to many", "operational model", "core asset", "reinforcement", "philosophy", "cadence", "weekly contract", "cognitive load budget"],
+    category: "Daily Operations",
+    summary: "The platform's defining principle: one heavy core asset per week, surrounded by light reinforcement.",
+    details: `The platform operates on a strict weekly contract designed for sustainable authority compounding:
+
+**1 Core Authority Asset** (heavy, Monday) — long-form article, case study, audit, YouTube explainer, or research report.
+
+**3–5 Reinforcement Tasks** (light/medium, Tue–Fri):
+- Tuesday: LinkedIn insight + carousel + peer commentary derived from Monday's core
+- Wednesday: Reddit / community contribution (educational, non-promotional)
+- Thursday: YouTube clip or 2-minute founder commentary (no full-scale production)
+- Friday: entity reinforcement + internal-site work
+
+**1 Research Session** (Friday) — intake without execution pressure.
+
+**1 Strategic Review** (Friday) — close-the-loop reflection and next-week planning.
+
+**Why this works:** Authority compounds through repetition, corroboration, and participation — not through original publishing volume. A single Monday core asset amplified across LinkedIn, Reddit, YouTube, and entity platforms produces ~7 distinct authority signals across 4 channels every week, sustainably, for months.
+
+**Weekly cognitive load budget:** 1 heavy + 2 medium + 8 light + 1 research + 1 review. The mission generator hard-limits batches to one heavy category per request — over-production is structurally prevented.`
+  },
+  {
+    id: "cognitive-load",
+    title: "Cognitive Load Tiers",
+    keywords: ["cognitive load", "heavy", "medium", "light", "load tier", "burden", "sustainability", "budget"],
+    category: "Daily Operations",
+    summary: "Every task is classified as Heavy, Medium, or Light to keep the week sustainable.",
+    details: `Cognitive Load Tiers prevent the platform from becoming a content treadmill. Tasks are scored across writing effort, preparation effort, research effort, production effort, and time required, then classified:
+
+- **Heavy** (red badge) — long-form article, case study, audit, long YouTube explainer, research report. **Max 1 per week.** This is the weekly Core Authority Asset.
+- **Medium** (orange badge) — LinkedIn carousels, founder commentary videos, audit-walkthrough clips. Sustainable in moderation. **Max 2 per week.**
+- **Light** (green badge) — LinkedIn insights, LinkedIn commentary, Reddit answers, community contributions, YouTube clips, founder snippets, entity updates, schema refinement, internal-linking passes. **The default mode of weekly work.**
+
+The daily plan UI displays the tier of every task and counters showing the day's mix. If you see a Heavy task on a non-Monday, something has gone wrong with planning.`
   },
   {
     id: "execution-dashboard",
@@ -82,8 +117,8 @@ export const helpContent: HelpEntry[] = [
     title: "Today's Missions",
     keywords: ["today", "missions", "cards", "status"],
     category: "Daily Operations",
-    summary: "Simple card view of today's missions with status tracking.",
-    details: `Today's Missions shows a clean grid of your missions for the current day. Each card displays the mission title, topic, category, authority focus, time estimate, objective, and priority level. Click the status button on each card to mark it as Pending, In Progress, or Completed. Completed missions become semi-transparent.`
+    summary: "Simple card view of today's tasks with status tracking.",
+    details: `Today's Missions shows a clean grid of your tasks for the current day. Each card displays the task title, topic, category, authority focus, time estimate, objective, and priority level. Click the status button on each card to mark it as Pending, In Progress, or Completed. Completed tasks become semi-transparent. For the full grouped view with Core Asset banner and load tier badges, use the Generated Daily Plan panel.`
   },
   {
     id: "strategic-insights",
@@ -404,48 +439,68 @@ export const helpContent: HelpEntry[] = [
   {
     id: "ai-mission-panel",
     title: "AI Mission Panel",
-    keywords: ["ai missions", "generate missions", "expand topic", "mission generation", "topic expansion", "ai suggestions"],
+    keywords: ["ai missions", "generate missions", "expand topic", "mission generation", "topic expansion", "ai suggestions", "1+many", "heavy limit"],
     category: "AI Tools",
-    summary: "AI-powered mission generation and topic expansion across platforms.",
+    summary: "AI-powered mission generation — hard-limited to one heavy category per batch.",
     details: `The AI Mission Panel has two modes:
 
 **Generate Missions**:
 - Select one or more themes to focus on
-- Click "Generate Strategic Missions" to get AI-suggested missions
+- Click "Generate Strategic Missions" to get AI-suggested tasks
 - Each suggestion shows: title, objective, semantic goal, theme, platform, content angle, time estimate, strategic priority (1-10), and authority impact (1-10)
-- Quality validation filters out low-quality suggestions automatically
+- **The 1→many contract is enforced**: at most ONE heavy / core category per batch, regardless of how many tasks you request. If you ask for 5, the default mix is roughly 1 core + 3 reinforcement + 1 maintenance. Validator filters out over-budget heavy suggestions.
 
 **Expand Topic**:
 - Enter any topic and optionally select a theme
-- Click "Expand Topic" to get variations
-- Returns multiple angles on the same topic across different platforms
-- Each expansion shows: angle, title, key point, platform, authority signal, and time estimate
+- Click "Expand Topic" to get reinforcement angles (not more original publications)
+- Returns 5 reinforcement angles: LinkedIn insight, LinkedIn carousel, Reddit answer, YouTube clip, founder snippet
+- Each angle shows: angle name, title, key point, platform, authority signal, and time estimate
 
-Use this when you need fresh mission ideas or want to explore different ways to cover a topic.`
+**When to use**: Once per week when planning next Monday's core asset, or once per month for refreshing the reinforcement task pool. Not a daily tool — the deterministic daily planner handles routine.`
   },
   {
     id: "amplification-dashboard",
     title: "Amplification Dashboard",
-    keywords: ["amplification", "amplify", "content", "repurpose", "semantic score", "density", "formats", "platforms", "authority angle"],
+    keywords: ["amplification", "amplify", "content", "repurpose", "semantic score", "density", "formats", "platforms", "authority angle", "reinforcement loop", "core asset"],
     category: "AI Tools",
-    summary: "Transform one piece of content into multiple formats across platforms.",
-    details: `The Amplification Dashboard takes a single content piece and creates multiple versions:
+    summary: "The reinforcement loop in action — turns one Monday core asset into the week's reinforcement plan.",
+    details: `The Amplification Dashboard is the operational hub of the 1→many model. Run it on Monday's published Core Authority Asset; the rest of the week implements its outputs.
 
-- **Input**: Title, content, asset type (article/case-study/research-insight/audit-finding/strategic-observation), theme, and optional key insights
-- **Two Modes**: "Amplify (Local)" for instant results, "Amplify (AI)" for AI-powered generation
-- **Output**: Multiple platform-specific versions, each with:
-  - Platform and format
-  - Authority angle (how it reinforces your positioning)
-  - Full content (click to expand)
-  - Semantic keywords
-  - Time estimate
+- **Input**: Title, content, asset type (article / case-study / research-insight / audit-finding / strategic-observation), theme, and optional key insights
+- **Two Modes**: "Amplify (Local)" for instant deterministic results, "Amplify (AI)" for AI-powered generation
+- **6 Outputs** per source asset:
+  - LinkedIn Authority Post — implements Tuesday's LinkedIn Insight reinforcement
+  - Founder Insight — implements Tuesday's founder snippet
+  - Technical Explainer — supplementary blog reinforcement
+  - YouTube Talking Points — implements Thursday's YouTube clip / commentary
+  - GEO Reinforcement — repackages for AI citation
+  - Executive Summary — for sales / pitch use
 - **Quality Metrics**:
-  - Semantic Score (1-10): Topic consistency across versions
-  - Density Score (1-10): Depth of coverage
-  - Semantic Reinforcement: Repeated topic coverage across formats
-  - Amplification Depth: Number of distinct variations created
-  - Messaging Cohesion: Consistency of core message across outputs
-- **Warnings**: Alerts if messaging is diluted or inconsistent`
+  - Semantic Score (1-10): topic consistency across versions
+  - Density Score (1-10): depth of coverage
+  - Semantic Reinforcement: repeated topic coverage across formats
+  - Amplification Depth: distinct variations
+  - Messaging Cohesion: consistency of core message
+- **Warnings**: dilution alerts when source content is too thin or messaging fragments
+
+**Best practice**: Run on Monday immediately after publishing the core asset. Use the outputs to seed Tue–Fri reinforcement tasks.`
+  },
+  {
+    id: "monthly-reinforcement-report",
+    title: "Monthly Reinforcement Report",
+    keywords: ["monthly", "monthly report", "entity consistency", "external profile audit", "corroboration", "semantic drift", "authority balance", "ai visibility review", "mid-month sweep"],
+    category: "AI Tools",
+    summary: "Auto-generated monthly assessment covering six reinforcement areas.",
+    details: `A scheduler job runs on the 1st of each month generating a Monthly Reinforcement Report. A mid-month sweep refreshes it on the 15th. The report assesses six areas:
+
+1. **Entity Consistency Review** — Knowledge Panel, Wikidata, Crunchbase, LinkedIn Company. Healthy / watch / action-needed.
+2. **External Profile Audit** — coverage breadth across corroboration types.
+3. **Corroboration Review** — corroboration events in the last 30 days. If low: pitch one podcast + one guest article + one directory addition this month.
+4. **Semantic Drift Review** — detects theme distribution skew. If skewed: schedule a semantic-terminology sweep.
+5. **Authority Balance Review** — flags any core theme with zero activity. Recommends promoting it to next month's Monday core.
+6. **AI Visibility Review** — citation-opportunity delta. If flat or declining: run a fresh citation check across ChatGPT, Perplexity, Google AI Overview, Claude.
+
+Each finding produces a recommended task with estimated time and priority. Treat the report as the strategic instrument for choosing Monday core assets over the coming month.`
   },
   {
     id: "multi-model-intelligence",
@@ -471,18 +526,23 @@ This helps avoid bias by cross-referencing multiple AI perspectives.`
   {
     id: "authority-calendar",
     title: "Authority Calendar",
-    keywords: ["calendar", "weekly", "schedule", "time blocks", "morning", "midday", "afternoon", "recurring cycles"],
+    keywords: ["calendar", "weekly", "schedule", "time blocks", "morning", "midday", "afternoon", "recurring cycles", "core asset", "reinforcement"],
     category: "Operations & Reports",
-    summary: "Weekly mission scheduling with time blocks and recurring theme cycles.",
-    details: `The Authority Calendar shows your week at a glance:
+    summary: "Weekly schedule built around one core asset (Mon) and reinforcement (Tue–Fri).",
+    details: `The Authority Calendar shows the week's 1→many cadence at a glance:
 
 - **Weekly View**: 5-column grid (Monday to Friday)
-- **Time Blocks**: Each day split into Morning, Midday, and Afternoon slots
-- **Mission Slots**: Up to 2 missions per time block, with priority and overdue indicators
-- **Daily Stats**: Mission count and estimated minutes per day
-- **Week Navigation**: Prev/This Week/Next buttons
-- **Recurring Cycles**: Each weekday has a default theme focus (e.g., Monday = AI Authority)
-- **Theme Distribution**: Shows how missions are distributed across themes for the week`
+- **Time Blocks**: Each day split into Morning, Midday, Afternoon. Core assets and heavy reinforcement go in Morning. Research and strategic review go in Afternoon.
+- **Recurring Cycles**:
+  - Monday — Core Authority Asset (the week's anchor)
+  - Tuesday — LinkedIn Reinforcement
+  - Wednesday — Community Contribution
+  - Thursday — Video Reinforcement
+  - Friday — Entity Reinforcement & Strategic Review
+- **Daily Stats**: Task count and estimated minutes per day
+- **Week Navigation**: Prev / This Week / Next buttons
+- **Theme Distribution**: Shows how the week's work is distributed across the 8 authority themes
+- **Common mistake**: Over-scheduling. The weekly budget is 1 heavy + 2 medium + 8 light + 1 research + 1 review. Resist adding more heavy work — the planner will not generate it, but manual additions can break the model.`
   },
   {
     id: "weekly-mission-view",
@@ -640,21 +700,47 @@ Theme Cadence tracks how often you're working on each theme. Ideally, core theme
   },
   {
     id: "concept-missions",
-    title: "Missions",
-    keywords: ["missions", "tasks", "pending", "in progress", "completed", "priority", "execution order"],
+    title: "Missions & Task Kinds",
+    keywords: ["missions", "tasks", "pending", "in progress", "completed", "priority", "execution order", "task kind", "core authority asset", "reinforcement", "maintenance", "research"],
     category: "Key Concepts",
-    summary: "The concrete daily tasks that build your authority through consistent execution.",
-    details: `Missions are your daily authority-building tasks. Each mission has:
+    summary: "Tasks come in five kinds — Core Asset, Reinforcement, Maintenance, Research, Strategic Review.",
+    details: `Tasks are your authority-building work units. Each task has:
 
-- **Status**: Pending (not started), In Progress (working on it), Completed (done)
-- **Priority**: High (red), Medium (orange), Low (blue)
+- **Task Kind** — determines its role in the 1→many model:
+  - **Core Authority Asset** — the one heavy weekly anchor (Monday)
+  - **Reinforcement** — light/medium amplification + community participation (Tue–Thu)
+  - **Maintenance** — entity / schema / internal-site upkeep (Friday)
+  - **Research** — weekly intelligence intake (Friday)
+  - **Strategic Review** — close-the-loop reflection (Friday)
+- **Load Tier**: Heavy (red), Medium (orange), Light (green) — cognitive cost
+- **Status**: Pending → In Progress → Completed
 - **Theme**: Which authority theme it supports
-- **Platform**: Where to publish (LinkedIn, blog, etc.)
-- **Content Angle**: The specific perspective or approach
-- **Execution Order**: Recommended sequence for the day
-- **Priority Scores**: Strategic, Impact, Semantic, and Overall (each 1-10)
+- **Channel**: Where the work happens (Blog / LinkedIn / YouTube / Reddit / Community / Internal Site / Entity Platforms / Podcast / Conference / Internal)
+- **Execution Prompt** (reinforcement tasks): the literal instruction — "Find an honest question about GEO on r/SEO, write a 200–400 word non-promotional answer"
+- **Priority Scores**: Strategic, Impact, Semantic, Reinforcement Value, Overall (each 1-10)
 
-Consistent mission completion builds your Consistency Streak and improves your Execution Consistency score.`
+Consistent completion builds your Consistency Streak and improves Execution Consistency.`
+  },
+  {
+    id: "concept-channels",
+    title: "Channels",
+    keywords: ["channels", "blog", "linkedin", "youtube", "reddit", "community", "internal site", "entity platforms", "podcast", "conference"],
+    category: "Key Concepts",
+    summary: "The 10 surfaces where authority work happens.",
+    details: `The platform routes work across 10 channels, not just blog + LinkedIn:
+
+- **Blog** — long-form authority (Interon site or guest publication)
+- **LinkedIn** — founder + brand reinforcement
+- **YouTube** — long-form explainers, clips, founder commentary
+- **Reddit** — educational community contribution
+- **Industry Communities** — Umbraco forums, Stack Overflow, dev.to, Discord, Slack
+- **Internal Site** — Interon.co.za authority surface (internal linking, schema, service pages, author bios)
+- **Entity Platforms** — Wikidata, Crunchbase, GitHub, Knowledge Panel, directories
+- **Podcasts** — founder voice on external shows
+- **Conferences** — speaker pipeline
+- **Strategic Ops** — research and review work
+
+The weekly cadence forces channel diversity: Tuesday is LinkedIn, Wednesday is Reddit/Community, Thursday is YouTube, Friday is Entity Platforms + Internal Site. Channel rotation matters as much as theme rotation.`
   },
   {
     id: "concept-scores",
