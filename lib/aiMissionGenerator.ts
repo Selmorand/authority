@@ -3,7 +3,9 @@ import {
   SYSTEM_PROMPT,
   MISSION_GENERATION_PROMPT,
   TOPIC_EXPANSION_PROMPT,
+  CORE_AUTHORITY_CATEGORIES,
   validateMissionTitle,
+  validateMissionCategory,
 } from "./prompts";
 import { themes } from "@/data/themes";
 import type { Theme } from "@/data/themes";
@@ -166,12 +168,29 @@ function validateMissions(missions: AIMission[]): {
 } {
   const validated: AIMission[] = [];
   let filtered = 0;
+  let heavyAccepted = 0;
+  const coreSet: ReadonlySet<string> = new Set(CORE_AUTHORITY_CATEGORIES);
 
   for (const mission of missions) {
     const titleCheck = validateMissionTitle(mission.title);
     if (!titleCheck.valid) {
       filtered++;
       continue;
+    }
+
+    const categoryCheck = validateMissionCategory(mission.category);
+    if (!categoryCheck.valid) {
+      filtered++;
+      continue;
+    }
+
+    // Enforce the 1+many contract: at most ONE core/heavy asset per batch.
+    if (coreSet.has(mission.category)) {
+      if (heavyAccepted >= 1) {
+        filtered++;
+        continue;
+      }
+      heavyAccepted++;
     }
 
     // Ensure scores are in range

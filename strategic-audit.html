@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Strategic Execution Coverage Audit — Interon Authority OS</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #6b6b6b;
+    --rule: #d8d4cc;
+    --rule-soft: #ebe7df;
+    --paper: #fbf9f4;
+    --paper-card: #f4f0e6;
+    --accent: #8a3324;
+    --accent-soft: #c2705a;
+    --code-bg: #efeae0;
+    --hi: #f5e9c8;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Iowan Old Style", "Charter", "Source Serif Pro", Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+  }
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 64px 96px;
+  }
+  header.cover {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: "Iowan Old Style", "Charter", Georgia, serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+  .subtitle {
+    font-size: 17px;
+    color: var(--ink-soft);
+    font-style: italic;
+    max-width: 60ch;
+  }
+  .meta {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    font-size: 12.5px;
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    color: var(--ink-faint);
+    letter-spacing: 0.02em;
+  }
+  .meta b {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .verdict {
+    margin: 38px 0 44px;
+    padding: 22px 26px;
+    background: var(--paper-card);
+    border-left: 3px solid var(--accent);
+    font-size: 16px;
+  }
+  .verdict-label {
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-family: "Iowan Old Style", "Charter", Georgia, serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.25;
+    margin: 56px 0 4px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  h2 .num {
+    color: var(--accent);
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 6px;
+  }
+  h2 + .lede {
+    color: var(--ink-soft);
+    font-style: italic;
+    margin: 6px 0 18px;
+    font-size: 15.5px;
+  }
+  h3 {
+    font-family: "Iowan Old Style", "Charter", Georgia, serif;
+    font-weight: 700;
+    font-size: 17px;
+    margin: 30px 0 8px;
+    color: var(--ink);
+  }
+  h2::after {
+    content: "";
+    display: block;
+    width: 48px;
+    border-bottom: 2px solid var(--accent);
+    margin: 10px 0 18px;
+  }
+  p { margin: 0 0 14px; }
+  ul, ol { padding-left: 1.4em; margin: 0 0 16px; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--accent-soft); }
+  strong { color: var(--ink); font-weight: 700; }
+  em { color: var(--ink-soft); }
+  code, .mono {
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 0.86em;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 22px;
+    font-size: 14.5px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+  thead th {
+    border-bottom: 2px solid var(--ink);
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  tbody tr:nth-child(even) { background: rgba(0,0,0,0.012); }
+  hr {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 48px 0;
+  }
+  .pullquote {
+    margin: 28px -8px;
+    padding: 18px 22px;
+    background: var(--hi);
+    border-radius: 2px;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .pullquote strong { color: var(--accent); }
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    color: var(--ink-faint);
+    letter-spacing: 0.03em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 32px 22px 64px; }
+    h1 { font-size: 30px; }
+    h2 { font-size: 20px; }
+    table { font-size: 13.5px; }
+    th, td { padding: 8px 8px; }
+  }
+  @media print {
+    body { background: white; }
+    .page { padding: 0; max-width: none; }
+    h2 { page-break-after: avoid; }
+    table, .verdict, .pullquote { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="cover">
+  <div class="eyebrow">Strategic Audit · Internal</div>
+  <h1>Strategic Execution Coverage Audit</h1>
+  <div class="subtitle">Authority-building task generation, planning, reinforcement, monitoring and amplification across all required channels — Interon Authority OS.</div>
+  <div class="meta">
+    <span><b>Subject</b> &nbsp;Interon Authority OS (sig:nal)</span>
+    <span><b>Date</b> &nbsp;2026-05-12</span>
+    <span><b>Scope</b> &nbsp;Operational coverage, not code quality</span>
+  </div>
+</header>
+
+<div class="verdict">
+  <span class="verdict-label">Verdict — one line</span>
+  The platform is a strong <strong>LinkedIn + blog + research/intelligence engine</strong> with a tracking layer for entity and corroboration signals. As an <em>execution</em> system for the full channel set the brief specifies, it is significantly underbuilt — YouTube is performative, Reddit is inbound-only, non-Umbraco communities don't exist as a workflow, and monthly cadence is documentation only.
+</div>
+
+<!-- ─── 1 ──────────────────────────────────────────────────── -->
+<h2><span class="num">01</span>Currently Supported Areas</h2>
+<p class="lede">What is already implemented, where it lives, and how it functions.</p>
+
+<table>
+  <thead>
+    <tr><th>Area</th><th>Location</th><th>What it does</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>8 fixed mission categories</strong></td>
+      <td><code>lib/prompts.ts:42</code><br><code>data/missions.ts:4-12</code></td>
+      <td>Hard-coded enum: LinkedIn Authority Post, GEO Educational Article, YouTube Audit Breakdown, Case Study Development, Umbraco Authority Contribution, Research Collection, Entity Reinforcement, Technical SEO Breakdown. AI generator is constrained to these.</td>
+    </tr>
+    <tr>
+      <td><strong>Daily mission generation</strong></td>
+      <td><code>lib/generateDailyPlan.ts:51-158</code></td>
+      <td>Deterministic seeded selection from <code>data/topicIdeas.ts</code> (50 topics) using per-day theme / platform / format weights. Returns 3–5 missions Mon–Fri.</td>
+    </tr>
+    <tr>
+      <td><strong>Weekly cadence</strong></td>
+      <td><code>lib/scheduleAuthorityMissions.ts:53-89</code></td>
+      <td>5-day rotation: Mon strategic, Tue technical, Wed founder, Thu video + case study, Fri research + entity. Hard-coded <code>recurringCycles</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Briefings & scheduling jobs</strong></td>
+      <td><code>lib/scheduler.ts:31-65</code></td>
+      <td>Four cron jobs: 7am Mon–Fri briefing, 5pm Fri weekly review, noon Mon–Fri cadence check, 9am Tue/Thu research refresh.</td>
+    </tr>
+    <tr>
+      <td><strong>Research intelligence (inbound)</strong></td>
+      <td><code>lib/fetchResearchSignals.ts</code><br><code>data/researchSources.ts</code></td>
+      <td>11 RSS/Reddit sources fetched, theme-matched, noise-filtered, scored. Reddit r/SEO + r/artificial <em>consumed</em>.</td>
+    </tr>
+    <tr>
+      <td><strong>Opportunity scoring</strong></td>
+      <td><code>lib/opportunityEngine.ts</code></td>
+      <td>Five-dimension scoring of signals → article / linkedin / research / case-study / founder-authority recommendations.</td>
+    </tr>
+    <tr>
+      <td><strong>Semantic trend clustering</strong></td>
+      <td><code>lib/semanticTrendClustering.ts</code></td>
+      <td>7 predefined clusters, narrative momentum, whitespace, saturation indicators.</td>
+    </tr>
+    <tr>
+      <td><strong>Amplification (blog → multi-format)</strong></td>
+      <td><code>lib/authorityAmplifier.ts:165-235</code></td>
+      <td>Six fixed outputs per source asset: LinkedIn authority, founder insight, technical explainer, YouTube talking points, GEO reinforcement, executive summary.</td>
+    </tr>
+    <tr>
+      <td><strong>AI visibility monitoring</strong></td>
+      <td><code>lib/aiVisibilityMonitor.ts</code><br><code>data/authorityMetrics.ts:231-242</code></td>
+      <td>Tracks citations on ChatGPT, Perplexity, Google AI Overview. Per-theme visibility signals + entity confidence scoring.</td>
+    </tr>
+    <tr>
+      <td><strong>Authority knowledge graph</strong></td>
+      <td><code>data/authorityGraph.ts</code></td>
+      <td>10 nodes / 19 edges across 5 clusters (AI visibility, GEO, technical, founder, semantic).</td>
+    </tr>
+    <tr>
+      <td><strong>External corroboration tracking</strong></td>
+      <td><code>data/authorityMetrics.ts:18-27, 156-229</code><br><code>prisma/schema.prisma:96-106</code></td>
+      <td>Records <code>mention | citation | guest-article | podcast | directory | partnership | backlink</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>AI mission generation via OpenAI</strong></td>
+      <td><code>lib/aiMissionGenerator.ts</code></td>
+      <td>Generates structured missions constrained to the 8-category enum with title-pattern validation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This is solid foundational scaffolding. The problem is what's <em>not</em> connected to it.</p>
+
+<!-- ─── 2 ──────────────────────────────────────────────────── -->
+<h2><span class="num">02</span>Partially Supported Areas</h2>
+<p class="lede">Weak implementation, incomplete workflow coverage, missing operational logic.</p>
+
+<h3>Founder Authority</h3>
+<p>Has a Wednesday focus day, a <code>founder-insight</code> content angle, a <code>founderVisibilityScore</code> metric and a <code>founder-authority</code> graph node — but the only execution path is "post a founder-style LinkedIn." There is no founder-video workflow, no podcast-pitching task type, no speaker-bio maintenance task, no personal Knowledge Panel / Wikidata reinforcement task. Founder authority is <em>measured</em> far more rigorously than it is <em>built</em>.</p>
+
+<h3>Entity / Corroboration</h3>
+<p>The <code>ExternalCorroboration</code> model can record 7 types, but <strong>nothing schedules outbound corroboration</strong>. There is one mission category ("Entity Reinforcement") which is generic, and <code>topicIdeas.ts</code> contains zero topics in that category. So corroboration shows up in metrics and in <code>recurringCycles</code> rhetoric, but the daily planner can rarely surface a concrete entity-reinforcement mission because the topic pool is empty for it.</p>
+
+<h3>Case Studies</h3>
+<p>Strong slot (Thursday) and category, but no <em>pipeline</em>: no "drafting", "publishing", "amplifying" sub-states. Once a case study exists it has no automatic amplification trigger into LinkedIn / YouTube / executive summary, even though <code>authorityAmplifier.ts</code> could do this. The systems are bolted next to each other, not wired together.</p>
+
+<h3>YouTube</h3>
+<p>See §05 for the dedicated analysis — partial at best.</p>
+
+<h3>Monthly cadence</h3>
+<p><code>MANUAL.md:467</code> documents a "Monthly Authority Review" as a <em>human habit</em>. There is no monthly cron job, no monthly mission type, no monthly reinforcement task, no monthly Knowledge Panel check, no monthly directory audit. <code>scheduler.ts</code> has zero monthly schedules.</p>
+
+<h3>Multi-channel amplification</h3>
+<p><code>authorityAmplifier.ts</code> outputs 6 formats, but only on-demand against a manually-supplied source asset. There is no automatic trigger: "case study published → schedule 5 amplification missions over the next 10 days." The amplifier exists; the amplification <em>workflow</em> does not.</p>
+
+<!-- ─── 3 ──────────────────────────────────────────────────── -->
+<h2><span class="num">03</span>Missing Authority Channels</h2>
+<p class="lede">Channels not currently represented in execution. Workflow gaps and missing strategic reinforcement logic.</p>
+
+<h3>3a. Reddit — outbound participation</h3>
+<p>Reddit appears <strong>only</strong> as a research input source (<code>researchSources.ts:193-226</code>, r/SEO + r/artificial). There is no "Reddit Authority Answer" mission category, no tracking of comments/posts made by Interon, no mechanism to surface "this Reddit thread is a high-value answer opportunity for theme X." The prompt explicitly asks for <em>non-spam authority contribution tasks</em> — these do not exist.</p>
+
+<h3>3b. Industry communities beyond Umbraco</h3>
+<p>There is exactly one community-contribution category and it is hard-coded <code>Umbraco Authority Contribution</code>. No generic "Community Contribution" type. No Stack Overflow, no dev.to, no Hacker News, no Indie Hackers, no SEO communities like Traffic Think Tank, no Discord communities other than Umbraco's, no LinkedIn Group participation. The 8-category enum literally cannot represent these.</p>
+
+<h3>3c. Internal linking / on-site authority pages</h3>
+<p>Grep for <code>internal link</code>, <code>internal-link</code>, <code>internal linking</code>, <code>authority page</code>, <code>pillar page</code>, <code>silo</code>: <strong>zero matches anywhere in <code>lib/</code> or <code>data/</code></strong>. The platform has no concept of on-site authority architecture as missions — only off-site publication.</p>
+
+<h3>3d. Outbound corroboration as scheduled work</h3>
+<p>No mission category for: Crunchbase update, GitHub org reinforcement, Wikidata edit, author-bio consistency check, directory submission, sameAs link maintenance, conference talk pitching. <code>eco-009</code> in <code>searchEcosystem.ts</code> notes "Conference speaking opportunities on GEO are expanding" — there is no operational pipeline for that signal.</p>
+
+<h3>3e. Podcast / guest article pitching</h3>
+<p>Recorded as outcomes in <code>ExternalCorroboration</code>, but not as missions. No "pitch 3 podcasts this month" type workflow.</p>
+
+<h3>3f. Authority page improvements on Interon's own site</h3>
+<p>Not represented as a mission category. A LinkedIn post is a mission; updating the AI Readiness service page is not.</p>
+
+<h3>3g. Claude / Anthropic visibility</h3>
+<p><code>aiVisibilityChecks</code> (<code>data/authorityMetrics.ts:231</code>) covers ChatGPT, Perplexity, Google AI Overview only. Claude is monitored <em>as an ecosystem development</em> (<code>eco-003</code>) but Interon's own visibility inside Claude is not tracked. Inconsistent.</p>
+
+<h3>3h. Weekends</h3>
+<p><code>generateDailyPlan.ts:160-177</code> defines a <code>weekendStrategy</code> flagged as "Optional light work" with neutral weights. Saturday and Sunday produce no scheduled missions, no light tasks, no reading/research lists. For an authority-compounding system, this is a 28%-of-the-week gap.</p>
+
+<!-- ─── 4 ──────────────────────────────────────────────────── -->
+<h2><span class="num">04</span>Daily / Weekly / Monthly Coverage Analysis</h2>
+<p class="lede">Cadence coverage across the channel set.</p>
+
+<table>
+  <thead>
+    <tr><th>Cadence</th><th>Coverage</th><th>Reality</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Daily</strong></td>
+      <td>Strong for LinkedIn + Blog + (one) YouTube day. Weak for everything else.</td>
+      <td>Mon–Fri only. Generator caps at 3–5 missions. Saturday/Sunday inert.</td>
+    </tr>
+    <tr>
+      <td><strong>Weekly</strong></td>
+      <td>Good structural cadence (5 themed days), Friday review cron, weekly executive briefing on demand.</td>
+      <td>The cadence is theme-rotation, not channel-rotation — whole channels (Reddit, communities) can never appear in the week.</td>
+    </tr>
+    <tr>
+      <td><strong>Monthly</strong></td>
+      <td>Documented in <code>MANUAL.md</code> only.</td>
+      <td>No scheduler job, no mission generator branch, no automatic monthly report trigger. Asking the user to "remember to do this monthly" is not a system feature.</td>
+    </tr>
+    <tr>
+      <td><strong>Quarterly</strong></td>
+      <td>Zero.</td>
+      <td>Authority strategy at quarter horizon does not exist in code.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pullquote">
+  <strong>The missing layer is monthly.</strong> The system thinks in days and weeks. Authority work — directory audits, Knowledge Panel reviews, corroboration outreach cycles, semantic drift checks against quarter-old themes — runs on monthly/quarterly cadence. None of that is scheduled.
+</div>
+
+<!-- ─── 5 ──────────────────────────────────────────────────── -->
+<h2><span class="num">05</span>YouTube — Dedicated Analysis</h2>
+<p class="lede">YouTube was explicitly flagged in the brief and warrants its own section.</p>
+
+<p><strong>Verdict:</strong> YouTube is treated as a <strong>secondary, single-format reinforcement channel</strong>, and underbuilt even as that.</p>
+
+<h3>Evidence</h3>
+<ul>
+  <li>One category in the enum: <code>YouTube Audit Breakdown</code> (<code>lib/prompts.ts:42</code>).</li>
+  <li>One day per week where YouTube is even a preferred platform: Thursday (<code>generateDailyPlan.ts:114-135</code>).</li>
+  <li>Three YouTube topics in the entire topic library (<code>data/topicIdeas.ts</code>): Umbraco vs WordPress comparison, GPTBot homepage audit, CMS AI readiness comparison. That's it.</li>
+  <li>One amplification output format: <code>youtube-talking-points</code> — a bulleted talking-point template (<code>authorityAmplifier.ts:350-360</code>), not a script, not a thumbnail brief, not a chapter list, not a short-form clip plan.</li>
+  <li>No metric tracks YouTube performance — <code>AuthoritySnapshot</code> has <code>linkedinFollowers</code>, <code>linkedinPostImpressions</code>, but no <code>youtubeSubscribers</code>, no <code>videoViews</code>, no <code>watchTime</code>.</li>
+  <li>No YouTube source in <code>researchSources.ts</code> (no YouTube channel monitoring).</li>
+  <li>No YouTube citation tracking in <code>aiVisibilityChecks</code>.</li>
+</ul>
+
+<h3>Missing YouTube workflows</h3>
+<ul>
+  <li>Video topic generation as a distinct pipeline (currently sits in the same topicIdeas pool, gets diluted).</li>
+  <li>Talking-points → script → recording-prep → publishing checklist.</li>
+  <li>Short-form / clip extraction from long-form (no Shorts / Reels concept anywhere).</li>
+  <li>Founder commentary videos as a recurring type.</li>
+  <li>Educational explainers vs audit walkthroughs vs case-study videos — all collapsed into one category.</li>
+  <li>Repurposing workflow: video → LinkedIn carousel → blog post (the amplifier could do this but has no asset type "video transcript").</li>
+  <li>Authority clip ideas / hook libraries.</li>
+  <li>YouTube description / chapters / structured-data optimisation for video discovery — relevant to Interon's own GEO thesis, and absent.</li>
+</ul>
+
+<p>The brief's <em>"IMPORTANT — DO NOT SKIP YOUTUBE"</em> warning is well-founded: YouTube exists in the schema and is essentially ornamental.</p>
+
+<!-- ─── 6 ──────────────────────────────────────────────────── -->
+<h2><span class="num">06</span>Reddit & Community Analysis</h2>
+<p class="lede">Authority participation, educational contribution, semantic reinforcement, non-promotional engagement.</p>
+
+<h3>Reddit — only consumed, never contributed to</h3>
+<ul>
+  <li><code>researchSources.ts:193-226</code> fetches r/SEO and r/artificial via JSON. That's the totality.</li>
+  <li>No mission type for posting/answering. No tracking of Interon's Reddit comments. No authority-answer detection logic. No "this question is an unanswered high-authority opportunity in r/SEO" signal.</li>
+</ul>
+
+<h3>Industry communities — only Umbraco, only as a fixed category</h3>
+<ul>
+  <li>The Umbraco mission category exists but is generic — it doesn't distinguish forum posts, GitHub PRs, package contributions, Codegarden talks, Discord answers. <code>data/missions.ts:183</code> shows one seed mission of this category (a "PR or community article").</li>
+  <li>No mission categories for: Stack Overflow, GitHub Discussions, dev.to, Hashnode, IndieHackers, Traffic Think Tank, MeasureCamp, BrightonSEO communities, LinkedIn Groups, Slack communities (CMS Devs, SEO Signal Slack), Discord servers other than Umbraco's.</li>
+  <li>No "non-promotional educational contribution" rubric anywhere — the category structure conflates content publishing with community participation.</li>
+</ul>
+
+<p><strong>Net:</strong> Authority via <em>contribution</em> (vs <em>publication</em>) is a near-complete gap.</p>
+
+<!-- ─── 7 ──────────────────────────────────────────────────── -->
+<h2><span class="num">07</span>Strategic Balance Analysis</h2>
+<p class="lede">Is the platform too blog-focused, too LinkedIn-focused, insufficiently diversified?</p>
+
+<h3>Over-weighted toward</h3>
+<ol>
+  <li><strong>LinkedIn + Blog publishing.</strong> Almost every recurringCycle day prefers <code>LinkedIn</code> and <code>Blog</code> platforms (<code>generateDailyPlan.ts:51-158</code>). Of 50 topic ideas, ~46 target LinkedIn or Blog.</li>
+  <li><strong>Inbound intelligence.</strong> Five separate libraries (<code>fetchResearchSignals</code>, <code>opportunityEngine</code>, <code>semanticTrendClustering</code>, <code>aiVisibilityMonitor</code>, <code>multiModelAnalysis</code>) feed insights <em>to</em> the user. Outbound workflows (do this thing) are comparatively thin.</li>
+  <li><strong>Measurement.</strong> The schema has 11 metric models. The execution model is one (<code>Mission</code>).</li>
+</ol>
+
+<h3>Under-weighted on</h3>
+<ul>
+  <li>Reinforcement surfaces that aren't a LinkedIn post or a blog article.</li>
+  <li>Outbound entity work as scheduled missions (vs as recorded outcomes).</li>
+  <li>Long-tail community participation.</li>
+  <li>Video as a first-class channel.</li>
+  <li>Monthly / quarterly cadence.</li>
+</ul>
+
+<div class="pullquote">
+  <strong>Specifically: it is too blog/LinkedIn-focused.</strong> The brief's premise is correct.
+</div>
+
+<!-- ─── 8 ──────────────────────────────────────────────────── -->
+<h2><span class="num">08</span>Operational Gaps</h2>
+<p class="lede">Concrete, ranked by impact on authority compounding.</p>
+
+<ol>
+  <li><strong>No outbound corroboration scheduler.</strong> The system can <em>record</em> a Crunchbase update but never <em>ask you to do one</em>. Highest-leverage gap because corroboration is the slowest-decaying authority signal.</li>
+  <li><strong>No monthly job.</strong> <code>scheduler.ts</code> skips the cadence at which entity / directory / corroboration work happens.</li>
+  <li><strong>Reddit / community contribution missing entirely as mission types.</strong> A whole reinforcement surface is invisible to the planner.</li>
+  <li><strong>YouTube under-modelled.</strong> One category for what should be 4–6 (audit walkthrough, educational explainer, founder commentary, case-study video, short-form clip, talking-head Q&amp;A).</li>
+  <li><strong>No internal-linking / on-site authority page mission category.</strong> Interon publishes about machine-readable websites but the platform has no missions that improve Interon's own machine-readable surface area.</li>
+  <li><strong>No automatic amplification chain.</strong> Publishing a case study should kick off N reinforcement missions; it doesn't.</li>
+  <li><strong>Mission category enum is hard-coded.</strong> Adding "Reddit Authority Answer" requires code change in three files (<code>prompts.ts</code>, <code>missions.ts</code>, validation prompts). This is the structural reason gaps persist.</li>
+  <li><strong>Topic library skewed.</strong> 50 topics, 0 in Reddit / community / podcast-pitch / conference categories.</li>
+  <li><strong>Empty <code>Entity Reinforcement</code> topic pool.</strong> The category exists in the enum, but the planner has nothing concrete to schedule under it.</li>
+  <li><strong>Weekend inert.</strong> Saturday / Sunday produce no light tasks (research collection, reading queue review, comment-on-3-LinkedIn-posts).</li>
+</ol>
+
+<!-- ─── 9 ──────────────────────────────────────────────────── -->
+<h2><span class="num">09</span>Strategic Recommendations</h2>
+<p class="lede">What to add, what to improve, what to deprioritise.</p>
+
+<h3>Add (in priority order)</h3>
+<ol>
+  <li><strong>Open the mission category enum.</strong> Move from a hard-coded union type to a <code>MissionCategory</code> table/record with a <code>channel</code> field (<code>linkedin | blog | youtube | reddit | community | entity | corroboration | internal-site | podcast | conference</code>). Until this changes, every gap below is blocked.</li>
+  <li><strong>Add a monthly scheduler job.</strong> At minimum: monthly Knowledge Panel / Wikidata / Crunchbase review, monthly directory audit, monthly corroboration-outreach planning, monthly cross-theme balance check.</li>
+  <li><strong>Build a Reddit Authority Answer mission type</strong> with theme matching against incoming Reddit posts. The inbound pipeline already exists — wire it to outbound mission generation.</li>
+  <li><strong>Generic Community Contribution category</strong> (with <code>community</code> sub-field: umbraco | stackoverflow | github | devto | discord | slack). Decouple from CMS-specific framing.</li>
+  <li><strong>Expand YouTube into a channel, not a category.</strong> Split into: audit walkthrough, educational explainer, founder commentary, case-study video, short-form clip. Add a video metric block to <code>AuthoritySnapshot</code>.</li>
+  <li><strong>Wire amplifier to publication events.</strong> When a case study or article moves to <code>completed</code>, auto-create amplification missions over a 10-day window across LinkedIn / YouTube / founder-insight / GEO-reinforcement.</li>
+  <li><strong>Outbound corroboration missions.</strong> Convert <code>ExternalCorroboration</code> from a passive log into a workflow: pitch lists, follow-up tasks, status states.</li>
+  <li><strong>Internal authority page maintenance</strong> as a recurring monthly mission set (service pages, methodology pages, author bios, sameAs link audits).</li>
+  <li><strong>Topic library expansion</strong> to non-zero count in each category — empty topic pools silently starve the planner.</li>
+  <li><strong>Claude visibility checks</strong> in <code>aiVisibilityChecks</code> for parity with the ecosystem the platform itself monitors.</li>
+</ol>
+
+<h3>Improve</h3>
+<ul>
+  <li><code>recurringCycles</code> should rotate <strong>channels</strong> alongside themes — e.g. a Reddit slot on Tuesday, a community slot on Friday.</li>
+  <li><code>generateDailyPlan.ts</code> <code>themeWeights</code> should be paired with <code>channelWeights</code> so balance is enforced on both axes.</li>
+  <li>Friday's <code>Weekly Authority Review</code> cron job should produce a structured "next-week mission shape" with mandatory channel diversity targets.</li>
+</ul>
+
+<h3>Deprioritise</h3>
+<ul>
+  <li>Building more variants of LinkedIn post types or blog formats. That side is mature.</li>
+  <li>Adding more inbound intelligence sources before the outbound execution side catches up — the user is already at risk of <em>consuming intelligence instead of executing</em> (literally called out in <code>MANUAL.md:68</code>).</li>
+  <li>Sub-categorising research signals further. The opportunity engine is already deep enough.</li>
+</ul>
+
+<h3>What deserves stronger operational support</h3>
+<ul>
+  <li><strong>Reddit + community contribution</strong> — currently zero execution support.</li>
+  <li><strong>YouTube as a multi-format channel</strong> — currently one stub.</li>
+  <li><strong>Outbound entity / corroboration</strong> — currently log-only.</li>
+  <li><strong>Monthly cadence</strong> — currently documentation-only.</li>
+  <li><strong>Internal site as an authority surface</strong> — currently absent.</li>
+</ul>
+
+<hr />
+
+<h2><span class="num">10</span>Bottom Line</h2>
+<p>The platform is excellent at telling Interon <em>what is happening in the AI search ecosystem</em> and <em>what to post on LinkedIn or the blog</em>. It is materially incomplete at <em>scheduling the rest of the authority surface area</em> the brief lists — Reddit, non-Umbraco communities, multi-format YouTube, outbound corroboration, internal authority pages, and anything on a monthly horizon.</p>
+<p>The category enum is the structural bottleneck: until it opens, every channel gap below it stays unfillable.</p>
+
+<div class="footer">
+  <span>Interon Authority OS · Strategic Audit · 2026-05-12</span>
+  <span>Operational coverage assessment</span>
+</div>
+
+</div>
+</body>
+</html>

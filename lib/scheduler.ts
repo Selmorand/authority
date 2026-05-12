@@ -1,5 +1,7 @@
 import cron from "node-cron";
 import { generateDailyBriefing, generateWeeklyReview } from "./generateDailyBriefing";
+import { generateMonthlyReport } from "./monthlyReinforcement";
+import type { MonthlyReport } from "./monthlyReinforcement";
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -17,15 +19,17 @@ export interface SchedulerState {
   tasks: ScheduledTask[];
   briefingCache: ReturnType<typeof generateDailyBriefing> | null;
   reviewCache: ReturnType<typeof generateWeeklyReview> | null;
+  monthlyReportCache: MonthlyReport | null;
 }
 
 // ─── Scheduler ───────────────────────────────────────────────
 
-let state: SchedulerState = {
+const state: SchedulerState = {
   isRunning: false,
   tasks: [],
   briefingCache: null,
   reviewCache: null,
+  monthlyReportCache: null,
 };
 
 const taskDefinitions = [
@@ -62,6 +66,23 @@ const taskDefinitions = [
       // In future: auto-trigger /api/research/signals
     },
   },
+  {
+    name: "Monthly Reinforcement Report",
+    schedule: "0 8 1 * *", // 8:00 AM on the 1st of every month
+    description: "Generate entity / corroboration / drift / balance / visibility findings for the month",
+    handler: () => {
+      state.monthlyReportCache = generateMonthlyReport();
+    },
+  },
+  {
+    name: "Mid-Month Entity Sweep",
+    schedule: "0 9 15 * *", // 9:00 AM on the 15th
+    description: "Mid-month nudge to run an entity / directory / Wikidata sweep",
+    handler: () => {
+      // Refresh the cached report so the dashboard reflects mid-cycle state
+      state.monthlyReportCache = generateMonthlyReport();
+    },
+  },
 ];
 
 // ─── Control Functions ───────────────────────────────────────
@@ -88,6 +109,7 @@ export function startScheduler(): SchedulerState {
   // Generate initial briefing immediately
   state.briefingCache = generateDailyBriefing();
   state.reviewCache = generateWeeklyReview();
+  state.monthlyReportCache = generateMonthlyReport();
   state.isRunning = true;
   state.tasks = tasks;
 
@@ -95,12 +117,15 @@ export function startScheduler(): SchedulerState {
 }
 
 export function getSchedulerState(): SchedulerState {
-  // Always ensure briefing is fresh
+  // Always ensure caches are fresh
   if (!state.briefingCache) {
     state.briefingCache = generateDailyBriefing();
   }
   if (!state.reviewCache) {
     state.reviewCache = generateWeeklyReview();
+  }
+  if (!state.monthlyReportCache) {
+    state.monthlyReportCache = generateMonthlyReport();
   }
   return state;
 }

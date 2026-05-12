@@ -3,7 +3,6 @@ import { generateReminders } from "./scheduleAuthorityMissions";
 import { calculateExecutionStats, analyzeCadence, detectStrategicDrift } from "./executionTracker";
 import { generateHealthReport } from "./authorityHealth";
 import { getScoredSignals } from "./opportunityEngine";
-import { themes } from "@/data/themes";
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -76,13 +75,13 @@ export function generateDailyBriefing(dateStr?: string): DailyBriefing {
   const dayOfWeek = new Date(date + "T00:00:00").getDay();
   const dayName = dayNames[dayOfWeek];
 
-  // Day strategies
+  // Day strategies — aligned with the 1+many model
   const dayStrategies: Record<number, string> = {
-    1: "Strategic positioning and high-visibility content",
-    2: "Technical authority building",
-    3: "Founder visibility and outreach",
-    4: "Case studies and video content",
-    5: "Research collection and entity reinforcement",
+    1: "Core authority asset — the one heavy publication that seeds the week",
+    2: "LinkedIn reinforcement of yesterday's core asset",
+    3: "Community contribution — Reddit, Umbraco, Stack Overflow (educational, non-promotional)",
+    4: "Video reinforcement — YouTube clips and founder commentary, no full-scale production",
+    5: "Entity reinforcement, internal-site work, and weekly strategic review",
   };
 
   const totalMins = plan.missions.reduce((s, m) => {
@@ -92,12 +91,12 @@ export function generateDailyBriefing(dateStr?: string): DailyBriefing {
 
   const focusThemes = [...new Set(plan.missions.map((m) => m.theme.name))];
 
-  // Determine momentum
+  // Determine momentum — the new model prioritises sustainability over volume
   const momentumStatus = stats.consistencyScore >= 7
-    ? "Strong momentum — maintain cadence"
+    ? "Strong cadence — protect it. Sustainability > volume."
     : stats.consistencyScore >= 5
-      ? "Steady — increase daily output to accelerate"
-      : "Rebuilding — focus on completing at least 1 mission today";
+      ? "Steady — keep one core asset per week and let reinforcement do the rest"
+      : "Rebuilding — complete one light reinforcement today. Authority compounds slowly.";
 
   // Overdue areas
   const overdueAreas = cadence
@@ -181,15 +180,15 @@ export function generateDailyBriefing(dateStr?: string): DailyBriefing {
     priority: m.priority.overall >= 7 ? "high" : m.priority.overall >= 5 ? "medium" : "low",
   }));
 
-  // Greeting
+  // Greeting — calibrated to the reinforcement philosophy
   const greetings: Record<number, string> = {
-    1: "New week. Set the strategic direction.",
-    2: "Build technical depth today.",
-    3: "Strengthen your personal authority.",
-    4: "Create evidence-based content.",
-    5: "Close the week strong. Reinforce and review.",
-    0: "Weekend. Rest or do light research.",
-    6: "Weekend. Rest or do light research.",
+    1: "Anchor the week. One core asset — the rest of the week amplifies it.",
+    2: "Reinforce on LinkedIn. Repetition compounds.",
+    3: "Participate. Visible expertise in communities beats another original post.",
+    4: "Capture a clip or a 2-minute take. Quick reinforcement, not a production.",
+    5: "Close the loop. Entity work, then strategic review.",
+    0: "Weekend. Rest is part of the system — authority compounds either way.",
+    6: "Weekend. Rest is part of the system — authority compounds either way.",
   };
 
   return {

@@ -1,6 +1,5 @@
 import { generateDailyPlan, getWeekDatesFrom } from "./generateDailyPlan";
-import type { PlannedMission, DailyPlan } from "./generateDailyPlan";
-import { themes } from "@/data/themes";
+import type { PlannedMission } from "./generateDailyPlan";
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -50,41 +49,46 @@ export interface StrategicReminder {
 
 // ─── Recurring Strategic Cycles ──────────────────────────────
 
+// ─── 1+many Weekly Cadence ──────────────────────────────────
+// Authority compounds through reinforcement, not production volume.
+// One heavy core asset on Monday seeds the week; Tue–Fri reinforce
+// it across channels without forcing more original content.
+
 export const recurringCycles: RecurringCycle[] = [
   {
     dayOfWeek: 1,
     dayName: "Monday",
-    focus: "Strategic Positioning",
-    description: "Set the week's direction with high-visibility authority content and strategic planning",
-    preferredCategories: ["LinkedIn Authority Post", "GEO Educational Article"],
+    focus: "Core Authority Asset",
+    description: "Produce the ONE heavy authority asset for the week — long-form article, case study, audit, or YouTube explainer. The rest of the week reinforces it.",
+    preferredCategories: ["Authority Article", "GEO Educational Article", "Case Study", "Authority Audit Breakdown", "YouTube Explainer"],
   },
   {
     dayOfWeek: 2,
     dayName: "Tuesday",
-    focus: "Technical Authority",
-    description: "Build deep technical credibility with detailed breakdowns, audits, and implementation guides",
-    preferredCategories: ["Technical SEO Breakdown", "Umbraco Authority Contribution"],
+    focus: "LinkedIn Reinforcement",
+    description: "Reinforce yesterday's core asset on LinkedIn — insight post, carousel, and substantive commentary on peer posts. No new long-form.",
+    preferredCategories: ["LinkedIn Insight Post", "LinkedIn Carousel", "LinkedIn Commentary", "Founder Commentary Snippet"],
   },
   {
     dayOfWeek: 3,
     dayName: "Wednesday",
-    focus: "Founder Visibility",
-    description: "Amplify personal brand and entity signals through thought leadership and outreach",
-    preferredCategories: ["Entity Reinforcement", "LinkedIn Authority Post"],
+    focus: "Community Contribution",
+    description: "Authority through participation. Educational, non-promotional answers in Reddit, Umbraco forums, Stack Overflow, dev.to, or technical Slacks.",
+    preferredCategories: ["Reddit Authority Answer", "Community Contribution", "Forum Response"],
   },
   {
     dayOfWeek: 4,
     dayName: "Thursday",
-    focus: "Case Studies & Video",
-    description: "Create high-impact evidence-based content that demonstrates methodology and results",
-    preferredCategories: ["Case Study Development", "YouTube Audit Breakdown"],
+    focus: "Video Reinforcement",
+    description: "YouTube as a primary reinforcement channel. Record a short clip or 2-minute founder commentary — no full-scale production.",
+    preferredCategories: ["YouTube Clip / Short", "YouTube Commentary", "Founder Commentary Snippet"],
   },
   {
     dayOfWeek: 5,
     dayName: "Friday",
-    focus: "Research & Reinforcement",
-    description: "Close the week with research collection, entity signal strengthening, and next-week planning",
-    preferredCategories: ["Research Collection", "Entity Reinforcement"],
+    focus: "Entity Reinforcement & Review",
+    description: "Close the week with entity and internal-site reinforcement, plus the weekly strategic review. No new content production.",
+    preferredCategories: ["Entity Update", "Internal Linking Pass", "Schema Refinement", "Strategic Review"],
   },
 ];
 
@@ -95,15 +99,16 @@ function assignTimeBlock(
   index: number,
   total: number
 ): TimeBlock {
-  // High-priority and high-impact missions go in the morning
+  // Core authority asset always lives in the morning — protect the high-focus block
+  if (mission.isCoreAsset) return "morning";
+  // Heavy reinforcement (carousels, long video) in the morning
+  if (mission.loadTier === "heavy") return "morning";
+  // Strategic review at end of day
+  if (mission.taskKind === "strategic-review") return "afternoon";
+  // Research sessions in the afternoon
+  if (mission.taskKind === "research") return "afternoon";
+  // High-priority light tasks early
   if (mission.priority.overall >= 7 || index === 0) return "morning";
-  // Creative/research tasks in the afternoon
-  if (
-    mission.category === "research" ||
-    mission.category === "case-study"
-  )
-    return "afternoon";
-  // Middle tasks midday
   if (index < total * 0.6) return "midday";
   return "afternoon";
 }
@@ -228,24 +233,35 @@ export function generateReminders(
     });
   }
 
-  // Semantic reinforcement (weekly)
+  // Monday: anchor the week on the core asset
+  if (dayOfWeek === 1) {
+    reminders.push({
+      type: "strategic",
+      title: "Anchor the week on one core asset",
+      description:
+        "Publish one substantial authority asset today. The rest of the week amplifies it — don't queue more heavy work behind it.",
+      urgency: "immediate",
+    });
+  }
+
+  // Mid-week: community participation prompt
   if (dayOfWeek === 3) {
     reminders.push({
       type: "semantic",
-      title: "Mid-week semantic check",
+      title: "Community participation day",
       description:
-        "Review this week's content output for theme consistency. Ensure at least 3 core themes have been touched.",
+        "Authority through visible expertise: answer real questions in Reddit / Umbraco / Stack Overflow today. Educational, non-promotional.",
       urgency: "today",
     });
   }
 
-  // Friday planning reminder
+  // Friday: entity + strategic review reminder
   if (dayOfWeek === 5) {
     reminders.push({
       type: "opportunity",
-      title: "Weekly authority review",
+      title: "Friday — close the loop",
       description:
-        "Review completed missions, assess authority progress, and draft next week's strategic priorities.",
+        "Entity / internal-site reinforcement, then the weekly strategic review. Set Monday's core asset focus before signing off.",
       urgency: "today",
     });
   }
