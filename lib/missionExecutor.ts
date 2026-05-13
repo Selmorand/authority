@@ -11,6 +11,7 @@ import type { PlannedMission } from "./generateDailyPlan";
 import {
   resolveSearchStrategy,
   runTargetSearch,
+  targetConstraintsFor,
 } from "./missionTargetSearch";
 import type { TavilyResult } from "./tavilySearch";
 
@@ -123,9 +124,12 @@ THIS WEEK'S CORE AUTHORITY ASSET (reinforce this):
       ? "\n[Note: this task references a core asset, but none was found for the current week. Produce a generic reinforcement on the same theme instead.]\n"
       : "";
 
+  const constraints = targetConstraintsFor(input.mission.categoryId);
+  const constraintsBlock = constraints ? `\n${constraints}\n` : "";
+
   const searchBlock = searchResults && searchResults.length > 0
-    ? `
-SEARCH RESULTS (real URLs — pick the single best target and use it verbatim):
+    ? `${constraintsBlock}
+SEARCH RESULTS (real URLs — apply the constraints above, then pick the single best target and use it verbatim):
 Strategy: ${searchRationale ?? "Find a real target URL for this task."}
 
 ${searchResults
@@ -136,6 +140,8 @@ URL: ${r.url}
 ${r.publishedDate ? `Published: ${r.publishedDate}\n` : ""}Snippet: ${r.content.slice(0, 400)}`
   )
   .join("\n\n")}
+
+If NONE of these results satisfy the target constraints (wrong URL pattern, locked/closed, archived, too old, marketing/blog rather than question), output <target_url>NONE</target_url> with <target_why> explaining what was wrong, and still produce a generic <deliverable> the user can use once they manually find a suitable thread.
 `
     : searchResults && searchResults.length === 0
       ? "\n[Search ran but returned no results. Output <target_url>NONE</target_url> and write a generic deliverable.]\n"
