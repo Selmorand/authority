@@ -91,6 +91,27 @@ model ResearchSignal {
   createdAt            DateTime @default(now())
 }
 
+// ─── Per-Platform Weekly Snapshot ────────────────────────────
+// Normalized per-platform metrics. One row per (date, platform).
+// date is the YYYY-MM-DD of the week (typically Monday) the row
+// reports on.
+
+model PlatformSnapshot {
+  id          String   @id @default(cuid())
+  date        String
+  platform    String   // linkedin | x | facebook | instagram | tiktok | youtube | reddit | discord | blog
+  followers   Int?
+  impressions Int?
+  engagement  Int?
+  postsCount  Int?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([date, platform])
+  @@index([date])
+}
+
 // ─── Authority Metrics ───────────────────────────────────────
 
 model AuthoritySnapshot {

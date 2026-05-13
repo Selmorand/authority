@@ -42,13 +42,17 @@ import SystemStatus from "./components/SystemStatus";
 import ManualViewer from "./components/ManualViewer";
 import HelpPanel from "./components/HelpPanel";
 
-type View = "daily" | "strategy" | "research" | "authority" | "tools" | "operations" | "manual";
+// Measurement
+import MeasurementDashboard from "./components/MeasurementDashboard";
+
+type View = "daily" | "strategy" | "research" | "authority" | "measurement" | "tools" | "operations" | "manual";
 
 const views: { id: View; label: string; shortLabel: string }[] = [
   { id: "daily", label: "Daily Operations", shortLabel: "Daily" },
   { id: "strategy", label: "Strategic Intelligence", shortLabel: "Strategy" },
   { id: "research", label: "Research & Trends", shortLabel: "Research" },
   { id: "authority", label: "Authority & Visibility", shortLabel: "Authority" },
+  { id: "measurement", label: "Measurement", shortLabel: "Measure" },
   { id: "tools", label: "AI Tools", shortLabel: "Tools" },
   { id: "operations", label: "Operations & Reports", shortLabel: "Ops" },
   { id: "manual", label: "Manual", shortLabel: "Manual" },
@@ -103,6 +107,7 @@ export default function Home() {
           {activeView === "strategy" && <StrategyView />}
           {activeView === "research" && <ResearchView />}
           {activeView === "authority" && <AuthorityView />}
+          {activeView === "measurement" && <MeasurementView />}
           {activeView === "tools" && <ToolsView />}
           {activeView === "operations" && <OperationsView />}
           {activeView === "manual" && <ManualView />}
@@ -163,6 +168,10 @@ function AuthorityView() {
       <StrategicReflection />
     </>
   );
+}
+
+function MeasurementView() {
+  return <MeasurementDashboard />;
 }
 
 function ToolsView() {
