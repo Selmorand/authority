@@ -120,6 +120,26 @@ export async function checkSystemHealth(): Promise<SystemHealthReport> {
     lastChecked: now,
   });
 
+  // Mission Executor (Claude — generates deliverables for one-click execution)
+  const hasAnthropic = process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY !== "your-anthropic-api-key-here";
+  components.push({
+    name: "Mission Executor (Claude)",
+    status: hasAnthropic ? "healthy" : "error",
+    message: hasAnthropic ? "Anthropic API configured" : "ANTHROPIC_API_KEY not set — one-click execution disabled",
+    lastChecked: now,
+  });
+  if (!hasAnthropic) warnings.push("ANTHROPIC_API_KEY missing — Execute-with-AI button will fail");
+
+  // Target Search (Tavily — finds real Reddit/forum/SO threads for community tasks)
+  const hasTavily = !!process.env.TAVILY_API_KEY;
+  components.push({
+    name: "Target Search (Tavily)",
+    status: hasTavily ? "healthy" : "degraded",
+    message: hasTavily ? "Tavily API configured" : "TAVILY_API_KEY not set — community tasks won't return target URLs",
+    lastChecked: now,
+  });
+  if (!hasTavily) warnings.push("TAVILY_API_KEY missing — Execute will generate drafts without target URLs");
+
   // Overall status
   const hasError = components.some((c) => c.status === "error");
   const hasDegraded = components.some((c) => c.status === "degraded");
