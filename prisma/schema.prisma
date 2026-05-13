@@ -148,14 +148,23 @@ model ExternalCorroboration {
 // ─── AI Visibility Checks ────────────────────────────────────
 
 model AIVisibilityCheck {
-  id       String   @id @default(cuid())
-  platform String   // ChatGPT | Perplexity | Google AI Overview
-  query    String
-  cited    Boolean
-  position Int?
-  date     String   // YYYY-MM-DD
-  theme    String
-  createdAt DateTime @default(now())
+  id              String   @id @default(cuid())
+  runId           String?  // groups all checks from a single batch run (nullable for legacy seed rows)
+  queryId         String?  // matches AIVisibilityQuery.id in data/aiVisibilityQueries.ts
+  platform        String   // openai | anthropic | perplexity | google-ai-overview
+  query           String   // the actual query text sent
+  cited           Boolean
+  position        Int?
+  matchedBy       String?  // "url" | "text" | "both"
+  citationsJson   String?  // JSON array of source URLs
+  responseExcerpt String?  // first ~500 chars of the answer
+  date            String
+  theme           String?
+  createdAt       DateTime @default(now())
+
+  @@index([runId])
+  @@index([date])
+  @@index([queryId])
 }
 
 // ─── Executive Briefings ─────────────────────────────────────

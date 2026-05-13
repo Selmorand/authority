@@ -44,6 +44,7 @@ import HelpPanel from "./components/HelpPanel";
 
 // Measurement
 import MeasurementDashboard from "./components/MeasurementDashboard";
+import AIVisibilityTracker from "./components/AIVisibilityTracker";
 
 type View = "daily" | "strategy" | "research" | "authority" | "measurement" | "tools" | "operations" | "manual";
 
@@ -171,7 +172,12 @@ function AuthorityView() {
 }
 
 function MeasurementView() {
-  return <MeasurementDashboard />;
+  return (
+    <>
+      <MeasurementDashboard />
+      <AIVisibilityTracker />
+    </>
+  );
 }
 
 function ToolsView() {
