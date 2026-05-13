@@ -23,12 +23,15 @@ model MissionDraft {
   // Stable key independent of ephemeral mission ids:
   //   reinforcement: "${date}-${reinforcementTopicId}"
   //   core asset:    "${date}-core-${topicId}"
-  id        String   @id
-  date      String   // YYYY-MM-DD of the day the draft was requested
-  content   String   // the generated deliverable
-  model     String   // openai model used (e.g. "gpt-4o-mini")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id
+  date           String   // YYYY-MM-DD of the day the draft was requested
+  content        String   // the generated deliverable
+  model          String   // model used (e.g. "claude-sonnet-4-6")
+  targetUrl      String?  // the recommended URL to post/comment on (community-answer tasks)
+  alternatesJson String?  // JSON array of { url, why } alternates
+  searchQuery    String?  // the Tavily query used (for debugging / regeneration)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([date])
 }

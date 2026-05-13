@@ -1,9 +1,9 @@
 import prisma from "@/lib/prisma";
 import { executeMission } from "@/lib/missionExecutor";
-import type { ExecuteInput } from "@/lib/missionExecutor";
+import type { ExecuteInput, AlternateTarget } from "@/lib/missionExecutor";
 
 // GET /api/missions/draft?date=YYYY-MM-DD
-// Returns { success, drafts: { [draftKey]: { content, model, updatedAt } } }
+// Returns { success, drafts: { [draftKey]: DraftRecord } }
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const date = searchParams.get("date");
@@ -16,12 +16,41 @@ export async function GET(request: Request) {
 
   try {
     const records = await prisma.missionDraft.findMany({ where: { date } });
-    const drafts: Record<string, { content: string; model: string; updatedAt: string }> = {};
+    const drafts: Record<
+      string,
+      {
+        content: string;
+        model: string;
+        updatedAt: string;
+        targetUrl: string | null;
+        alternates: AlternateTarget[];
+      }
+    > = {};
     for (const r of records) {
+      let alternates: AlternateTarget[] = [];
+      if (r.alternatesJson) {
+        try {
+          const parsed = JSON.parse(r.alternatesJson) as unknown;
+          if (Array.isArray(parsed)) {
+            alternates = parsed
+              .filter(
+                (a): a is AlternateTarget =>
+                  typeof a === "object" &&
+                  a !== null &&
+                  typeof (a as AlternateTarget).url === "string"
+              )
+              .map((a) => ({ url: a.url, why: a.why ?? "" }));
+          }
+        } catch {
+          alternates = [];
+        }
+      }
       drafts[r.id] = {
         content: r.content,
         model: r.model,
         updatedAt: r.updatedAt.toISOString(),
+        targetUrl: r.targetUrl,
+        alternates,
       };
     }
     return Response.json({ success: true, drafts });
@@ -60,6 +89,11 @@ export async function POST(request: Request) {
     );
   }
 
+  const alternatesJson =
+    result.alternates && result.alternates.length > 0
+      ? JSON.stringify(result.alternates)
+      : null;
+
   try {
     await prisma.missionDraft.upsert({
       where: { id: body.draftKey },
@@ -68,10 +102,16 @@ export async function POST(request: Request) {
         date: body.date,
         content: result.content,
         model: result.model ?? "unknown",
+        targetUrl: result.targetUrl ?? null,
+        alternatesJson,
+        searchQuery: result.searchQuery ?? null,
       },
       update: {
         content: result.content,
         model: result.model ?? "unknown",
+        targetUrl: result.targetUrl ?? null,
+        alternatesJson,
+        searchQuery: result.searchQuery ?? null,
       },
     });
   } catch {
@@ -84,12 +124,13 @@ export async function POST(request: Request) {
     draftKey: body.draftKey,
     content: result.content,
     model: result.model,
+    targetUrl: result.targetUrl ?? null,
+    alternates: result.alternates ?? [],
+    searchError: result.searchError ?? null,
   });
 }
 
 // DELETE /api/missions/draft?draftKey=...
-// Clears a cached draft (used by "regenerate from scratch" if we ever
-// expose it, and to free space).
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
   const draftKey = searchParams.get("draftKey");

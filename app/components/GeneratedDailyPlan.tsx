@@ -10,10 +10,17 @@ import type { LoadTier, TaskKind } from "@/lib/cognitiveLoad";
 
 type MissionStatus = "pending" | "in-progress" | "completed";
 
+interface AlternateTarget {
+  url: string;
+  why: string;
+}
+
 interface DraftRecord {
   content: string;
   model?: string;
   updatedAt?: string;
+  targetUrl?: string | null;
+  alternates?: AlternateTarget[];
 }
 
 const statusConfig: Record<
@@ -148,6 +155,8 @@ export default function GeneratedDailyPlan() {
               title: mission.title,
               channel: mission.channel,
               category: mission.category,
+              categoryId: mission.categoryDef?.id,
+              reinforcementTopicId: mission.reinforcementTopic?.id,
               platform: mission.platform,
               theme: mission.theme.name,
               contentAngle: mission.contentAngle,
@@ -167,7 +176,13 @@ export default function GeneratedDailyPlan() {
         if (data.success && data.content) {
           setDraftMap((prev) => ({
             ...prev,
-            [key]: { content: data.content, model: data.model, updatedAt: new Date().toISOString() },
+            [key]: {
+              content: data.content,
+              model: data.model,
+              updatedAt: new Date().toISOString(),
+              targetUrl: data.targetUrl ?? null,
+              alternates: Array.isArray(data.alternates) ? data.alternates : [],
+            },
           }));
         } else {
           setErrorMap((prev) => ({
@@ -710,6 +725,9 @@ function DraftPanel({
 
   if (!draft) return null;
 
+  const hasTarget = !!draft.targetUrl;
+  const alternates = draft.alternates ?? [];
+
   return (
     <div className="rounded-md border border-accent/20 bg-background/60 flex flex-col">
       <div className="flex items-center justify-between px-3 py-2 border-b border-card-border/50">
@@ -740,6 +758,45 @@ function DraftPanel({
           </button>
         </div>
       </div>
+
+      {hasTarget && (
+        <div className="px-3 py-2.5 border-b border-card-border/50 bg-accent/5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1">
+            📍 Post here
+          </p>
+          <a
+            href={draft.targetUrl ?? "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-accent underline break-all hover:no-underline"
+          >
+            {draft.targetUrl}
+          </a>
+          {alternates.length > 0 && (
+            <details className="mt-2">
+              <summary className="text-[11px] text-muted cursor-pointer hover:text-foreground">
+                Alternates ({alternates.length})
+              </summary>
+              <ul className="mt-1.5 flex flex-col gap-1">
+                {alternates.map((a, i) => (
+                  <li key={i} className="text-[11px] text-muted leading-snug">
+                    <a
+                      href={a.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent/80 underline break-all hover:no-underline"
+                    >
+                      {a.url}
+                    </a>
+                    {a.why && <span className="text-muted"> — {a.why}</span>}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </div>
+      )}
+
       <pre className="text-xs text-foreground/85 whitespace-pre-wrap break-words leading-relaxed px-3 py-2.5 font-sans max-h-72 overflow-y-auto">
         {draft.content}
       </pre>
