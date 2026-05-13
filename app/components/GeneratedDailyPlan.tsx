@@ -10,6 +10,12 @@ import type { LoadTier, TaskKind } from "@/lib/cognitiveLoad";
 
 type MissionStatus = "pending" | "in-progress" | "completed";
 
+interface DraftRecord {
+  content: string;
+  model?: string;
+  updatedAt?: string;
+}
+
 const statusConfig: Record<
   MissionStatus,
   { label: string; color: string; bg: string; border: string }
@@ -50,10 +56,27 @@ const kindConfig: Record<TaskKind, { label: string; color: string }> = {
 
 const statusCycle: MissionStatus[] = ["pending", "in-progress", "completed"];
 
+// Stable draft key independent of ephemeral mission ids.
+function slug(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60);
+}
+function draftKeyFor(mission: PlannedMission, date: string): string | null {
+  if (mission.reinforcementTopic) return `${date}-${mission.reinforcementTopic.id}`;
+  if (mission.isCoreAsset && mission.topic) return `${date}-core-${slug(mission.topic.title)}`;
+  return null;
+}
+
 export default function GeneratedDailyPlan() {
   const [dateStr, setDateStr] = useState(getTodayDateStr);
   const plan = useMemo(() => generateDailyPlan(dateStr), [dateStr]);
   const [statusMap, setStatusMap] = useState<Record<string, MissionStatus>>({});
+  const [draftMap, setDraftMap] = useState<Record<string, DraftRecord>>({});
+  const [executing, setExecuting] = useState<Record<string, boolean>>({});
+  const [errorMap, setErrorMap] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch(`/api/mission-progress?date=${dateStr}`)
@@ -63,6 +86,18 @@ export default function GeneratedDailyPlan() {
         else setStatusMap({});
       })
       .catch(() => setStatusMap({}));
+  }, [dateStr]);
+
+  useEffect(() => {
+    // draftKey embeds the date so executing/errorMap entries are naturally
+    // namespaced — no need to reset them when the date changes.
+    fetch(`/api/missions/draft?date=${dateStr}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) setDraftMap(data.drafts ?? {});
+        else setDraftMap({});
+      })
+      .catch(() => setDraftMap({}));
   }, [dateStr]);
 
   const handleStatusChange = useCallback(
@@ -90,6 +125,86 @@ export default function GeneratedDailyPlan() {
     [dateStr]
   );
 
+  const handleExecute = useCallback(
+    async (mission: PlannedMission) => {
+      const key = draftKeyFor(mission, dateStr);
+      if (!key) return;
+
+      setExecuting((prev) => ({ ...prev, [key]: true }));
+      setErrorMap((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+
+      try {
+        const res = await fetch("/api/missions/draft", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            draftKey: key,
+            date: dateStr,
+            mission: {
+              title: mission.title,
+              channel: mission.channel,
+              category: mission.category,
+              platform: mission.platform,
+              theme: mission.theme.name,
+              contentAngle: mission.contentAngle,
+              semanticGoal: mission.semanticGoal,
+              estimatedTime: mission.estimatedTime,
+              objective: mission.objective,
+              loadTier: mission.loadTier,
+              taskKind: mission.taskKind,
+              isCoreAsset: mission.isCoreAsset,
+              executionPrompt: mission.executionPrompt,
+              requiresCoreAsset:
+                mission.reinforcementTopic?.requiresCoreAsset ?? false,
+            },
+          }),
+        });
+        const data = await res.json();
+        if (data.success && data.content) {
+          setDraftMap((prev) => ({
+            ...prev,
+            [key]: { content: data.content, model: data.model, updatedAt: new Date().toISOString() },
+          }));
+        } else {
+          setErrorMap((prev) => ({
+            ...prev,
+            [key]: data.error ?? "Generation failed",
+          }));
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Network error";
+        setErrorMap((prev) => ({ ...prev, [key]: message }));
+      } finally {
+        setExecuting((prev) => {
+          const next = { ...prev };
+          delete next[key];
+          return next;
+        });
+      }
+    },
+    [dateStr]
+  );
+
+  const handleClearDraft = useCallback(
+    async (mission: PlannedMission) => {
+      const key = draftKeyFor(mission, dateStr);
+      if (!key) return;
+      setDraftMap((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+      await fetch(`/api/missions/draft?draftKey=${encodeURIComponent(key)}`, {
+        method: "DELETE",
+      });
+    },
+    [dateStr]
+  );
+
   const dayLabel = new Date(dateStr + "T00:00:00").toLocaleDateString("en-GB", {
     weekday: "long",
     day: "numeric",
@@ -110,6 +225,17 @@ export default function GeneratedDailyPlan() {
   const maintenance = plan.missions.filter((m) => m.taskKind === "maintenance");
   const research = plan.missions.filter((m) => m.taskKind === "research");
   const review = plan.missions.filter((m) => m.taskKind === "strategic-review");
+
+  const cardProps = {
+    dateStr,
+    statusMap,
+    draftMap,
+    executing,
+    errorMap,
+    onStatusChange: handleStatusChange,
+    onExecute: handleExecute,
+    onClearDraft: handleClearDraft,
+  };
 
   return (
     <section className="lg:col-span-2 rounded-xl border border-card-border bg-card-bg/80 p-5 sm:p-6 flex flex-col gap-5">
@@ -166,11 +292,7 @@ export default function GeneratedDailyPlan() {
 
       {/* Core Authority Asset — distinct banner */}
       {plan.coreAsset && (
-        <CoreAssetBanner
-          mission={plan.coreAsset}
-          status={statusMap[plan.coreAsset.id] ?? "pending"}
-          onStatusChange={handleStatusChange}
-        />
+        <CoreAssetBanner mission={plan.coreAsset} {...cardProps} />
       )}
 
       {/* Reinforcement Tasks */}
@@ -180,8 +302,7 @@ export default function GeneratedDailyPlan() {
           subtitle="Light/medium tasks that compound the week's core asset"
           color={kindConfig.reinforcement.color}
           missions={reinforcement}
-          statusMap={statusMap}
-          onStatusChange={handleStatusChange}
+          {...cardProps}
         />
       )}
 
@@ -192,8 +313,7 @@ export default function GeneratedDailyPlan() {
           subtitle="Internal site, entity, and corroboration upkeep"
           color={kindConfig.maintenance.color}
           missions={maintenance}
-          statusMap={statusMap}
-          onStatusChange={handleStatusChange}
+          {...cardProps}
         />
       )}
 
@@ -204,8 +324,7 @@ export default function GeneratedDailyPlan() {
           subtitle="Intake without execution pressure"
           color={kindConfig.research.color}
           missions={research}
-          statusMap={statusMap}
-          onStatusChange={handleStatusChange}
+          {...cardProps}
         />
       )}
 
@@ -216,8 +335,7 @@ export default function GeneratedDailyPlan() {
           subtitle="Close the week. Set next week's core asset."
           color={kindConfig["strategic-review"].color}
           missions={review}
-          statusMap={statusMap}
-          onStatusChange={handleStatusChange}
+          {...cardProps}
         />
       )}
 
@@ -230,18 +348,39 @@ export default function GeneratedDailyPlan() {
   );
 }
 
+// ─── Shared card props ────────────────────────────────────────
+
+interface CardSharedProps {
+  dateStr: string;
+  statusMap: Record<string, MissionStatus>;
+  draftMap: Record<string, DraftRecord>;
+  executing: Record<string, boolean>;
+  errorMap: Record<string, string>;
+  onStatusChange: (id: string, status: MissionStatus, mission?: PlannedMission) => void;
+  onExecute: (mission: PlannedMission) => void;
+  onClearDraft: (mission: PlannedMission) => void;
+}
+
 // ─── Core Authority Asset Banner ──────────────────────────────
 
 function CoreAssetBanner({
   mission,
-  status,
+  dateStr,
+  statusMap,
+  draftMap,
+  executing,
+  errorMap,
   onStatusChange,
-}: {
-  mission: PlannedMission;
-  status: MissionStatus;
-  onStatusChange: (id: string, status: MissionStatus, mission?: PlannedMission) => void;
-}) {
+  onExecute,
+  onClearDraft,
+}: CardSharedProps & { mission: PlannedMission }) {
+  const status = statusMap[mission.id] ?? "pending";
   const s = statusConfig[status];
+  const key = draftKeyFor(mission, dateStr);
+  const draft = key ? draftMap[key] : undefined;
+  const isExecuting = key ? !!executing[key] : false;
+  const error = key ? errorMap[key] : undefined;
+  const canExecute = !!key;
 
   function cycleStatus() {
     const idx = statusCycle.indexOf(status);
@@ -311,18 +450,38 @@ function CoreAssetBanner({
         <ScorePill label="Overall" value={mission.priority.overall} highlight />
       </div>
 
-      <button
-        onClick={cycleStatus}
-        className="self-start text-xs font-medium px-3 py-1.5 rounded-full cursor-pointer transition-colors"
-        style={{
-          color: s.color,
-          backgroundColor: s.bg,
-          borderWidth: 1,
-          borderColor: s.border,
-        }}
-      >
-        {s.label}
-      </button>
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          onClick={cycleStatus}
+          className="text-xs font-medium px-3 py-1.5 rounded-full cursor-pointer transition-colors"
+          style={{
+            color: s.color,
+            backgroundColor: s.bg,
+            borderWidth: 1,
+            borderColor: s.border,
+          }}
+        >
+          {s.label}
+        </button>
+        {canExecute && (
+          <ExecuteButton
+            isExecuting={isExecuting}
+            hasDraft={!!draft}
+            onExecute={() => onExecute(mission)}
+            big
+          />
+        )}
+      </div>
+
+      {(draft || error) && (
+        <DraftPanel
+          draft={draft}
+          error={error}
+          onRegenerate={() => onExecute(mission)}
+          onClear={() => onClearDraft(mission)}
+          isExecuting={isExecuting}
+        />
+      )}
     </div>
   );
 }
@@ -334,15 +493,12 @@ function TaskGroup({
   subtitle,
   color,
   missions,
-  statusMap,
-  onStatusChange,
-}: {
+  ...shared
+}: CardSharedProps & {
   title: string;
   subtitle: string;
   color: string;
   missions: PlannedMission[];
-  statusMap: Record<string, MissionStatus>;
-  onStatusChange: (id: string, status: MissionStatus, mission?: PlannedMission) => void;
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -358,12 +514,7 @@ function TaskGroup({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {missions.map((m) => (
-          <ReinforcementCard
-            key={m.id}
-            mission={m}
-            status={statusMap[m.id] ?? "pending"}
-            onStatusChange={onStatusChange}
-          />
+          <ReinforcementCard key={m.id} mission={m} {...shared} />
         ))}
       </div>
     </div>
@@ -372,15 +523,23 @@ function TaskGroup({
 
 function ReinforcementCard({
   mission,
-  status,
+  dateStr,
+  statusMap,
+  draftMap,
+  executing,
+  errorMap,
   onStatusChange,
-}: {
-  mission: PlannedMission;
-  status: MissionStatus;
-  onStatusChange: (id: string, status: MissionStatus, mission?: PlannedMission) => void;
-}) {
+  onExecute,
+  onClearDraft,
+}: CardSharedProps & { mission: PlannedMission }) {
+  const status = statusMap[mission.id] ?? "pending";
   const s = statusConfig[status];
   const tier = loadTierConfig[mission.loadTier];
+  const key = draftKeyFor(mission, dateStr);
+  const draft = key ? draftMap[key] : undefined;
+  const isExecuting = key ? !!executing[key] : false;
+  const error = key ? errorMap[key] : undefined;
+  const canExecute = !!key;
 
   function cycleStatus() {
     const idx = statusCycle.indexOf(status);
@@ -430,18 +589,160 @@ function ReinforcementCard({
         </span>
       </div>
 
-      <button
-        onClick={cycleStatus}
-        className="self-start text-xs font-medium px-2.5 py-1 rounded-full cursor-pointer transition-colors"
-        style={{
-          color: s.color,
-          backgroundColor: s.bg,
-          borderWidth: 1,
-          borderColor: s.border,
-        }}
-      >
-        {s.label}
-      </button>
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          onClick={cycleStatus}
+          className="text-xs font-medium px-2.5 py-1 rounded-full cursor-pointer transition-colors"
+          style={{
+            color: s.color,
+            backgroundColor: s.bg,
+            borderWidth: 1,
+            borderColor: s.border,
+          }}
+        >
+          {s.label}
+        </button>
+        {canExecute && (
+          <ExecuteButton
+            isExecuting={isExecuting}
+            hasDraft={!!draft}
+            onExecute={() => onExecute(mission)}
+          />
+        )}
+      </div>
+
+      {(draft || error) && (
+        <DraftPanel
+          draft={draft}
+          error={error}
+          onRegenerate={() => onExecute(mission)}
+          onClear={() => onClearDraft(mission)}
+          isExecuting={isExecuting}
+        />
+      )}
+    </div>
+  );
+}
+
+// ─── Execute button ───────────────────────────────────────────
+
+function ExecuteButton({
+  isExecuting,
+  hasDraft,
+  onExecute,
+  big,
+}: {
+  isExecuting: boolean;
+  hasDraft: boolean;
+  onExecute: () => void;
+  big?: boolean;
+}) {
+  const label = isExecuting
+    ? "Generating…"
+    : hasDraft
+      ? "↻ Regenerate"
+      : "✨ Execute with AI";
+
+  const sizeClass = big
+    ? "text-xs px-3 py-1.5"
+    : "text-[11px] px-2.5 py-1";
+
+  return (
+    <button
+      onClick={onExecute}
+      disabled={isExecuting}
+      className={`${sizeClass} font-semibold rounded-full cursor-pointer transition-colors border ${
+        isExecuting
+          ? "bg-accent/5 text-muted border-card-border cursor-wait"
+          : "bg-accent/15 text-accent border-accent/30 hover:bg-accent/25"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+// ─── Draft result panel ───────────────────────────────────────
+
+function DraftPanel({
+  draft,
+  error,
+  isExecuting,
+  onRegenerate,
+  onClear,
+}: {
+  draft?: DraftRecord;
+  error?: string;
+  isExecuting: boolean;
+  onRegenerate: () => void;
+  onClear: () => void;
+}) {
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    if (!draft?.content) return;
+    try {
+      await navigator.clipboard.writeText(draft.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // ignore — non-secure context, etc.
+    }
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-md border border-red-500/30 bg-red-500/5 p-3 text-xs text-red-400">
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-medium">Generation failed</span>
+          <button
+            onClick={onRegenerate}
+            disabled={isExecuting}
+            className="text-[11px] underline hover:no-underline cursor-pointer disabled:cursor-wait"
+          >
+            Retry
+          </button>
+        </div>
+        <p className="mt-1 opacity-80">{error}</p>
+      </div>
+    );
+  }
+
+  if (!draft) return null;
+
+  return (
+    <div className="rounded-md border border-accent/20 bg-background/60 flex flex-col">
+      <div className="flex items-center justify-between px-3 py-2 border-b border-card-border/50">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-accent">
+          Draft
+        </span>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={copy}
+            className="text-[11px] px-2 py-0.5 rounded border border-card-border text-muted hover:text-foreground cursor-pointer"
+          >
+            {copied ? "Copied" : "Copy"}
+          </button>
+          <button
+            onClick={onRegenerate}
+            disabled={isExecuting}
+            className="text-[11px] px-2 py-0.5 rounded border border-card-border text-muted hover:text-foreground cursor-pointer disabled:cursor-wait"
+            title="Regenerate"
+          >
+            {isExecuting ? "…" : "↻"}
+          </button>
+          <button
+            onClick={onClear}
+            className="text-[11px] px-2 py-0.5 rounded border border-card-border text-muted hover:text-foreground cursor-pointer"
+            title="Discard draft"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+      <pre className="text-xs text-foreground/85 whitespace-pre-wrap break-words leading-relaxed px-3 py-2.5 font-sans max-h-72 overflow-y-auto">
+        {draft.content}
+      </pre>
     </div>
   );
 }

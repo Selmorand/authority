@@ -17,6 +17,22 @@ model MissionProgress {
   @@index([date])
 }
 
+// ─── Mission Drafts (AI-generated execution output, cached per task) ──
+
+model MissionDraft {
+  // Stable key independent of ephemeral mission ids:
+  //   reinforcement: "${date}-${reinforcementTopicId}"
+  //   core asset:    "${date}-core-${topicId}"
+  id        String   @id
+  date      String   // YYYY-MM-DD of the day the draft was requested
+  content   String   // the generated deliverable
+  model     String   // openai model used (e.g. "gpt-4o-mini")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
+}
+
 // ─── Missions ────────────────────────────────────────────────
 
 model Mission {
