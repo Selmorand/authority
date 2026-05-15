@@ -1,0 +1,111 @@
+{
+  "id": "term-definition",
+  "name": "Term + Definition",
+  "description": "Bold technical term in upper third (all-caps, accent), plain-English definition below. Best for educational / glossary content. Format lines as 'TERM||plain-english definition'.",
+  "orientation": "portrait",
+  "width": 1080,
+  "height": 1920,
+  "movie": {
+    "quality": "high",
+    "cache": true
+  },
+  "defaults": {
+    "backgroundColor": "#0F1216",
+    "textColor": "#FFFFFF",
+    "headlineColor": "#A5F3D4",
+    "duration": 4.5
+  },
+  "sceneTemplate": {
+    "duration": "{{duration}}",
+    "background-color": "{{backgroundColor}}",
+    "elements": [
+      {
+        "$when": "backgroundImageUrl",
+        "type": "image",
+        "src": "{{backgroundImageUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}"
+      },
+      {
+        "$when": "backgroundImageUrl",
+        "type": "text",
+        "text": " ",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "settings": {
+          "background-color": "rgba(15,18,22,0.6)"
+        }
+      },
+      {
+        "type": "text",
+        "text": "{{linePart1}}",
+        "position": "custom",
+        "x": 65,
+        "y": 380,
+        "width": 950,
+        "height": 360,
+        "fade-in": 0.35,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "96px",
+          "font-weight": "900",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "text-transform": "uppercase",
+          "letter-spacing": "2px",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "$when": "linePart2",
+        "type": "text",
+        "text": "{{linePart2}}",
+        "position": "custom",
+        "x": 90,
+        "y": 880,
+        "width": 900,
+        "height": 700,
+        "fade-in": 0.55,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "58px",
+          "font-weight": "400",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center",
+          "line-height": "1.35"
+        }
+      },
+      {
+        "$when": "headline",
+        "type": "text",
+        "text": "{{headline}}",
+        "position": "custom",
+        "x": 65,
+        "y": 1725,
+        "width": 950,
+        "height": 80,
+        "fade-in": 0.5,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "34px",
+          "font-weight": "600",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      }
+    ]
+  }
+}

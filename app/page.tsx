@@ -32,6 +32,7 @@ import StrategicReflection from "./components/StrategicReflection";
 import AIMissionPanel from "./components/AIMissionPanel";
 import AmplificationDashboard from "./components/AmplificationDashboard";
 import MultiModelIntelligence from "./components/MultiModelIntelligence";
+import VideoRenderPanel from "./components/VideoRenderPanel";
 
 // Operations
 import AuthorityCalendar from "./components/AuthorityCalendar";
@@ -184,6 +185,7 @@ function ToolsView() {
   return (
     <>
       <AIMissionPanel />
+      <VideoRenderPanel />
       <AmplificationDashboard />
       <MultiModelIntelligence />
     </>

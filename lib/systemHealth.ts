@@ -140,6 +140,16 @@ export async function checkSystemHealth(): Promise<SystemHealthReport> {
   });
   if (!hasTavily) warnings.push("TAVILY_API_KEY missing — Execute will generate drafts without target URLs");
 
+  // Video Renderer (JSON2Video — auto-renders caption clips from core assets)
+  const hasJson2Video = !!process.env.JSON2VIDEO_API_KEY;
+  components.push({
+    name: "Video Renderer (JSON2Video)",
+    status: hasJson2Video ? "healthy" : "degraded",
+    message: hasJson2Video ? "JSON2Video API configured" : "JSON2VIDEO_API_KEY not set — auto-rendered caption clips disabled",
+    lastChecked: now,
+  });
+  if (!hasJson2Video) warnings.push("JSON2VIDEO_API_KEY missing — video auto-render unavailable");
+
   // Overall status
   const hasError = components.some((c) => c.status === "error");
   const hasDegraded = components.some((c) => c.status === "degraded");

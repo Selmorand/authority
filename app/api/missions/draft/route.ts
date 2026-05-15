@@ -24,6 +24,8 @@ export async function GET(request: Request) {
         updatedAt: string;
         targetUrl: string | null;
         alternates: AlternateTarget[];
+        videoUrl: string | null;
+        videoProject: string | null;
       }
     > = {};
     for (const r of records) {
@@ -51,6 +53,8 @@ export async function GET(request: Request) {
         updatedAt: r.updatedAt.toISOString(),
         targetUrl: r.targetUrl,
         alternates,
+        videoUrl: r.videoUrl,
+        videoProject: r.videoProject,
       };
     }
     return Response.json({ success: true, drafts });
@@ -105,6 +109,8 @@ export async function POST(request: Request) {
         targetUrl: result.targetUrl ?? null,
         alternatesJson,
         searchQuery: result.searchQuery ?? null,
+        videoUrl: result.videoUrl ?? null,
+        videoProject: result.videoProject ?? null,
       },
       update: {
         content: result.content,
@@ -112,6 +118,8 @@ export async function POST(request: Request) {
         targetUrl: result.targetUrl ?? null,
         alternatesJson,
         searchQuery: result.searchQuery ?? null,
+        videoUrl: result.videoUrl ?? null,
+        videoProject: result.videoProject ?? null,
       },
     });
   } catch {
@@ -127,8 +135,13 @@ export async function POST(request: Request) {
     targetUrl: result.targetUrl ?? null,
     alternates: result.alternates ?? [],
     searchError: result.searchError ?? null,
+    videoUrl: result.videoUrl ?? null,
+    videoProject: result.videoProject ?? null,
+    videoError: result.videoError ?? null,
   });
 }
+
+export const maxDuration = 300;
 
 // DELETE /api/missions/draft?draftKey=...
 export async function DELETE(request: Request) {

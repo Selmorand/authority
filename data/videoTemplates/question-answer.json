@@ -1,0 +1,126 @@
+{
+  "id": "question-answer",
+  "name": "Question + Answer",
+  "description": "Top half poses a question, bottom half answers it — both in the same scene. Format lines as 'Question?||Answer'. Drives engagement through Q→A pattern.",
+  "orientation": "portrait",
+  "width": 1080,
+  "height": 1920,
+  "movie": {
+    "quality": "high",
+    "cache": true
+  },
+  "defaults": {
+    "backgroundColor": "#0F1216",
+    "textColor": "#FFFFFF",
+    "headlineColor": "#F59E0B",
+    "duration": 4.5
+  },
+  "sceneTemplate": {
+    "duration": "{{duration}}",
+    "background-color": "{{backgroundColor}}",
+    "elements": [
+      {
+        "$when": "backgroundImageUrl",
+        "type": "image",
+        "src": "{{backgroundImageUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}"
+      },
+      {
+        "$when": "backgroundImageUrl",
+        "type": "text",
+        "text": " ",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "settings": {
+          "background-color": "rgba(15,18,22,0.6)"
+        }
+      },
+      {
+        "type": "text",
+        "text": "{{linePart1}}",
+        "position": "custom",
+        "x": 65,
+        "y": 280,
+        "width": 950,
+        "height": 600,
+        "fade-in": 0.35,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "78px",
+          "font-weight": "700",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "type": "text",
+        "text": "—",
+        "position": "custom",
+        "x": 65,
+        "y": 940,
+        "width": 950,
+        "height": 50,
+        "fade-in": 0.3,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "50px",
+          "font-weight": "300",
+          "font-color": "{{textColor}}",
+          "text-align": "center"
+        }
+      },
+      {
+        "$when": "linePart2",
+        "type": "text",
+        "text": "{{linePart2}}",
+        "position": "custom",
+        "x": 65,
+        "y": 1040,
+        "width": 950,
+        "height": 600,
+        "fade-in": 0.6,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "90px",
+          "font-weight": "800",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "$when": "headline",
+        "type": "text",
+        "text": "{{headline}}",
+        "position": "custom",
+        "x": 65,
+        "y": 1725,
+        "width": 950,
+        "height": 80,
+        "fade-in": 0.4,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "34px",
+          "font-weight": "500",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      }
+    ]
+  }
+}

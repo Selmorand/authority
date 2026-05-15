@@ -87,31 +87,40 @@ interface DayStrategy {
 
 const dayStrategies: Record<number, DayStrategy> = {
   1: {
-    // Monday — Core Authority Asset day
+    // Monday — Core Authority Asset day + AI caption clip (teaser)
     name: "Core Authority Asset",
     description:
-      "Produce the one heavy authority asset that the rest of the week reinforces. Choose the highest-leverage format — long-form article, case study, audit, or YouTube explainer.",
+      "Produce the one heavy authority asset that the rest of the week reinforces. Choose the highest-leverage written format — long-form article, case study, audit, or research report. The day also auto-renders a short AI caption clip (teasing the week's theme) for Metricool to distribute across social channels.",
     emitsCoreAsset: true,
-    preferredChannels: ["blog", "youtube"],
+    preferredChannels: ["blog"],
     preferredCategoryIds: [
       "authority-article",
       "geo-educational-article",
       "case-study",
       "authority-audit",
-      "youtube-explainer",
       "research-report",
+      "video-caption-derivative",
     ],
     includeResearch: false,
     includeReview: false,
     themeWeights: {
-      "ai-readiness": 1.5,
-      geo: 1.4,
-      "ai-search-visibility": 1.3,
-      "entity-trust": 1.1,
-      "umbraco-ai": 1.0,
-      "structured-data": 1.0,
-      "machine-readable": 1.0,
-      "technical-seo": 0.9,
+      // New broader themes — Monday core is most often a founder POV
+      // piece, original-research write-up, or enterprise-architecture
+      // explainer. AI readiness stays present but no longer dominates.
+      "founder-pov": 1.5,
+      "original-research": 1.4,
+      "enterprise-architecture": 1.3,
+      "umbraco-craft": 1.2,
+      "ai-workflow": 1.2,
+      // Old AI-readiness cluster — dimmed but available
+      "ai-readiness": 0.8,
+      geo: 0.5,
+      "ai-search-visibility": 0.5,
+      "entity-trust": 0.4,
+      "umbraco-ai": 0.4,
+      "structured-data": 0.4,
+      "machine-readable": 0.4,
+      "technical-seo": 0.4,
     },
     reinforcementCount: 1,
   },
@@ -127,18 +136,26 @@ const dayStrategies: Record<number, DayStrategy> = {
       "linkedin-carousel",
       "linkedin-commentary",
       "founder-snippet",
+      "video-caption-derivative",
     ],
     includeResearch: false,
     includeReview: false,
     themeWeights: {
-      "ai-readiness": 1.2,
-      geo: 1.2,
-      "ai-search-visibility": 1.2,
-      "entity-trust": 1.0,
-      "umbraco-ai": 0.9,
-      "structured-data": 0.9,
-      "machine-readable": 0.9,
-      "technical-seo": 0.9,
+      // Tuesday LinkedIn — founder voice + AI-workflow stories travel
+      // best on LinkedIn.
+      "founder-pov": 1.5,
+      "ai-workflow": 1.4,
+      "original-research": 1.2,
+      "enterprise-architecture": 1.1,
+      "umbraco-craft": 1.0,
+      "ai-readiness": 0.7,
+      geo: 0.5,
+      "ai-search-visibility": 0.6,
+      "entity-trust": 0.4,
+      "umbraco-ai": 0.4,
+      "structured-data": 0.4,
+      "machine-readable": 0.4,
+      "technical-seo": 0.4,
     },
     reinforcementCount: 3,
   },
@@ -153,46 +170,61 @@ const dayStrategies: Record<number, DayStrategy> = {
       "reddit-answer",
       "community-contribution",
       "forum-response",
+      "video-caption-derivative",
     ],
     includeResearch: false,
     includeReview: false,
     themeWeights: {
-      "ai-readiness": 1.2,
-      geo: 1.3,
-      "ai-search-visibility": 1.2,
-      "entity-trust": 1.1,
-      "umbraco-ai": 1.2,
-      "structured-data": 1.0,
-      "machine-readable": 0.9,
-      "technical-seo": 1.0,
+      // Wednesday community — Umbraco craft + founder POV both
+      // travel well in Reddit, Stack Overflow, and forum surfaces.
+      "umbraco-craft": 1.5,
+      "founder-pov": 1.3,
+      "ai-workflow": 1.2,
+      "enterprise-architecture": 1.2,
+      "original-research": 1.1,
+      "ai-readiness": 0.7,
+      geo: 0.5,
+      "ai-search-visibility": 0.5,
+      "entity-trust": 0.5,
+      "umbraco-ai": 0.6,
+      "structured-data": 0.5,
+      "machine-readable": 0.4,
+      "technical-seo": 0.4,
     },
     reinforcementCount: 2,
   },
   4: {
-    // Thursday — YouTube clip / founder commentary day
+    // Thursday — the week's single video. One short, recorded from scratch.
     name: "Video Reinforcement",
     description:
-      "Promote YouTube to a primary reinforcement channel. Record a short clip or 2-minute commentary — no full-scale production required.",
+      "The week's single video. One short — clip or 2-minute founder commentary. No full-scale production. This is the only video day; long-form video is intentionally not part of the schedule.",
     emitsCoreAsset: false,
     preferredChannels: ["youtube"],
     preferredCategoryIds: [
       "youtube-clip",
       "youtube-commentary",
-      "founder-snippet",
     ],
     includeResearch: false,
     includeReview: false,
     themeWeights: {
-      "ai-readiness": 1.2,
-      geo: 1.2,
-      "ai-search-visibility": 1.3,
-      "entity-trust": 1.0,
-      "umbraco-ai": 1.1,
-      "structured-data": 0.9,
-      "machine-readable": 1.0,
-      "technical-seo": 0.9,
+      // Thursday video — founder POV + AI-workflow + original-research
+      // make for the most magnetic single short. Avoid the dry
+      // technical-SEO themes for video specifically.
+      "founder-pov": 1.5,
+      "ai-workflow": 1.4,
+      "original-research": 1.3,
+      "umbraco-craft": 1.1,
+      "enterprise-architecture": 1.0,
+      "ai-readiness": 0.7,
+      geo: 0.5,
+      "ai-search-visibility": 0.6,
+      "entity-trust": 0.4,
+      "umbraco-ai": 0.4,
+      "structured-data": 0.3,
+      "machine-readable": 0.3,
+      "technical-seo": 0.3,
     },
-    reinforcementCount: 2,
+    reinforcementCount: 1,
   },
   5: {
     // Friday — Entity / internal-site / strategic review
@@ -212,34 +244,45 @@ const dayStrategies: Record<number, DayStrategy> = {
       "author-bio-sync",
       "semantic-terminology-pass",
       "strategic-review",
+      "video-caption-derivative",
     ],
     includeResearch: true,
     includeReview: true,
     themeWeights: {
-      "entity-trust": 1.4,
-      "ai-readiness": 1.1,
-      geo: 1.0,
-      "ai-search-visibility": 1.2,
-      "structured-data": 1.1,
-      "machine-readable": 1.0,
-      "technical-seo": 1.0,
-      "umbraco-ai": 0.9,
+      // Friday entity / review — original-research findings + entity
+      // work + enterprise architecture all close the week well.
+      "original-research": 1.5,
+      "enterprise-architecture": 1.3,
+      "founder-pov": 1.2,
+      "umbraco-craft": 1.1,
+      "ai-workflow": 1.0,
+      "entity-trust": 1.0,
+      "ai-readiness": 0.7,
+      geo: 0.5,
+      "ai-search-visibility": 0.6,
+      "structured-data": 0.5,
+      "machine-readable": 0.4,
+      "technical-seo": 0.4,
+      "umbraco-ai": 0.5,
     },
     reinforcementCount: 2,
   },
 };
 
 const weekendStrategy: DayStrategy = {
-  name: "Sustainable Pause",
+  name: "Auto Distribution",
   description:
-    "Optional only: skim research feed for tomorrow. No production. Authority compounds — rest is part of the system.",
+    "No new original work. The system auto-renders a short AI caption clip from this week's core asset — ready for Metricool to schedule across all social channels. Optional: skim the research feed for next week.",
   emitsCoreAsset: false,
-  preferredChannels: ["internal"],
-  preferredCategoryIds: ["research-session"],
+  preferredChannels: ["linkedin", "internal"],
+  preferredCategoryIds: [
+    "video-caption-derivative",
+    "research-session",
+  ],
   includeResearch: true,
   includeReview: false,
   themeWeights: Object.fromEntries(themes.map((t) => [t.id, 1.0])),
-  reinforcementCount: 0,
+  reinforcementCount: 1,
 };
 
 // ─── Deterministic Seed ──────────────────────────────────────
@@ -464,7 +507,10 @@ function selectCoreAsset(
   });
 
   // Score every heavy topic; pick the highest with theme rotation favoured.
+  // Long-form video is intentionally excluded from core-asset selection —
+  // the week's single video lands on Thursday as a short.
   const scored = topicIdeas
+    .filter((topic) => topic.format !== "video")
     .map((topic) => {
       const themeIdx = themes.findIndex((t) => t.id === topic.theme);
       const rotationBonus =
@@ -539,9 +585,10 @@ function findCategoryForTopicFormat(
 }
 
 function todayId(strategy: DayStrategy): string {
-  return `${strategy.name.replace(/\s+/g, "-").toLowerCase()}-${Date.now()
-    .toString(36)
-    .slice(-6)}`;
+  // Deterministic: the strategy name uniquely identifies the day,
+  // and there is only one core asset per day. Keeping this stable
+  // avoids SSR/CSR hydration mismatches.
+  return `core-${strategy.name.replace(/\s+/g, "-").toLowerCase()}`;
 }
 
 // ─── Reinforcement Selection ─────────────────────────────────
@@ -625,7 +672,9 @@ function materializeReinforcement(
   const kind = kindForFormat(cat.format);
 
   return {
-    id: `reinforce-${topic.id}-${Date.now().toString(36).slice(-4)}`,
+    // Deterministic id keyed on (topic, executionOrder). Used as React
+    // key + draft cache lookup; must be stable across SSR + CSR renders.
+    id: `reinforce-${topic.id}-${executionOrder}`,
     title: topic.title,
     category: cat.label,
     categoryDef: cat,

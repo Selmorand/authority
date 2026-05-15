@@ -1,0 +1,108 @@
+{
+  "id": "stat-reveal",
+  "name": "Stat Reveal",
+  "description": "One giant number/word dominates the frame, small supporting label below. Best for research findings. Format lines as 'STAT||label' (use || delimiter). Example: '87%||of audited sites scored below 40'.",
+  "orientation": "portrait",
+  "width": 1080,
+  "height": 1920,
+  "movie": {
+    "quality": "high",
+    "cache": true
+  },
+  "defaults": {
+    "backgroundColor": "#0F1216",
+    "textColor": "#FFFFFF",
+    "headlineColor": "#A5F3D4",
+    "duration": 4
+  },
+  "sceneTemplate": {
+    "duration": "{{duration}}",
+    "background-color": "{{backgroundColor}}",
+    "elements": [
+      {
+        "$when": "backgroundImageUrl",
+        "type": "image",
+        "src": "{{backgroundImageUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}"
+      },
+      {
+        "$when": "backgroundImageUrl",
+        "type": "text",
+        "text": " ",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "settings": {
+          "background-color": "rgba(15,18,22,0.6)"
+        }
+      },
+      {
+        "type": "text",
+        "text": "{{linePart1}}",
+        "position": "custom",
+        "x": 65,
+        "y": 560,
+        "width": 950,
+        "height": 460,
+        "fade-in": 0.4,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "260px",
+          "font-weight": "900",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "$when": "linePart2",
+        "type": "text",
+        "text": "{{linePart2}}",
+        "position": "custom",
+        "x": 100,
+        "y": 1080,
+        "width": 880,
+        "height": 200,
+        "fade-in": 0.5,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "54px",
+          "font-weight": "500",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "$when": "headline",
+        "type": "text",
+        "text": "{{headline}}",
+        "position": "custom",
+        "x": 65,
+        "y": 1725,
+        "width": 950,
+        "height": 80,
+        "fade-in": 0.35,
+        "fade-out": 0.35,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "36px",
+          "font-weight": "600",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      }
+    ]
+  }
+}

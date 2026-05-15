@@ -1,0 +1,146 @@
+{
+  "id": "before-after",
+  "name": "Before / After",
+  "description": "Frame split horizontally — top labelled BEFORE, bottom labelled AFTER. One scene per pair. Format lines as 'Before state||After state'.",
+  "orientation": "portrait",
+  "width": 1080,
+  "height": 1920,
+  "movie": {
+    "quality": "high",
+    "cache": true
+  },
+  "defaults": {
+    "backgroundColor": "#0F1216",
+    "textColor": "#FFFFFF",
+    "headlineColor": "#A5F3D4",
+    "duration": 5
+  },
+  "sceneTemplate": {
+    "duration": "{{duration}}",
+    "background-color": "{{backgroundColor}}",
+    "elements": [
+      {
+        "$when": "backgroundImageUrl",
+        "type": "image",
+        "src": "{{backgroundImageUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}"
+      },
+      {
+        "$when": "backgroundImageUrl",
+        "type": "text",
+        "text": " ",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "settings": {
+          "background-color": "rgba(15,18,22,0.65)"
+        }
+      },
+      {
+        "type": "text",
+        "text": "BEFORE",
+        "position": "custom",
+        "x": 65,
+        "y": 220,
+        "width": 950,
+        "height": 70,
+        "fade-in": 0.3,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "44px",
+          "font-weight": "800",
+          "font-color": "#EF4444",
+          "text-align": "center",
+          "letter-spacing": "6px"
+        }
+      },
+      {
+        "type": "text",
+        "text": "{{linePart1}}",
+        "position": "custom",
+        "x": 65,
+        "y": 340,
+        "width": 950,
+        "height": 540,
+        "fade-in": 0.4,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "72px",
+          "font-weight": "700",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "type": "text",
+        "text": "AFTER",
+        "position": "custom",
+        "x": 65,
+        "y": 990,
+        "width": 950,
+        "height": 70,
+        "fade-in": 0.5,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "44px",
+          "font-weight": "800",
+          "font-color": "#22C55E",
+          "text-align": "center",
+          "letter-spacing": "6px"
+        }
+      },
+      {
+        "$when": "linePart2",
+        "type": "text",
+        "text": "{{linePart2}}",
+        "position": "custom",
+        "x": 65,
+        "y": 1110,
+        "width": 950,
+        "height": 540,
+        "fade-in": 0.6,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "72px",
+          "font-weight": "700",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "$when": "headline",
+        "type": "text",
+        "text": "{{headline}}",
+        "position": "custom",
+        "x": 65,
+        "y": 1740,
+        "width": 950,
+        "height": 70,
+        "fade-in": 0.5,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "32px",
+          "font-weight": "500",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      }
+    ]
+  }
+}

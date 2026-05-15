@@ -14,6 +14,9 @@ import {
   targetConstraintsFor,
 } from "./missionTargetSearch";
 import type { TavilyResult } from "./tavilySearch";
+import { pollUntilDone, submitMovie } from "./json2video";
+import { renderTemplate } from "./videoTemplates";
+import { pickBackgroundForDate } from "@/data/videoBackgroundPresets";
 
 const ANTHROPIC_MODEL = "claude-sonnet-4-6";
 
@@ -55,6 +58,9 @@ export interface ExecuteResult {
   alternates?: AlternateTarget[];
   searchQuery?: string | null;
   searchError?: string | null;
+  videoUrl?: string | null;
+  videoProject?: string | null;
+  videoError?: string | null;
   error?: string;
 }
 
@@ -184,6 +190,11 @@ export async function executeMission(input: ExecuteInput): Promise<ExecuteResult
     } catch {
       coreAsset = null;
     }
+  }
+
+  // Video-caption-derivative branches into the JSON2Video pipeline.
+  if (input.mission.categoryId === "video-caption-derivative") {
+    return executeVideoCaption(input, coreAsset, apiKey);
   }
 
   // 2. If this is a community/answer-style task, search for a real target URL.
@@ -328,4 +339,281 @@ function mondayOf(dateStr: string): string {
   const offset = (day + 6) % 7;
   d.setDate(d.getDate() - offset);
   return d.toISOString().split("T")[0];
+}
+
+// ─── Video Caption Derivative (JSON2Video) ──────────────────
+// Picks a template based on the core asset's theme, picks a
+// background from the rotation pool by date, extracts captions
+// (template-aware so e.g. Stat Reveal gets `||`-delimited lines),
+// submits to JSON2Video, returns the MP4 URL.
+
+const THEME_TEMPLATE_MAP: Record<string, string> = {
+  "original-research": "stat-reveal",
+  "founder-pov": "quote-block",
+  "enterprise-architecture": "numbered-list",
+  "umbraco-craft": "numbered-list",
+  "ai-workflow": "caption-stack",
+  "ai-readiness": "term-definition",
+  // Legacy AI-readiness-cluster themes fall through to caption-stack
+};
+
+function templateForTheme(themeId: string | undefined): string {
+  if (themeId && THEME_TEMPLATE_MAP[themeId]) return THEME_TEMPLATE_MAP[themeId];
+  return "caption-stack";
+}
+
+const CAPTION_BASE_RULES = `You write short-form video captions for an AI-visibility consultancy.
+
+Voice: George Whiteside, founder of Interon. Direct, technical, opinionated. No marketing fluff. No emoji. Concrete over generic.
+
+Your output is rendered as a 15-25 second vertical short. Sequence the lines so the viewer wants to keep watching: hook first, payoff last.`;
+
+const TEMPLATE_FORMAT_INSTRUCTIONS: Record<string, string> = {
+  "caption-stack":
+    "Produce 5-7 single-line captions. Each line ≤ 50 chars. One thought per line. Final line is the takeaway/action.",
+  "stat-reveal":
+    "Produce 5-7 lines, each in the format `STAT||LABEL` using the literal `||` delimiter. STAT is a short number, percent, or word (≤ 6 chars: '87%', '300', 'BELOW 40'). LABEL is the supporting context (≤ 38 chars). Pick the most striking quantitative findings from the source.",
+  "quote-block":
+    "Produce ONE substantive quote-worthy line (≤ 90 chars). It should be opinionated, defensible, and quotable. The headline field will be the attribution — set it to `— George Whiteside, Interon`.",
+  "question-answer":
+    "Produce 4-6 lines, each in the format `Question?||Answer.` using the `||` delimiter. Q (≤ 50 chars) is a short question; A (≤ 60 chars) is a sharp answer. Each line is a self-contained Q&A pair.",
+  "numbered-list":
+    "Produce 4-7 single-line steps in logical order. Each ≤ 60 chars. Imperative voice ('Verify X', 'Audit Y'). The system numbers them automatically — don't prefix numbers yourself.",
+  "before-after":
+    "Produce 3-5 lines, each in the format `Before state||After state` using the `||` delimiter. Each side ≤ 60 chars. Show the gap your work closes — be specific about the change.",
+  "hook-reveal":
+    "Produce 3-5 single-line phrases that build suspense, with the LAST line being the payoff/reveal. Earlier lines (≤ 30 chars) tease; final line (≤ 50 chars) lands the answer. Example: 'Most websites' → 'fail one test' → 'AI can't read them' → 'FIX: schema markup'.",
+  "term-definition":
+    "Produce 4-6 lines, each in the format `TERM||plain-english definition` using the `||` delimiter. TERM is the technical term in caps (≤ 24 chars). DEFINITION explains it without jargon (≤ 100 chars).",
+  "bold-statement":
+    "Produce 3-5 short single-line statements (≤ 35 chars each). Each line stands alone as a maximum-impact moment. No headline needed — set headline to empty.",
+};
+
+const HEADLINE_INSTRUCTIONS: Record<string, string> = {
+  "quote-block": "Use the headline field for the attribution: `— George Whiteside, Interon`.",
+  "bold-statement": "Leave the headline empty.",
+};
+const DEFAULT_HEADLINE_INSTRUCTION =
+  'Set headline to a short brand stamp (e.g. "Interon — AI Readiness").';
+
+function captionSystemPromptFor(templateId: string): string {
+  const format =
+    TEMPLATE_FORMAT_INSTRUCTIONS[templateId] ?? TEMPLATE_FORMAT_INSTRUCTIONS["caption-stack"];
+  const headlineInstr =
+    HEADLINE_INSTRUCTIONS[templateId] ?? DEFAULT_HEADLINE_INSTRUCTION;
+
+  return `${CAPTION_BASE_RULES}
+
+TEMPLATE FOR THIS RENDER: ${templateId}
+
+FORMAT REQUIREMENT:
+${format}
+
+HEADLINE:
+${headlineInstr}
+
+OUTPUT FORMAT — IMPORTANT:
+Respond using exactly these tags. Anything outside the tags is discarded.
+
+<headline>...short text or empty...</headline>
+<lines>
+- First line (formatted as required above)
+- Second line
+- ...
+</lines>`;
+}
+
+interface CaptionExtraction {
+  headline: string;
+  lines: string[];
+}
+
+async function extractCaptionLines(
+  client: Anthropic,
+  templateId: string,
+  source: string,
+  topic: string
+): Promise<CaptionExtraction> {
+  const response = await client.messages.create({
+    model: ANTHROPIC_MODEL,
+    max_tokens: 700,
+    system: captionSystemPromptFor(templateId),
+    messages: [
+      {
+        role: "user",
+        content: `TOPIC FRAMING:
+${topic}
+
+SOURCE MATERIAL TO COMPRESS INTO CAPTIONS:
+${source.slice(0, 4000)}
+
+Produce the caption sequence for template "${templateId}" now.`,
+      },
+    ],
+  });
+
+  const text = response.content
+    .filter((b): b is Anthropic.TextBlock => b.type === "text")
+    .map((b) => b.text)
+    .join("\n");
+
+  const headline = (matchTag(text, "headline") ?? "").trim();
+  const linesBlock = matchTag(text, "lines") ?? "";
+  const lines = linesBlock
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith("-") || l.startsWith("*"))
+    .map((l) => l.replace(/^[-*]\s*/, "").trim())
+    .filter((l) => l.length > 0)
+    .slice(0, 7);
+
+  return { headline, lines };
+}
+
+async function executeVideoCaption(
+  input: ExecuteInput,
+  coreAsset: PlannedMission | null,
+  apiKey: string
+): Promise<ExecuteResult> {
+  if (!process.env.JSON2VIDEO_API_KEY) {
+    return {
+      success: false,
+      error: "JSON2VIDEO_API_KEY is not configured — caption-clip rendering disabled.",
+    };
+  }
+
+  // Source material: prefer the week's core asset draft (if it exists),
+  // otherwise fall back to the task's own framing.
+  const m = input.mission;
+  const source = coreAsset
+    ? `${coreAsset.title}\n\nObjective: ${coreAsset.objective}\nSemantic goal: ${coreAsset.semanticGoal}\nContent angle: ${coreAsset.contentAngle}`
+    : `${m.title}\n\nObjective: ${m.objective}\nSemantic goal: ${m.semanticGoal}`;
+
+  // Theme drives the template choice. Prefer the core asset's theme
+  // (since the captions are derived from its content); fall back to
+  // the reinforcement task's own theme.
+  const sourceThemeId = coreAsset?.theme.id ?? m.theme;
+  const templateId = templateForTheme(sourceThemeId);
+
+  // Date-driven background rotation. Salt with the mission category so
+  // two caption tasks on the same day still pick different backgrounds.
+  const background = pickBackgroundForDate(input.date, m.categoryId ?? m.category);
+  const backgroundImageUrl = background?.url;
+
+  const client = new Anthropic({ apiKey });
+
+  let extraction: CaptionExtraction;
+  try {
+    extraction = await extractCaptionLines(
+      client,
+      templateId,
+      source,
+      m.executionPrompt ?? m.objective
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Caption extraction failed";
+    return { success: false, error: message };
+  }
+
+  if (extraction.lines.length === 0) {
+    return {
+      success: false,
+      error: "Claude produced no usable caption lines.",
+    };
+  }
+
+  // Resolve relative background URLs to absolute (so JSON2Video can fetch them)
+  let resolvedBgUrl = backgroundImageUrl;
+  if (resolvedBgUrl && resolvedBgUrl.startsWith("/") && process.env.APP_PUBLIC_URL) {
+    resolvedBgUrl = `${process.env.APP_PUBLIC_URL.replace(/\/$/, "")}${resolvedBgUrl}`;
+  }
+
+  // Render via the template loader (matches the look the test panel produces)
+  let spec;
+  try {
+    spec = await renderTemplate(templateId, {
+      lines: extraction.lines,
+      headline: extraction.headline || undefined,
+      backgroundImageUrl: resolvedBgUrl,
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Template render failed";
+    return { success: false, error: `Template "${templateId}" failed: ${message}` };
+  }
+
+  const submit = await submitMovie(spec);
+  if (!submit.success || !submit.project) {
+    return {
+      success: false,
+      error: submit.error ?? "JSON2Video did not accept the render request.",
+      videoError: submit.error ?? null,
+    };
+  }
+
+  // Poll until done (or 4-minute timeout).
+  const final = await pollUntilDone(submit.project, {
+    intervalMs: 4000,
+    timeoutMs: 240_000,
+  });
+
+  // Build a deliverable the user can copy + a clear note about the video.
+  const captionBody = extraction.lines.map((l, i) => `${i + 1}. ${l}`).join("\n");
+  const headlineLine = extraction.headline
+    ? `Headline: ${extraction.headline}`
+    : "Headline: (none — template requires no brand stamp)";
+  const baseContent = [
+    "🎬 AUTO-RENDERED CAPTION CLIP",
+    "",
+    `Template: ${templateId} (chosen for theme "${sourceThemeId}")`,
+    background
+      ? `Background: ${background.label} — ${background.url}`
+      : "Background: (solid color — no rotation match)",
+    "",
+    headlineLine,
+    "",
+    "Caption sequence:",
+    captionBody,
+  ];
+
+  if (final.status === "done" && final.movie?.url) {
+    baseContent.push(
+      "",
+      "Rendered video:",
+      final.movie.url,
+      "",
+      `Duration: ${final.movie.duration?.toFixed(1) ?? "?"}s · ${final.movie.width}×${final.movie.height}`,
+      "",
+      "Review the clip, then publish to LinkedIn / X / Reels."
+    );
+    return {
+      success: true,
+      content: baseContent.join("\n"),
+      model: `${ANTHROPIC_MODEL} + JSON2Video`,
+      targetUrl: null,
+      alternates: [],
+      searchQuery: null,
+      searchError: null,
+      videoUrl: final.movie.url,
+      videoProject: submit.project,
+    };
+  }
+
+  // Render didn't finish in time — return the project id so UI can poll.
+  baseContent.push(
+    "",
+    `Render in progress (project ${submit.project}). Status: ${final.status}.`,
+    final.error ? `Error: ${final.error}` : "Re-open the task in a minute to refresh."
+  );
+  return {
+    success: true,
+    content: baseContent.join("\n"),
+    model: `${ANTHROPIC_MODEL} + JSON2Video`,
+    targetUrl: null,
+    alternates: [],
+    searchQuery: null,
+    searchError: null,
+    videoUrl: null,
+    videoProject: submit.project,
+    videoError: final.error ?? null,
+  };
 }

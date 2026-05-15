@@ -49,6 +49,10 @@ prisma/authority-os.db
 prisma/authority-os.db-journal
 backups/
 
+# runtime user uploads (committed backgrounds live in public/backgrounds/)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
 # IDE
 .vscode/*
 !.vscode/settings.json

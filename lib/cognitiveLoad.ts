@@ -97,6 +97,7 @@ export type TaskFormat =
   | "forum-response"
   | "video-clip"         // short-form / shorts
   | "video-commentary"   // talking-head 1–3 min
+  | "video-caption-clip" // auto-rendered caption-overlay clip via JSON2Video
   | "founder-snippet"
   | "internal-link-pass"
   | "schema-refinement"
@@ -129,6 +130,9 @@ export function loadForFormat(format: TaskFormat): LoadScore {
       return scoreLoad({ writingEffort: 4, preparationEffort: 3, researchEffort: 2, productionEffort: 6, timeMinutes: 45 });
     case "video-clip":
       return scoreLoad({ writingEffort: 2, preparationEffort: 2, researchEffort: 1, productionEffort: 5, timeMinutes: 30 });
+    case "video-caption-clip":
+      // User effort is just "review and publish" — JSON2Video does the production.
+      return scoreLoad({ writingEffort: 1, preparationEffort: 1, researchEffort: 1, productionEffort: 1, timeMinutes: 10 });
 
     // ── reinforcement (light) ──
     case "linkedin-post":
@@ -185,6 +189,7 @@ export function kindForFormat(format: TaskFormat): TaskKind {
     case "forum-response":
     case "video-clip":
     case "video-commentary":
+    case "video-caption-clip":
     case "founder-snippet":
       return "reinforcement";
     case "internal-link-pass":

@@ -214,6 +214,144 @@ export const themes: Theme[] = [
       "industry-critique",
     ],
   },
+
+  // ─── New broader themes (added to widen content surface) ───
+  // The themes above this line are the original AI-readiness
+  // cluster. Their weights are intentionally dimmed in
+  // dayStrategies so the themes below get fair air-time.
+
+  {
+    id: "umbraco-craft",
+    name: "Umbraco Craft",
+    description:
+      "General Umbraco development — patterns, gotchas, package choices, v15→v16, headless setups, .NET conventions. Authority in the Umbraco community beyond the narrow AI lens.",
+    strategicGoal:
+      "Become a recognised technical voice in the global Umbraco community, not only the Umbraco+AI corner",
+    targetAudience:
+      "Umbraco developers, technical leads, agencies, solution architects",
+    authorityLevel: "core",
+    relatedThemes: ["umbraco-ai", "enterprise-architecture", "ai-readiness"],
+    keywords: [
+      "Umbraco",
+      "Umbraco development",
+      "Umbraco v15",
+      "Umbraco v16",
+      "headless Umbraco",
+      ".NET CMS",
+    ],
+    contentAngles: [
+      "technical-explainer",
+      "audit-breakdown",
+      "case-study",
+      "before-vs-after",
+    ],
+  },
+
+  {
+    id: "founder-pov",
+    name: "Founder POV & Industry Critique",
+    description:
+      "George's personal voice. Hot takes on the SEO/GEO/agency industry, lessons from running Interon, history-of-the-web perspective from 30 years in. Personal, opinionated, occasionally argumentative.",
+    strategicGoal:
+      "Build George Whiteside as a recognisable founder voice in the AI-visibility space",
+    targetAudience:
+      "Agency founders, in-house SEO leaders, B2B consultants, founders generally",
+    authorityLevel: "core",
+    relatedThemes: ["ai-readiness", "ai-workflow", "umbraco-craft"],
+    keywords: [
+      "founder perspective",
+      "agency life",
+      "industry critique",
+      "Interon",
+      "George Whiteside",
+      "consultancy",
+    ],
+    contentAngles: [
+      "founder-insight",
+      "industry-critique",
+      "strategic-warning",
+      "before-vs-after",
+    ],
+  },
+
+  {
+    id: "ai-workflow",
+    name: "AI in Business Workflow",
+    description:
+      "Using LLMs and AI tools in the day-to-day work of running a consultancy — proposals, research, audits, dev work. NOT about AI for SEO. About AI augmenting how a B2B services business operates.",
+    strategicGoal:
+      "Position Interon as one of the consultancies that actually uses AI internally, with real receipts",
+    targetAudience:
+      "Agency owners, consultancy leaders, B2B services founders, ops-minded operators",
+    authorityLevel: "core",
+    relatedThemes: ["founder-pov", "enterprise-architecture", "original-research"],
+    keywords: [
+      "AI workflow",
+      "Claude for business",
+      "AI-augmented consultancy",
+      "LLM in operations",
+      "AI agents in services",
+    ],
+    contentAngles: [
+      "technical-explainer",
+      "founder-insight",
+      "case-study",
+      "framework-explanation",
+    ],
+  },
+
+  {
+    id: "enterprise-architecture",
+    name: "Enterprise Architecture & Integration",
+    description:
+      "Custom .NET application development, API-first integrations, CRM/ERP bridges, the architecture work that sits behind the websites. The technical-delivery side of Interon that isn't pure SEO.",
+    strategicGoal:
+      "Surface the full delivery capability — Interon is not only an audit shop",
+    targetAudience:
+      "CTOs, IT directors, mid-market technology leads, integration architects",
+    authorityLevel: "core",
+    relatedThemes: ["umbraco-craft", "ai-workflow", "ai-readiness"],
+    keywords: [
+      ".NET application development",
+      "API-first integration",
+      "CRM integration",
+      "ERP integration",
+      "custom application",
+      "enterprise architecture",
+    ],
+    contentAngles: [
+      "technical-explainer",
+      "framework-explanation",
+      "case-study",
+      "audit-breakdown",
+    ],
+  },
+
+  {
+    id: "original-research",
+    name: "Original Research & Audit Data",
+    description:
+      "Findings from running real audits at scale — the 300-site Tranco-top-100 study, entity-confidence patterns, AI Overviews citation analysis. Differentiator: Interon has measured the things competitors only talk about.",
+    strategicGoal:
+      "Become the source of data others cite about AI visibility patterns",
+    targetAudience:
+      "Senior SEO professionals, analysts, journalists covering AI search, fellow consultancies",
+    authorityLevel: "core",
+    relatedThemes: ["ai-readiness", "ai-search-visibility", "founder-pov"],
+    keywords: [
+      "audit research",
+      "AI Overviews data",
+      "entity confidence research",
+      "Tranco study",
+      "AI readiness scoring",
+    ],
+    contentAngles: [
+      "framework-explanation",
+      "audit-breakdown",
+      "before-vs-after",
+      "strategic-warning",
+    ],
+  },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────

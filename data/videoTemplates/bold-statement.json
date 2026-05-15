@@ -1,0 +1,69 @@
+{
+  "id": "bold-statement",
+  "name": "Bold Statement",
+  "description": "One massive caption per scene — no brand stamp, no other elements. Pure caption. Best for high-impact 3-4 scene clips where the words ARE the visual.",
+  "orientation": "portrait",
+  "width": 1080,
+  "height": 1920,
+  "movie": {
+    "quality": "high",
+    "cache": true
+  },
+  "defaults": {
+    "backgroundColor": "#0F1216",
+    "textColor": "#FFFFFF",
+    "headlineColor": "#A5F3D4",
+    "duration": 4
+  },
+  "sceneTemplate": {
+    "duration": "{{duration}}",
+    "background-color": "{{backgroundColor}}",
+    "elements": [
+      {
+        "$when": "backgroundImageUrl",
+        "type": "image",
+        "src": "{{backgroundImageUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}"
+      },
+      {
+        "$when": "backgroundImageUrl",
+        "type": "text",
+        "text": " ",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "settings": {
+          "background-color": "rgba(15,18,22,0.6)"
+        }
+      },
+      {
+        "type": "text",
+        "text": "{{line}}",
+        "position": "custom",
+        "x": 60,
+        "y": 360,
+        "width": 960,
+        "height": 1200,
+        "fade-in": 0.5,
+        "fade-out": 0.4,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "138px",
+          "font-weight": "900",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center",
+          "line-height": "1.1"
+        }
+      }
+    ]
+  }
+}

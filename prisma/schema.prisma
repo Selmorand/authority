@@ -30,6 +30,8 @@ model MissionDraft {
   targetUrl      String?  // the recommended URL to post/comment on (community-answer tasks)
   alternatesJson String?  // JSON array of { url, why } alternates
   searchQuery    String?  // the Tavily query used (for debugging / regeneration)
+  videoUrl       String?  // rendered MP4 URL (caption-clip derivatives)
+  videoProject   String?  // JSON2Video project id (for status polling)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 

@@ -1,0 +1,88 @@
+{
+  "id": "caption-stack",
+  "name": "Caption Stack",
+  "description": "Big bold caption per scene, brand stamp at the bottom. Background colour or image with dark overlay. Portrait 1080x1920 — for Shorts, Reels, X video.",
+  "orientation": "portrait",
+  "width": 1080,
+  "height": 1920,
+  "movie": {
+    "quality": "high",
+    "cache": true
+  },
+  "defaults": {
+    "backgroundColor": "#0F1216",
+    "textColor": "#FFFFFF",
+    "headlineColor": "#A5F3D4",
+    "duration": 4
+  },
+  "sceneTemplate": {
+    "duration": "{{duration}}",
+    "background-color": "{{backgroundColor}}",
+    "elements": [
+      {
+        "$when": "backgroundImageUrl",
+        "type": "image",
+        "src": "{{backgroundImageUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}"
+      },
+      {
+        "$when": "backgroundImageUrl",
+        "type": "text",
+        "text": " ",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "settings": {
+          "background-color": "rgba(15,18,22,0.55)"
+        }
+      },
+      {
+        "type": "text",
+        "text": "{{line}}",
+        "position": "custom",
+        "x": 65,
+        "y": 480,
+        "width": 950,
+        "height": 960,
+        "fade-in": 0.35,
+        "fade-out": 0.35,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "96px",
+          "font-weight": "700",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "$when": "headline",
+        "type": "text",
+        "text": "{{headline}}",
+        "position": "custom",
+        "x": 65,
+        "y": 1725,
+        "width": 950,
+        "height": 80,
+        "fade-in": 0.35,
+        "fade-out": 0.35,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "36px",
+          "font-weight": "600",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      }
+    ]
+  }
+}

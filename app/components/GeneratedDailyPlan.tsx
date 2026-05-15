@@ -21,6 +21,8 @@ interface DraftRecord {
   updatedAt?: string;
   targetUrl?: string | null;
   alternates?: AlternateTarget[];
+  videoUrl?: string | null;
+  videoProject?: string | null;
 }
 
 const statusConfig: Record<
@@ -182,6 +184,8 @@ export default function GeneratedDailyPlan() {
               updatedAt: new Date().toISOString(),
               targetUrl: data.targetUrl ?? null,
               alternates: Array.isArray(data.alternates) ? data.alternates : [],
+              videoUrl: data.videoUrl ?? null,
+              videoProject: data.videoProject ?? null,
             },
           }));
         } else {
@@ -262,14 +266,23 @@ export default function GeneratedDailyPlan() {
           </h2>
           <p className="text-sm text-muted mt-0.5">{dayLabel}</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex gap-1">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex gap-1 items-center">
             <button
               onClick={() => shiftDate(-1)}
               className="text-xs px-2.5 py-1.5 rounded-lg border border-card-border bg-background/50 text-muted hover:text-foreground cursor-pointer transition-colors"
             >
               Prev
             </button>
+            <input
+              type="date"
+              value={dateStr}
+              onChange={(e) => {
+                if (e.target.value) setDateStr(e.target.value);
+              }}
+              className="text-xs px-2 py-1.5 rounded-lg border border-card-border bg-background/50 text-foreground cursor-pointer focus:outline-none focus:border-accent/60"
+              title="Jump to date"
+            />
             <button
               onClick={() => setDateStr(getTodayDateStr())}
               className="text-xs px-2.5 py-1.5 rounded-lg border border-accent/30 bg-accent/10 text-accent cursor-pointer transition-colors"
@@ -727,6 +740,8 @@ function DraftPanel({
 
   const hasTarget = !!draft.targetUrl;
   const alternates = draft.alternates ?? [];
+  const hasVideo = !!draft.videoUrl;
+  const videoPending = !draft.videoUrl && !!draft.videoProject;
 
   return (
     <div className="rounded-md border border-accent/20 bg-background/60 flex flex-col">
@@ -794,6 +809,37 @@ function DraftPanel({
               </ul>
             </details>
           )}
+        </div>
+      )}
+
+      {hasVideo && (
+        <div className="px-3 py-2.5 border-b border-card-border/50 bg-accent/5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1.5">
+            🎬 Rendered video
+          </p>
+          <video
+            src={draft.videoUrl ?? ""}
+            controls
+            className="w-full max-w-sm rounded border border-card-border bg-black"
+          />
+          <a
+            href={draft.videoUrl ?? "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1.5 inline-block text-[11px] text-accent underline break-all hover:no-underline"
+          >
+            {draft.videoUrl}
+          </a>
+        </div>
+      )}
+
+      {videoPending && (
+        <div className="px-3 py-2.5 border-b border-card-border/50 bg-accent/5 text-[11px] text-muted">
+          🎬 Video render in progress
+          {draft.videoProject && (
+            <span className="font-mono ml-1">({draft.videoProject})</span>
+          )}
+          . Regenerate in ~1 min if the player doesn&apos;t appear.
         </div>
       )}
 

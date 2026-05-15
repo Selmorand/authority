@@ -1,0 +1,106 @@
+{
+  "id": "quote-block",
+  "name": "Quote Block",
+  "description": "Large italic body in upper-middle, attribution in lower third. Best for opinionated takes / founder POV. Use the headline field for the attribution (e.g. '— George Whiteside, Interon').",
+  "orientation": "portrait",
+  "width": 1080,
+  "height": 1920,
+  "movie": {
+    "quality": "high",
+    "cache": true
+  },
+  "defaults": {
+    "backgroundColor": "#0F1216",
+    "textColor": "#FFFFFF",
+    "headlineColor": "#A5F3D4",
+    "duration": 5
+  },
+  "sceneTemplate": {
+    "duration": "{{duration}}",
+    "background-color": "{{backgroundColor}}",
+    "elements": [
+      {
+        "$when": "backgroundImageUrl",
+        "type": "image",
+        "src": "{{backgroundImageUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}"
+      },
+      {
+        "$when": "backgroundImageUrl",
+        "type": "text",
+        "text": " ",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "settings": {
+          "background-color": "rgba(15,18,22,0.65)"
+        }
+      },
+      {
+        "type": "text",
+        "text": "“",
+        "position": "custom",
+        "x": 65,
+        "y": 340,
+        "width": 950,
+        "height": 200,
+        "fade-in": 0.3,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "180px",
+          "font-weight": "900",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center"
+        }
+      },
+      {
+        "type": "text",
+        "text": "{{line}}",
+        "position": "custom",
+        "x": 90,
+        "y": 540,
+        "width": 900,
+        "height": 800,
+        "fade-in": 0.45,
+        "fade-out": 0.35,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "84px",
+          "font-weight": "500",
+          "font-style": "italic",
+          "font-color": "{{textColor}}",
+          "text-align": "center",
+          "vertical-position": "center"
+        }
+      },
+      {
+        "$when": "headline",
+        "type": "text",
+        "text": "{{headline}}",
+        "position": "custom",
+        "x": 90,
+        "y": 1500,
+        "width": 900,
+        "height": 100,
+        "fade-in": 0.5,
+        "fade-out": 0.3,
+        "settings": {
+          "font-family": "Inter",
+          "font-size": "48px",
+          "font-weight": "600",
+          "font-color": "{{headlineColor}}",
+          "text-align": "center"
+        }
+      }
+    ]
+  }
+}

@@ -75,6 +75,7 @@ export const missionCategories: MissionCategoryDef[] = [
   // ── YouTube Reinforcement (clip + commentary) ───────────────
   def("youtube-clip",             "YouTube Clip / Short",      "youtube",  "video-clip",        "Short-form clip extracted from a long-form video or written asset."),
   def("youtube-commentary",       "YouTube Commentary",        "youtube",  "video-commentary",  "1–3 minute founder commentary on a single insight or development."),
+  def("video-caption-derivative", "Caption-Clip Derivative",   "linkedin", "video-caption-clip","Auto-rendered caption-overlay short generated from this week's core asset via JSON2Video. No filming required — user reviews and publishes."),
 
   // ── Reddit + Community Participation (non-promotional) ──────
   def("reddit-answer",            "Reddit Authority Answer",   "reddit",     "reddit-answer",          "Helpful, educational answer to a high-value Reddit question. Non-promotional."),
