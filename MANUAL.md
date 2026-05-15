@@ -22,7 +22,7 @@ The platform eliminates four problems that undermine strategic authority:
 
 Marketing dashboards show traffic, clicks, and rankings. sig:nal tracks:
 
-- **Semantic coverage** — are you consistently reinforcing the same 8 authority themes?
+- **Semantic coverage** — are you consistently reinforcing the same 13 authority themes (8 AI-readiness cluster + 5 broader themes that widen the surface — Umbraco Craft, Founder POV, AI in Business Workflow, Enterprise Architecture, Original Research)?
 - **Entity confidence** — do AI systems recognise you as a credible source?
 - **AI citation rate** — are LLMs citing your content when answering relevant questions?
 - **Narrative positioning** — which industry categories do you own?
@@ -47,8 +47,10 @@ This is the platform's defining operational principle. Everything else flows fro
 
 Every working week, the platform schedules:
 
-- **1 Core Authority Asset** (heavy, Monday) — long-form article, case study, audit breakdown, YouTube explainer, or research report
-- **3–5 Reinforcement Tasks** (light/medium, Tue–Fri) — LinkedIn posts, Reddit answers, community contributions, YouTube clips, founder commentary
+- **1 Core Authority Asset** (heavy, Monday) — long-form article, case study, audit breakdown, or research report. Long-form video is no longer eligible; the week's single video is a Thursday face-to-camera short.
+- **3–5 Reinforcement Tasks** (light/medium, Tue–Fri) — LinkedIn posts, Reddit answers, community contributions, founder commentary
+- **1 Founder Video** (Thursday) — your own face-to-camera short, no AI generation
+- **6 AI Caption Clips** (Mon, Tue, Wed, Fri, Sat, Sun) — auto-rendered 15–25 second vertical shorts via JSON2Video. Designed to feed Metricool's cross-platform schedule. One per day, no production effort beyond clicking Execute.
 - **1 Research Session** (Friday) — intake without execution pressure
 - **1 Strategic Review** (Friday) — close-the-loop reflection and next-week planning
 
@@ -95,10 +97,11 @@ Produce the **one** heavy authority asset for the week. Options:
 - GEO educational article
 - Case study with measurable outcomes
 - Audit breakdown
-- YouTube explainer (long-form video)
 - Research report with original data
 
-The rest of the week will reinforce whatever you publish today. Choose the format with the highest leverage given current research signals and authority gaps.
+Long-form video is intentionally **not** a core-asset option — the week's single produced video lives on Thursday as a short founder commentary. The rest of the week will reinforce whatever you publish today.
+
+In parallel, the system auto-renders a **caption-clip teaser** (15–25 second vertical short) drawing on the week's planned theme. Click Execute on the Caption-Clip Derivative task and Metricool gets a fresh clip ready for cross-posting.
 
 ### Tuesday — LinkedIn Reinforcement
 
@@ -123,16 +126,16 @@ Authority through visible participation. Examples:
 
 Rule: **educational and non-promotional**. No links to Interon unless directly asked. Authority comes from being useful, not from being seen marketing.
 
-### Thursday — Video Reinforcement
+### Thursday — Face-to-Camera Video
 
-YouTube as a primary reinforcement channel — no full-scale production:
+The **only** day where you personally shoot video. The AI caption-clip generator is intentionally not active here — Thursday is reserved for founder presence on camera. Options:
 
 - A 60–90 second clip extracted from Monday's asset (or a fresh one-take talking head of the same point)
 - A 2-minute founder commentary on a current AI search development
 - A 60-second audit-finding clip walked through on a real site
 - A myth-bust commentary
 
-The aim is steady volume of short, sharp video, not a polished long-form release every week.
+The aim is steady volume of short, sharp video produced by you. The schedule is built around this being your one production-effort video day; the other six days are auto-rendered caption clips that don't compete for your attention.
 
 ### Friday — Entity Reinforcement + Strategic Review
 
@@ -143,9 +146,11 @@ Close the week without producing any new content:
 - Weekly research session (scan signals, capture into strategic memory)
 - Strategic review (review the week, set next week's core asset focus)
 
-### Weekend — Sustainable Pause
+### Weekend — Auto Distribution
 
-The platform produces **no scheduled work** on Saturday or Sunday. Optional light reading or signal scanning only. Rest is part of the system; authority compounds either way.
+No new original work is scheduled. The system auto-renders one short caption clip per day for Metricool's scheduled-posting queue across all socials. You do not need to be at your desk — the clip generates on demand when the Caption-Clip Derivative task is executed, and the rendered MP4 URL goes into the daily plan. Optional: skim the research feed for next week.
+
+This is a deliberate change from a pure "no production" weekend. The clips don't require your authoring effort (Claude extracts the lines from the week's core asset), so they're sustainable without breaking the rest-is-part-of-the-system principle.
 
 ---
 
@@ -299,6 +304,14 @@ The load tier counters in the day-strategy box (Heavy/Medium/Light) show the day
 **How the 1→many contract is enforced:** The generator hard-limits batches to **one heavy category per request**. If you ask for 5 missions, the default mix is roughly 1 core + 3 reinforcement + 1 maintenance.
 **Common mistake:** Generating constantly. Use when you need fresh ideas for next week's core, not daily.
 
+#### Video Auto-Render
+**Purpose:** Manual test panel for the JSON2Video caption-clip system.
+**Strategic value:** Lets you preview how a template + background combination will look before relying on the daily auto-render to ship one to Metricool. Iteration loop: choose template, paste caption lines (use the `||` delimiter for templates that need two parts per line), pick a background from the thumbnail grid or upload your own, click Render. Embedded player shows the result.
+**Template library:** 9 templates ship in `data/videoTemplates/` — Caption Stack, Stat Reveal, Quote Block, Question + Answer, Numbered List, Before / After, Hook → Reveal, Term + Definition, Bold Statement. Each is a portrait 1080×1920 layout tuned for Shorts / Reels / X / LinkedIn video.
+**Background rotation:** Drop PNG / JPG files into `public/backgrounds/`, then register them in `data/videoBackgroundPresets.ts` with `inRotation: true`. The daily executor cycles through the rotation pool by date.
+**Common mistake:** Trying to render with a localhost-hosted image URL when running locally — JSON2Video can't reach localhost. Use a deployed URL or paste a public CDN URL.
+**Best practice:** Use this panel to validate new templates / backgrounds. The daily mission executor uses the same code path, so what you see here is what gets shipped.
+
 #### Amplification Engine
 **Purpose:** Transform one authority asset into multiple strategic outputs.
 **Strategic value:** A single Monday core asset becomes a LinkedIn post, founder insight, technical explainer, YouTube talking-points outline, GEO-optimised version, and executive summary. This *is* the 1→many philosophy in action.
@@ -316,7 +329,7 @@ The load tier counters in the day-strategy box (Heavy/Medium/Light) show the day
 **Common mistake:** Over-scheduling. The system caps the week at 1 heavy + 2 medium + 8 light + 1 research + 1 review. Resist the urge to add heavy work beyond that.
 
 #### Theme Overview
-**Purpose:** Reference for all 8 authority themes.
+**Purpose:** Reference for all 13 authority themes — the original 8-theme AI-readiness cluster and the 5 broader themes (Umbraco Craft, Founder POV & Industry Critique, AI in Business Workflow, Enterprise Architecture & Integration, Original Research & Audit Data) added to widen the content surface beyond pure AI-search authority.
 
 #### Suggested Topics
 **Purpose:** Topic library for *core authority assets*. Reinforcement tasks have their own template library and don't need topic ideas.
@@ -359,7 +372,7 @@ The platform now operates an open mission category registry (no longer a hard-co
 
 **Core (heavy, max 1/week):** Authority Article · GEO Educational Article · Case Study · Authority Audit Breakdown · YouTube Explainer · Research Report
 
-**Reinforcement (light/medium):** LinkedIn Insight Post · LinkedIn Carousel · LinkedIn Commentary · Founder Commentary Snippet · YouTube Clip / Short · YouTube Commentary · Reddit Authority Answer · Community Contribution · Forum Response
+**Reinforcement (light/medium):** LinkedIn Insight Post · LinkedIn Carousel · LinkedIn Commentary · Founder Commentary Snippet · YouTube Clip / Short · YouTube Commentary · **Caption-Clip Derivative** (auto-rendered JSON2Video short) · Reddit Authority Answer · Community Contribution · Forum Response
 
 **Maintenance:** Internal Linking Pass · Authority Page Update · Schema Refinement · Author Bio Sync · Semantic Terminology Pass · Entity Update · Wikidata Refinement · GitHub Org Reinforcement · Directory Sync · sameAs Link Audit
 
@@ -663,9 +676,15 @@ npm run dev                    # Start the platform
 ### Environment Variables (.env.local)
 
 ```
-OPENAI_API_KEY=sk-your-key-here    # Required for AI features
-DATABASE_URL=postgres://...        # PostgreSQL connection string
+DATABASE_URL=postgres://...          # PostgreSQL connection (required)
+ANTHROPIC_API_KEY=sk-ant-...         # Execute-with-AI + caption extraction + AI citation checks
+OPENAI_API_KEY=sk-...                # AI mission generator + AI Overviews citation checks
+TAVILY_API_KEY=tvly-...              # Community-task target URL discovery
+JSON2VIDEO_API_KEY=...               # Daily caption-clip auto-rendering
+APP_PUBLIC_URL=https://...           # Optional; required locally to use /backgrounds/ in renders
 ```
+
+System Status panel (Operations tab) shows which external services have valid keys. Missing keys degrade specific features (e.g. caption-clip rendering disabled if `JSON2VIDEO_API_KEY` is missing) without blocking the platform.
 
 ### Database Management
 

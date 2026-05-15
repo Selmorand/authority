@@ -1,5 +1,4 @@
 import {
-  buildCaptionClip,
   getMovieStatus,
   submitMovie,
   type J2VMovieSpec,
@@ -96,17 +95,13 @@ export async function POST(request: Request) {
         });
       } catch (err) {
         const message = err instanceof Error ? err.message : "Template load failed";
-        // Fallback to the legacy buildCaptionClip so a broken template never
-        // blocks a render (and the legacy path still respects orientation).
-        console.warn(`renderTemplate(${templateId}) failed: ${message}. Falling back to buildCaptionClip.`);
-        spec = buildCaptionClip({
-          lines,
-          headline: body.headline,
-          backgroundColor: body.backgroundColor,
-          backgroundImageUrl,
-          orientation: body.orientation,
-          secondsPerLine: body.secondsPerLine,
-        });
+        return Response.json(
+          {
+            success: false,
+            error: `Template "${templateId}" failed to load: ${message}`,
+          },
+          { status: 500 }
+        );
       }
     }
 
