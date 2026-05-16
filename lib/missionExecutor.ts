@@ -366,7 +366,13 @@ const CAPTION_BASE_RULES = `You write short-form video captions for an AI-visibi
 
 Voice: George Whiteside, founder of Interon. Direct, technical, opinionated. No marketing fluff. No emoji. Concrete over generic.
 
-Your output is rendered as a 15-25 second vertical short. Sequence the lines so the viewer wants to keep watching: hook first, payoff last.`;
+Your output is rendered as a 15-25 second vertical short. Sequence the lines so the viewer wants to keep watching: hook first, payoff last.
+
+URL & BRAND RULES (HARD CONSTRAINTS — do not violate):
+- Do NOT include any URL, domain, "visit X", "go to X", or "scored at X" in caption lines. The video has a separate end-card showing the website. Putting URLs in the body is redundant and looks like an ad.
+- The ONLY correct domain for Interon is "interon.co.za". Never write interon.io, interon.com, interon.ai, or any other variant.
+- The brand name is "Interon" — not "Interon AI", "Interon Solutions", or "Interon Group".
+- If a CTA is needed, end with an imperative idea ("Start with structured data.", "Audit your AI visibility.") — not a URL.`;
 
 const TEMPLATE_FORMAT_INSTRUCTIONS: Record<string, string> = {
   "caption-stack":
