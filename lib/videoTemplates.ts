@@ -57,6 +57,10 @@ export interface RenderVariables {
   // Optional base seconds-per-line override. Actual per-scene duration
   // scales with line length for readability.
   baseDurationSeconds?: number;
+  // When set, an end-card scene is appended showing the logo (positioned
+  // at upper third of the frame) and an optional tagline below.
+  brandLogoUrl?: string;
+  brandTagline?: string;
 }
 
 // ─── Filesystem ──────────────────────────────────────────────
@@ -149,6 +153,72 @@ function durationFor(line: string, baseSec: number): number {
   return Math.max(2.5, Math.min(6.0, baseSec + charBonus));
 }
 
+// ─── End card ────────────────────────────────────────────────
+// Identical brand end-card appended to every render so all 9 templates
+// close with the same logo + tagline frame. Logo center sits at y = h/3
+// (upper third — the user explicitly does NOT want it middle).
+
+const LOGO_ASPECT = 1063 / 591; // width / height of InteronWhiteLogo.png
+
+function buildEndCardScene(
+  logoUrl: string,
+  width: number,
+  height: number,
+  tagline: string
+): { duration: number; "background-color": unknown; elements: unknown[] } {
+  const logoW = Math.min(720, Math.floor(width * 0.67));
+  const logoH = Math.floor(logoW / LOGO_ASPECT);
+  const logoX = Math.floor((width - logoW) / 2);
+  // Center logo at one-third from the top of the frame.
+  const targetCenterY = Math.floor(height / 3);
+  const logoY = targetCenterY - Math.floor(logoH / 2);
+
+  const duration = 2.5;
+  const elements: Record<string, unknown>[] = [
+    {
+      type: "image",
+      src: logoUrl,
+      position: "custom",
+      x: logoX,
+      y: logoY,
+      width: logoW,
+      height: logoH,
+      duration,
+      "fade-in": 0.4,
+      "fade-out": 0.35,
+    },
+  ];
+
+  if (tagline && tagline.trim().length > 0) {
+    elements.push({
+      type: "text",
+      text: tagline,
+      position: "custom",
+      x: 65,
+      y: logoY + logoH + 40,
+      width: width - 130,
+      height: 80,
+      duration,
+      "fade-in": 0.6,
+      "fade-out": 0.35,
+      settings: {
+        "font-size": "44px",
+        "font-color": "#A5F3D4",
+        "font-family": "Inter",
+        "font-weight": "500",
+        "text-align": "center",
+        "vertical-position": "center",
+      },
+    });
+  }
+
+  return {
+    duration,
+    "background-color": "#0F1216",
+    elements,
+  };
+}
+
 // ─── Render ──────────────────────────────────────────────────
 
 export async function renderTemplate(
@@ -214,11 +284,24 @@ export async function renderTemplate(
     };
   });
 
+  // Append consistent brand end-card if the caller provided a logo URL.
+  const allScenes = [...scenes];
+  if (vars.brandLogoUrl) {
+    allScenes.push(
+      buildEndCardScene(
+        vars.brandLogoUrl,
+        template.width,
+        template.height,
+        vars.brandTagline ?? "interon.co.za"
+      )
+    );
+  }
+
   const spec: J2VMovieSpec = {
     ...(template.movie ?? {}),
     width: template.width,
     height: template.height,
-    scenes: scenes as J2VMovieSpec["scenes"],
+    scenes: allScenes as J2VMovieSpec["scenes"],
   };
   return spec;
 }

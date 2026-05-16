@@ -522,27 +522,31 @@ async function executeVideoCaption(
     };
   }
 
-  // Resolve relative background URLs to absolute (so JSON2Video can fetch them).
-  // The auto-render path has no request to derive an origin from, so it relies
-  // on APP_PUBLIC_URL. Fail fast if we have a relative path and no way to absolutize it —
-  // otherwise JSON2Video errors with "Source URL is required" and burns a poll cycle.
-  let resolvedBgUrl = backgroundImageUrl;
-  if (resolvedBgUrl && resolvedBgUrl.startsWith("/")) {
-    const rawBase = process.env.APP_PUBLIC_URL?.trim().replace(/\/$/, "");
-    if (!rawBase) {
-      return {
-        success: false,
-        error:
-          `Background image is a relative path (${resolvedBgUrl}) but APP_PUBLIC_URL is not set. ` +
-          `Set APP_PUBLIC_URL=https://<your-deployed-domain> in the environment so JSON2Video can fetch committed backgrounds. ` +
-          `(Local dev cannot use committed backgrounds because JSON2Video cannot reach localhost.)`,
-        videoError: "APP_PUBLIC_URL missing — relative background path could not be resolved",
-      };
-    }
-    // Coerce protocol — JSON2Video rejects URLs without http(s)://.
-    const publicBase = /^https?:\/\//i.test(rawBase) ? rawBase : `https://${rawBase}`;
-    resolvedBgUrl = `${publicBase}${resolvedBgUrl}`;
+  // Both the background image and the brand end-card logo live under /public,
+  // so they need APP_PUBLIC_URL to be absolutized for JSON2Video to fetch them.
+  // The auto-render path has no request to derive an origin from. Fail fast
+  // if APP_PUBLIC_URL is missing — otherwise JSON2Video errors with
+  // "Source URL is required" and burns a poll cycle.
+  const rawBase = process.env.APP_PUBLIC_URL?.trim().replace(/\/$/, "");
+  if (!rawBase) {
+    return {
+      success: false,
+      error:
+        `APP_PUBLIC_URL is not set. ` +
+        `The caption-clip pipeline needs it to resolve /backgrounds/*.png and /InteronWhiteLogo.png to absolute URLs JSON2Video can fetch. ` +
+        `Set APP_PUBLIC_URL=https://<your-deployed-domain> in the environment. ` +
+        `(Local dev cannot run auto-renders because JSON2Video cannot reach localhost.)`,
+      videoError: "APP_PUBLIC_URL missing",
+    };
   }
+  // Coerce protocol — JSON2Video rejects URLs without http(s)://.
+  const publicBase = /^https?:\/\//i.test(rawBase) ? rawBase : `https://${rawBase}`;
+
+  const resolvedBgUrl =
+    backgroundImageUrl && backgroundImageUrl.startsWith("/")
+      ? `${publicBase}${backgroundImageUrl}`
+      : backgroundImageUrl;
+  const brandLogoUrl = `${publicBase}/InteronWhiteLogo.png`;
 
   // Render via the template loader (matches the look the test panel produces)
   let spec;
@@ -551,6 +555,7 @@ async function executeVideoCaption(
       lines: extraction.lines,
       headline: extraction.headline || undefined,
       backgroundImageUrl: resolvedBgUrl,
+      brandLogoUrl,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Template render failed";

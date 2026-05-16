@@ -54,33 +54,37 @@ export async function POST(request: Request) {
         .slice(0, 12);
 
       // Resolve relative upload paths to absolute URLs so JSON2Video can fetch them.
+      const origin = new URL(request.url).origin;
       let backgroundImageUrl = body.backgroundImageUrl?.trim() || undefined;
       if (backgroundImageUrl && backgroundImageUrl.startsWith("/")) {
-        const origin = new URL(request.url).origin;
         backgroundImageUrl = `${origin}${backgroundImageUrl}`;
       }
+      const brandLogoUrl = `${origin}/InteronWhiteLogo.png`;
 
       // Catch the most common deploy/local mistake before we waste a render call.
-      if (backgroundImageUrl) {
-        const lower = backgroundImageUrl.toLowerCase();
-        const isLocal =
+      // The brand logo is always present in the end-card, so checking its origin
+      // catches localhost cases even when no background image is set.
+      const isLocal = (url: string) => {
+        const lower = url.toLowerCase();
+        return (
           lower.includes("localhost") ||
           lower.includes("127.0.0.1") ||
           lower.startsWith("http://0.0.0.0") ||
           /:\/\/192\.168\./.test(lower) ||
-          /:\/\/10\./.test(lower);
-        if (isLocal) {
-          return Response.json(
-            {
-              success: false,
-              error:
-                "Background image URL points to a local address (" +
-                backgroundImageUrl +
-                ") which JSON2Video cannot reach. Paste a public image URL (e.g. imgur.com), or deploy to Railway and use the Railway domain.",
-            },
-            { status: 400 }
-          );
-        }
+          /:\/\/10\./.test(lower)
+        );
+      };
+      if (isLocal(brandLogoUrl) || (backgroundImageUrl && isLocal(backgroundImageUrl))) {
+        return Response.json(
+          {
+            success: false,
+            error:
+              `Render targets a local address (${origin}) which JSON2Video cannot reach. ` +
+              `Deploy to Railway and hit the public domain, or paste a fully-public background URL ` +
+              `(but the brand end-card logo still needs a public origin).`,
+          },
+          { status: 400 }
+        );
       }
 
       const templateId = body.templateId?.trim() || "caption-stack";
@@ -92,6 +96,7 @@ export async function POST(request: Request) {
           backgroundColor: body.backgroundColor,
           backgroundImageUrl,
           baseDurationSeconds: body.secondsPerLine,
+          brandLogoUrl,
         });
       } catch (err) {
         const message = err instanceof Error ? err.message : "Template load failed";
