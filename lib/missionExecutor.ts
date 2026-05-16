@@ -528,8 +528,8 @@ async function executeVideoCaption(
   // otherwise JSON2Video errors with "Source URL is required" and burns a poll cycle.
   let resolvedBgUrl = backgroundImageUrl;
   if (resolvedBgUrl && resolvedBgUrl.startsWith("/")) {
-    const publicBase = process.env.APP_PUBLIC_URL?.replace(/\/$/, "");
-    if (!publicBase) {
+    const rawBase = process.env.APP_PUBLIC_URL?.trim().replace(/\/$/, "");
+    if (!rawBase) {
       return {
         success: false,
         error:
@@ -539,6 +539,8 @@ async function executeVideoCaption(
         videoError: "APP_PUBLIC_URL missing — relative background path could not be resolved",
       };
     }
+    // Coerce protocol — JSON2Video rejects URLs without http(s)://.
+    const publicBase = /^https?:\/\//i.test(rawBase) ? rawBase : `https://${rawBase}`;
     resolvedBgUrl = `${publicBase}${resolvedBgUrl}`;
   }
 
