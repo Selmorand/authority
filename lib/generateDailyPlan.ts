@@ -438,23 +438,36 @@ export function generateDailyPlan(dateStr: string): DailyPlan {
   missions.push(...reinforcement);
 
   // ── 3. Friday research + strategic review ───────────────────
+  // Both depend on seed entries in reinforcementTopics. After the mock-data
+  // strip those entries are gone; skip rather than crash. The new generator
+  // will supply replacements.
   if (strategy.includeResearch) {
-    const research = makeReinforcementMission(
-      reinforcementTopics.find((t) => t.id === "research-weekly-session")!,
-      strategy,
-      missions.length,
-      hasCoreAssetThisWeek
+    const researchTopic = reinforcementTopics.find(
+      (t) => t.id === "research-weekly-session"
     );
-    if (research) missions.push(research);
+    if (researchTopic) {
+      const research = makeReinforcementMission(
+        researchTopic,
+        strategy,
+        missions.length,
+        hasCoreAssetThisWeek
+      );
+      if (research) missions.push(research);
+    }
   }
   if (strategy.includeReview) {
-    const review = makeReinforcementMission(
-      reinforcementTopics.find((t) => t.id === "strategic-week-review")!,
-      strategy,
-      missions.length,
-      hasCoreAssetThisWeek
+    const reviewTopic = reinforcementTopics.find(
+      (t) => t.id === "strategic-week-review"
     );
-    if (review) missions.push(review);
+    if (reviewTopic) {
+      const review = makeReinforcementMission(
+        reviewTopic,
+        strategy,
+        missions.length,
+        hasCoreAssetThisWeek
+      );
+      if (review) missions.push(review);
+    }
   }
 
   // ── Identify the Core Asset for downstream consumers ─────────
