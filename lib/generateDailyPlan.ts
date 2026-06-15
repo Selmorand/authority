@@ -530,7 +530,8 @@ function selectCoreAsset(
   for (const { topic, score } of scored) {
     const matchingCategory = findCategoryForTopicFormat(topic, coreCategoryIds);
     if (!matchingCategory) continue;
-    const theme = themes.find((t) => t.id === topic.theme)!;
+    const theme = themes.find((t) => t.id === topic.theme);
+    if (!theme) continue; // skip topics referencing removed themes
     const angleId =
       theme.contentAngles.find((a) => a === topic.contentAngle) ??
       theme.contentAngles[0];
