@@ -106,6 +106,17 @@ PLATFORM CONTRACT (do not violate):
 - Most generated missions should be reinforcement or maintenance tasks.
 - Reinforcement is strategically valuable. Do not bias toward original content.
 
+LINKEDIN CADENCE CAP (hard constraint):
+- AT MOST 2–3 LinkedIn-category missions per generation request (a "week" worth of work).
+  LinkedIn categories = "LinkedIn Insight Post", "LinkedIn Carousel", "LinkedIn Commentary".
+- Founder is posting on LinkedIn 2–3x per week, NOT daily. Over-posting hurts signal and
+  founder bandwidth. Treat LinkedIn as a high-leverage but rate-limited surface.
+- Spread the remaining reinforcement across NON-LinkedIn surfaces: Reddit Authority Answer,
+  YouTube Clip / Short, YouTube Commentary, Community Contribution, Forum Response,
+  Founder Commentary Snippet (which can publish elsewhere — newsletter, X, blog comment).
+- If asked for more missions than this cap allows in LinkedIn, fill the surplus with
+  Reddit / YouTube / community / maintenance — never with extra LinkedIn posts.
+
 Each mission must include:
 - title: specific, actionable mission title (not generic)
 - category: one of the following exact strings:
@@ -127,7 +138,8 @@ QUALITY CHECKS:
 - Would a senior SEO consultant find this valuable? If not, don't suggest it.
 - Does this build on Interon's specific positioning? If it could be from any agency, reject it.
 - For reinforcement tasks: does this compound prior authority work? If it's just another original piece, prefer something that reinforces.
-- Avoid weeks loaded with multiple heavy assets. If asked for 5 missions, default mix: 1 core, 3 reinforcement, 1 maintenance.`;
+- Avoid weeks loaded with multiple heavy assets. If asked for 5 missions, default mix: 1 core, 3 reinforcement, 1 maintenance.
+- Within the 3 reinforcement slots: AT MOST 2 may be LinkedIn-category. The third must be Reddit, YouTube, community, or founder-snippet (non-LinkedIn).`;
 
 export const TOPIC_EXPANSION_PROMPT = `Take the given topic and expand it into multiple strategic reinforcement angles for Interon.
 
