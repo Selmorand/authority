@@ -124,32 +124,38 @@ export default function ExecutionDashboard() {
         <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">
           Theme Cadence
         </h3>
-        <div className="space-y-1.5">
-          {cadence.slice(0, 6).map((c) => (
-            <div
-              key={c.theme}
-              className="flex items-center justify-between bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2"
-            >
-              <div className="flex items-center gap-2">
-                <span
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{
-                    backgroundColor: frequencyColors[c.frequency],
-                  }}
-                />
-                <span className="text-xs text-foreground">{c.theme}</span>
-              </div>
-              <span
-                className="text-xs font-medium"
-                style={{ color: frequencyColors[c.frequency] }}
+        {cadence.length === 0 ? (
+          <p className="text-xs text-muted leading-relaxed bg-background-raised border border-card-border-subtle rounded-lg px-3 py-3">
+            No activity yet. Cadence will start tracking once the first task is completed.
+          </p>
+        ) : (
+          <div className="space-y-1.5">
+            {cadence.slice(0, 6).map((c) => (
+              <div
+                key={c.theme}
+                className="flex items-center justify-between bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2"
               >
-                {c.frequency === "inactive"
-                  ? `${c.daysSinceActivity}d ago`
-                  : c.frequency}
-              </span>
-            </div>
-          ))}
-        </div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{
+                      backgroundColor: frequencyColors[c.frequency],
+                    }}
+                  />
+                  <span className="text-xs text-foreground">{c.theme}</span>
+                </div>
+                <span
+                  className="text-xs font-medium"
+                  style={{ color: frequencyColors[c.frequency] }}
+                >
+                  {c.frequency === "inactive"
+                    ? `${c.daysSinceActivity}d ago`
+                    : c.frequency}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Drift indicators */}

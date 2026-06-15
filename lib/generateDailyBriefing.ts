@@ -91,14 +91,20 @@ export function generateDailyBriefing(dateStr?: string): DailyBriefing {
 
   const focusThemes = [...new Set(plan.missions.map((m) => m.theme.name))];
 
-  // Determine momentum — the new model prioritises sustainability over volume
-  const momentumStatus = stats.consistencyScore >= 7
-    ? "Strong cadence — protect it. Sustainability > volume."
-    : stats.consistencyScore >= 5
-      ? "Steady — keep one core asset per week and let reinforcement do the rest"
-      : "Rebuilding — complete one light reinforcement today. Authority compounds slowly.";
+  // Fresh-start state: no completed work in memory. Suppress alarm
+  // framing (overdue, drift, weak themes) and replace with onboarding text.
+  const isFreshStart = stats.totalCompleted === 0 && plan.missions.length === 0;
 
-  // Overdue areas
+  // Determine momentum — the new model prioritises sustainability over volume
+  const momentumStatus = isFreshStart
+    ? "Fresh start. Schedule your first task — authority compounds from anywhere."
+    : stats.consistencyScore >= 7
+      ? "Strong cadence — protect it. Sustainability > volume."
+      : stats.consistencyScore >= 5
+        ? "Steady — keep one core asset per week and let reinforcement do the rest"
+        : "Rebuilding — complete one light reinforcement today. Authority compounds slowly.";
+
+  // Overdue areas — empty on fresh start (analyzeCadence returns [] there).
   const overdueAreas = cadence
     .filter((c) => c.frequency === "inactive")
     .map((c) => c.theme);
@@ -107,7 +113,9 @@ export function generateDailyBriefing(dateStr?: string): DailyBriefing {
   const topSignal = signals[0];
   const topOpportunity = topSignal
     ? topSignal.signal.title
-    : "Maintain balanced authority-building across all themes";
+    : isFreshStart
+      ? "Schedule your first task to begin building authority"
+      : "Maintain balanced authority-building across all themes";
 
   // Weekly focus
   const weeklyFocusArea = dayStrategies[dayOfWeek] ?? "Review and planning";
@@ -117,9 +125,11 @@ export function generateDailyBriefing(dateStr?: string): DailyBriefing {
     .filter((c) => c.frequency === "low" || c.frequency === "inactive")
     .slice(0, 2)
     .map((c) => c.theme);
-  const semanticReinforcement = weakThemes.length > 0
-    ? `Prioritise ${weakThemes.join(" and ")} for semantic balance`
-    : "All themes well-covered — maintain current distribution";
+  const semanticReinforcement = isFreshStart
+    ? "Nothing scheduled yet. The first task you add will set the cadence."
+    : weakThemes.length > 0
+      ? `Prioritise ${weakThemes.join(" and ")} for semantic balance`
+      : "All themes well-covered — maintain current distribution";
 
   // Briefing reminders
   const briefingReminders: BriefingReminder[] = [];
@@ -195,7 +205,12 @@ export function generateDailyBriefing(dateStr?: string): DailyBriefing {
     date,
     dayName,
     greeting: greetings[dayOfWeek],
-    topPriority: highPriority[0]?.title ?? plan.missions[0]?.title ?? "Review strategic priorities",
+    topPriority:
+      highPriority[0]?.title ??
+      plan.missions[0]?.title ??
+      (isFreshStart
+        ? "Schedule your first task to get started"
+        : "Review strategic priorities"),
     missionCount: plan.missions.length,
     estimatedMinutes: totalMins,
     focusThemes,

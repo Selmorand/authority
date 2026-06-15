@@ -113,6 +113,12 @@ export function calculateExecutionStats(
 export function analyzeCadence(
   memory: MemoryItem[] = seedMemory
 ): CadenceMetric[] {
+  // Fresh-start state: no completed work yet. Returning an empty array
+  // prevents the dashboard from flagging every pillar as "999d ago /
+  // INACTIVE" the morning after a reset — which reads as alarms, not
+  // an empty calendar.
+  if (memory.length === 0) return [];
+
   const now = new Date();
   const metrics: CadenceMetric[] = [];
 
@@ -163,6 +169,9 @@ export function analyzeCadence(
 export function detectExecutionGaps(
   memory: MemoryItem[] = seedMemory
 ): ExecutionGap[] {
+  // Fresh-start: don't flag gaps when there's nothing to compare against.
+  if (memory.length === 0) return [];
+
   const gaps: ExecutionGap[] = [];
   const cadence = analyzeCadence(memory);
 
@@ -232,6 +241,9 @@ export function detectExecutionGaps(
 export function detectStrategicDrift(
   memory: MemoryItem[] = seedMemory
 ): DriftIndicator[] {
+  // Fresh-start: no drift to detect when there's no execution history.
+  if (memory.length === 0) return [];
+
   const drift: DriftIndicator[] = [];
   const cadence = analyzeCadence(memory);
 
