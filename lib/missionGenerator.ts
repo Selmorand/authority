@@ -69,6 +69,8 @@ export interface GeneratedMission {
   contentAngle: string;
   draftContent: string;
   draftFormat: "markdown" | "text";
+  publishTarget: string;       // NEW — exact destination (URL or surface name)
+  howToPublish: string;        // NEW — one-sentence "do this" instruction
 }
 
 export interface GenerateResult {
@@ -164,12 +166,56 @@ ${draftSpecs}${avoidBlock}
 CRITICAL OUTPUT RULES:
 - Each task MUST include a fully-written draftContent — the actual deliverable, ready to copy and paste. No "outline" or "talking points only". A real post / article / FAQ answer / script.
 - draftContent must be plain text or markdown. No HTML tags except the most basic structural ones if absolutely needed.
+- Every task MUST include publishTarget (exact destination — URL or surface) and howToPublish (one-sentence playbook).
 - LinkedIn / Facebook posts: write the body only, ending with the implied CTA from prompts.ts. No "[link in comments]" placeholders. No invented stats. No invented URLs.
-- Blog Post Brief and Case Study: provide the full prose article in markdown with a clear ## H2 structure. The brief IS the article — no separate research step. Use 800-1500 words.
-- FAQ Answer: a Q: line then an A: paragraph. Clear, customer-facing.
+- Blog Post Brief / Case Study / Authority Article / Original Research Report: draftContent MUST begin with YAML frontmatter — these six fields, in order — followed by the article body. See BLOG FRONTMATTER below.
+- FAQ Answer: a Q: line then an A: paragraph. Clear, customer-facing. Specify which service page it should be added to in publishTarget (e.g. "interon.co.za/services/ai-readiness-audit FAQ block").
 - Short Video Script: spoken script with [Hook 0:00] / [Beat 1] / etc. markers. 60-90 second target.
 - Site Check: bullet list naming specific pages on interon.co.za and concrete changes ("Add a 2-sentence service summary at the top of /services/ai-readiness-audit"). A Site Check is INTERNAL housekeeping — never frame it as "an audit" or as a sellable deliverable.
 - Automation Example: a real, specific scenario with named tools and a simple step-by-step.
+
+BLOG FRONTMATTER (mandatory for any task with taskType = Blog Post Brief, Case Study, Authority Article, Original Research Report):
+The draftContent must start with this exact YAML block, then the article body in markdown:
+
+---
+title: <human title>
+titleTag: <SEO title tag, MAX 60 characters>
+metaDescription: <meta description, MAX 160 characters>
+excerpt: <1-2 sentence excerpt for blog listings, MAX 200 characters>
+tags: <exactly 5 comma-separated tags>
+imagePrompt: <one-sentence visual prompt for hero image, generic enough for any AI image tool>
+---
+
+# <H1 — same as title>
+
+<article body in markdown, 800-1500 words, with ## H2 sections>
+
+PUBLISH-TARGET CONVENTIONS (use these exact surface names):
+- LinkedIn Post           → "linkedin.com/in/georgewhiteside (personal profile)"
+- Facebook Post           → "facebook.com/interon (Interon page)"
+- Blog Post Brief/etc.    → "interon.co.za/blog"
+- FAQ Answer              → "interon.co.za/services/<specific-service> FAQ block" or "interon.co.za/faq"
+- Short Video Script      → "Record + post to LinkedIn video and YouTube Shorts"
+- Founder Snippet         → "linkedin.com/in/georgewhiteside (personal, casual)"
+- Authority Comment       → "external — name the platform AND thread topic, e.g. 'r/SEO thread on AI Overviews'"
+- Site Check              → "Interon CMS — internal page edit"
+- Service Page Clarity Review → "Interon CMS — internal page edit"
+- FAQ Section Addition    → "Interon CMS — internal page edit on the named service page"
+- Automation Example      → if light/short: same as LinkedIn Post. If long/detailed: "interon.co.za/blog"
+- Visual / Diagram Idea   → "internal — design brief for Canva/Figma; output asset can ride along with a future post"
+- Customer Pain Point Capture → "internal — log into the pain-point library for future content seeding"
+
+HOW-TO-PUBLISH CONVENTIONS (one sentence, action-oriented):
+- LinkedIn Post: "Copy text into LinkedIn 'Start a post' on George's profile. Best Tue-Thu 8-10am SAST. Add a simple image if available."
+- Facebook Post: "Copy into Interon Facebook page 'Create post'. Add image. Schedule for Tue/Thu midday."
+- Blog Post: "Paste markdown into your CMS, fill in titleTag and metaDescription from the frontmatter, generate hero image from the imagePrompt, then publish."
+- FAQ Answer: "Add the Q/A to the specified service page's FAQ block. Make sure FAQPage schema.org JSON-LD is generated for SEO/GEO."
+- Short Video Script: "Record 60-90s on phone (vertical 9:16). Trim. Caption with the title. Post to LinkedIn as native video + YouTube Shorts + Instagram Reels."
+- Authority Comment: "Find the named thread, post the comment as yourself. Don't pitch Interon."
+- Site Check / FAQ Section Addition / Service Page Clarity Review: "Open the named page in your Interon CMS, make the listed change, save."
+- Automation Example: same as LinkedIn or Blog depending on the publishTarget.
+- Visual / Diagram Idea: "Use the brief to create the asset in Canva/Figma. Pair with a future post."
+- Customer Pain Point Capture: "Log this pain point internally — it seeds future content."
 
 AUDIT-NAMING RULES (HARD CONSTRAINT):
 When content references "our work", "what we offer", "our audit", or any Interon deliverable, you MUST use ONE of the five exact names — never invent variants:
@@ -191,9 +237,11 @@ Output a JSON array of exactly ${count} objects with this shape:
   "postType": "educational-explainer | business-warning | practical-checklist | myth-busting | short-story | case-study | founder-opinion | comparison | simple-analogy | before-after | short-video-script | faq-answer | diagram-idea | website-improvement",
   "estimatedTime": "<NN> min",
   "objective": "what authority signal or business outcome this builds",
-  "contentAngle": "one of: Educational Explainer, Business Warning, Practical Checklist, Myth Busting, Short Story / Scenario, Case Study, Founder Opinion, Comparison, Simple Analogy, Before vs After, Short Video Script, FAQ Answer, Diagram Idea, Website Improvement",
-  "draftContent": "<the full deliverable, plain text or markdown>",
-  "draftFormat": "markdown | text"
+  "contentAngle": "one of: Educational Explainer, Business Warning, Practical Checklist, Myth Busting, Short Story / Scenario, Case Study, Founder Opinion, Comparison, Simple Analogy, Before vs After, Short Video Script, FAQ Answer, Diagram Idea, Site Check",
+  "draftContent": "<the full deliverable. For Blog Post Brief/Case Study/Authority Article/Original Research Report: must start with the YAML frontmatter then the body. For other types: just the deliverable.>",
+  "draftFormat": "markdown | text",
+  "publishTarget": "<exact destination per PUBLISH-TARGET CONVENTIONS above>",
+  "howToPublish": "<one sentence per HOW-TO-PUBLISH CONVENTIONS above>"
 }]
 
 Return ONLY the JSON array. No preamble, no trailing commentary, no markdown code fence.`;
@@ -284,6 +332,8 @@ export async function generateMissionsWithDrafts(
           draftContent: m.draftContent,
           draftFormat: m.draftFormat ?? "markdown",
           publishStatus: "draft",
+          publishTarget: m.publishTarget ?? null,
+          howToPublish: m.howToPublish ?? null,
         },
       });
       saved.push(created);

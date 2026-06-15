@@ -18,6 +18,8 @@ interface Mission {
   draftFormat: string | null;
   publishStatus: string;
   publishedUrl: string | null;
+  publishTarget: string | null;
+  howToPublish: string | null;
   createdAt: string;
 }
 
@@ -317,6 +319,22 @@ function MissionCard({
           </h3>
           {mission.contentAngle && (
             <p className="text-xs text-muted mt-0.5">{mission.contentAngle}</p>
+          )}
+          {/* Publish target + playbook — the "where + how" answer */}
+          {(mission.publishTarget || mission.howToPublish) && (
+            <div className="mt-2.5 rounded-md border border-accent/20 bg-accent/5 px-2.5 py-2">
+              {mission.publishTarget && (
+                <p className="text-xs text-accent/90 font-medium">
+                  <span className="text-muted font-normal">Publish to:</span>{" "}
+                  {mission.publishTarget}
+                </p>
+              )}
+              {mission.howToPublish && (
+                <p className="text-xs text-foreground/80 mt-1 leading-relaxed">
+                  <span className="text-muted">How:</span> {mission.howToPublish}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>

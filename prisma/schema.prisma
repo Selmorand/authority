@@ -65,6 +65,8 @@ model Mission {
   draftFormat    String?  // markdown | html | text
   publishStatus  String   @default("idea") // idea | draft | approved | scheduled | published
   publishedUrl   String?  // populated after manual publish (copy-paste-then-paste-back)
+  publishTarget  String?  // where this should be posted (URL or surface name, e.g. "linkedin.com/in/georgewhiteside" or "interon.co.za/blog")
+  howToPublish   String?  // one-sentence playbook for actually posting it
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }

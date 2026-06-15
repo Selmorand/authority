@@ -37,6 +37,8 @@ export async function createMission(data: {
   draftFormat?: string;
   publishStatus?: string;
   publishedUrl?: string;
+  publishTarget?: string;
+  howToPublish?: string;
 }) {
   return prisma.mission.create({ data });
 }
@@ -48,6 +50,8 @@ export async function updateMissionDraft(
     draftFormat?: string;
     publishStatus?: string;
     publishedUrl?: string;
+    publishTarget?: string;
+    howToPublish?: string;
   }
 ) {
   return prisma.mission.update({ where: { id }, data });

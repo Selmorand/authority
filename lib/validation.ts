@@ -28,6 +28,8 @@ export const MissionSchema = z.object({
     .default("idea")
     .optional(),
   publishedUrl: z.string().url().optional(),
+  publishTarget: z.string().optional(),
+  howToPublish: z.string().optional(),
 });
 
 export const MissionStatusUpdateSchema = z.object({
