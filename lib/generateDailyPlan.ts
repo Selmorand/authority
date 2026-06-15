@@ -530,7 +530,10 @@ function selectCoreAsset(
   for (const { topic, score } of scored) {
     const matchingCategory = findCategoryForTopicFormat(topic, coreCategoryIds);
     if (!matchingCategory) continue;
-    const theme = themes.find((t) => t.id === topic.theme)!;
+    const theme = themes.find((t) => t.id === topic.theme);
+    // Topic references a theme id that no longer exists (positioning lock-in
+    // renamed every theme on 2026-06-15). Skip until topicIdeas.ts is rewritten.
+    if (!theme) continue;
     const angleId =
       theme.contentAngles.find((a) => a === topic.contentAngle) ??
       theme.contentAngles[0];
