@@ -283,6 +283,19 @@ export async function generateMissionsWithDrafts(
     }
   }
 
+  // If Claude returned tasks but none survived validation + persistence,
+  // treat that as a failure so the UI shows it instead of going quiet.
+  if (saved.length === 0 && parsed.length > 0) {
+    return {
+      success: false,
+      missions: [],
+      rawCount: parsed.length,
+      saved: 0,
+      filtered,
+      error: `Generator returned ${parsed.length} task(s) but all ${filtered} were rejected (likely invalid pillar or schema mismatch — has prisma db push run?).`,
+    };
+  }
+
   return {
     success: true,
     missions: saved,

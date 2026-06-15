@@ -63,6 +63,7 @@ export default function TaskGenerator() {
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastStatus, setLastStatus] = useState<string | null>(null);
 
   const loadMissions = useCallback(async (forDate: string) => {
     setLoading(true);
@@ -86,21 +87,53 @@ export default function TaskGenerator() {
   const handleGenerate = useCallback(async () => {
     setGenerating(true);
     setError(null);
+    setLastStatus("Sending request to /api/missions/generate…");
     try {
       const recentTitles = missions.map((m) => m.title);
+      const startedAt = Date.now();
       const res = await fetch("/api/missions/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date, count: 5, recentTitles }),
       });
-      const data: GenerateResponse = await res.json();
-      if (!data.success) {
-        setError(data.error ?? "Generation failed");
-      } else {
-        await loadMissions(date);
+      const elapsed = Math.round((Date.now() - startedAt) / 1000);
+      setLastStatus(`HTTP ${res.status} after ${elapsed}s — parsing response…`);
+
+      let data: GenerateResponse;
+      try {
+        data = (await res.json()) as GenerateResponse;
+      } catch (parseErr) {
+        const text = await res.text().catch(() => "(no body)");
+        setError(
+          `Server returned HTTP ${res.status} with non-JSON body: ${text.slice(0, 200)}`
+        );
+        setLastStatus(null);
+        return;
       }
+
+      if (!res.ok || !data.success) {
+        setError(
+          data.error ??
+            `Server returned HTTP ${res.status} (success=${String(data.success)})`
+        );
+        setLastStatus(null);
+        return;
+      }
+
+      setLastStatus(
+        `Generated ${data.missions?.length ?? 0} tasks` +
+          (typeof data.saved === "number"
+            ? ` · saved ${data.saved} · filtered ${data.filtered ?? 0}`
+            : "")
+      );
+      await loadMissions(date);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Generation failed");
+      setError(
+        e instanceof Error
+          ? `Network/client error: ${e.message}`
+          : "Generation failed (unknown error)"
+      );
+      setLastStatus(null);
     } finally {
       setGenerating(false);
     }
@@ -134,8 +167,14 @@ export default function TaskGenerator() {
         </div>
       </div>
 
+      {lastStatus && !error && (
+        <div className="rounded-lg border border-accent/20 bg-accent/5 px-3 py-2 text-xs text-accent/80">
+          {lastStatus}
+        </div>
+      )}
+
       {error && (
-        <div className="rounded-lg border border-red-500/30 bg-red-500/5 px-3 py-2 text-xs text-red-400">
+        <div className="rounded-lg border border-red-500/30 bg-red-500/5 px-3 py-2 text-xs text-red-400 whitespace-pre-wrap">
           {error}
         </div>
       )}
