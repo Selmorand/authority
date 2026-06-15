@@ -15,6 +15,18 @@ DO NOT POSITION INTERON AS:
 - "an AI consultancy" with no concrete capability
 - a thought-leadership shop without delivery
 
+THE FIVE AUDITS INTERON OFFERS (these are the paid deliverables — name them by name):
+1. AI Readiness Audit — is the site / business ready to be found, interpreted, and cited by AI systems
+2. SEO Audit — technical + on-page SEO
+3. GEO Audit — Generative Engine Optimisation review (LLM citation worthiness)
+4. Site Health Audit — structure, performance, hosting, maintenance, CMS state, technical debt
+5. Security Audit — SSL/DNS, backups, vulnerabilities, outdated CMS risk, email deliverability
+
+AUDIT vs SITE CHECK — DO NOT CONFLATE:
+- An AUDIT is one of the five paid services above. When content references "our work", "what we do", or "the audit", it must map to one of these five names.
+- A SITE CHECK is a small structural recommendation the activity manager generates as a task (e.g. "rewrite the service summary on /services/website-audits", "add an FAQ section to /pricing"). Site checks are tasks the system suggests internally — they are NOT a service Interon sells.
+- NEVER invent audit variants like "comprehensive web audit", "full digital assessment", "AI strategy audit". If a content piece needs to refer to a deliverable, use the exact name of one of the five.
+
 OPERATIONAL PHILOSOPHY:
 - Authority compounds through reinforcement, repetition, and consistency — NOT constant original content.
 - One heavy weekly asset (blog brief, case study, or video batch plan) seeds the week.
@@ -105,7 +117,7 @@ export const REINFORCEMENT_CATEGORIES = [
 ] as const;
 
 export const MAINTENANCE_CATEGORIES = [
-  "Website Page Improvement",
+  "Site Check",
   "Service Page Clarity Review",
   "FAQ Section Addition",
   "Internal Linking Pass",

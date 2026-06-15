@@ -30,7 +30,7 @@ const DRAFT_TARGET_WORDS: Record<string, [number, number]> = {
   "Founder Snippet":            [80,  120],
   "Authority Comment":          [80,  150],
   "FAQ Answer":                 [100, 200],
-  "Website Page Improvement":   [120, 250],
+  "Site Check":                 [120, 250],
   "Service Page Clarity Review":[150, 250],
   "FAQ Section Addition":       [150, 300],
   "Customer Pain Point Capture":[80,  150],
@@ -44,7 +44,7 @@ const DAY_PROFILES: Record<number, string> = {
   2: "Tuesday — LinkedIn reinforcement of Monday's core. 1 LinkedIn Post + 2 lighter reinforcement (Facebook, Founder Snippet, Authority Comment, FAQ Answer).",
   3: "Wednesday — Community / FAQ day. 1 FAQ Answer + 1 Authority Comment + 1 Customer Pain Point Capture. NO LinkedIn today.",
   4: "Thursday — Video reinforcement. 1 Short Video Script + 2 lighter tasks (Founder Snippet, Visual/Diagram Idea, Automation Example).",
-  5: "Friday — Website + maintenance day. 1 Website Page Improvement + 1 Service Page Clarity Review + 1 FAQ Section Addition. No new social content.",
+  5: "Friday — Site Checks + maintenance day. 1 Site Check + 1 Service Page Clarity Review + 1 FAQ Section Addition. No new social content. A Site Check is an internal structural recommendation for interon.co.za — NOT one of the five paid audit services Interon sells.",
   6: "Saturday — weekend. Optional research scanning only.",
 };
 
@@ -168,8 +168,18 @@ CRITICAL OUTPUT RULES:
 - Blog Post Brief and Case Study: provide the full prose article in markdown with a clear ## H2 structure. The brief IS the article — no separate research step. Use 800-1500 words.
 - FAQ Answer: a Q: line then an A: paragraph. Clear, customer-facing.
 - Short Video Script: spoken script with [Hook 0:00] / [Beat 1] / etc. markers. 60-90 second target.
-- Website Page Improvement: bullet list naming specific pages on interon.co.za and concrete changes ("Add a 2-sentence service summary at the top of /services/website-audits").
+- Site Check: bullet list naming specific pages on interon.co.za and concrete changes ("Add a 2-sentence service summary at the top of /services/ai-readiness-audit"). A Site Check is INTERNAL housekeeping — never frame it as "an audit" or as a sellable deliverable.
 - Automation Example: a real, specific scenario with named tools and a simple step-by-step.
+
+AUDIT-NAMING RULES (HARD CONSTRAINT):
+When content references "our work", "what we offer", "our audit", or any Interon deliverable, you MUST use ONE of the five exact names — never invent variants:
+  1. AI Readiness Audit
+  2. SEO Audit
+  3. GEO Audit
+  4. Site Health Audit
+  5. Security Audit
+- "Comprehensive web audit", "full digital assessment", "AI strategy audit", "deep dive" — REJECTED. Use the right named audit.
+- It's fine to discuss topics without naming an audit at all. But if a deliverable is named, it must be one of those five.
 
 Output a JSON array of exactly ${count} objects with this shape:
 [{
