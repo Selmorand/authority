@@ -58,12 +58,18 @@ function todayStr(): string {
 }
 
 export default function TaskGenerator() {
-  const [date, setDate] = useState<string>(todayStr());
+  // Initialize to empty string on the server so SSR + first client render
+  // produce identical HTML; then set the real "today" inside useEffect.
+  const [date, setDate] = useState<string>("");
   const [missions, setMissions] = useState<Mission[]>([]);
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastStatus, setLastStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!date) setDate(todayStr());
+  }, [date]);
 
   const loadMissions = useCallback(async (forDate: string) => {
     setLoading(true);
@@ -81,7 +87,7 @@ export default function TaskGenerator() {
   }, []);
 
   useEffect(() => {
-    void loadMissions(date);
+    if (date) void loadMissions(date);
   }, [date, loadMissions]);
 
   const handleGenerate = useCallback(async () => {
