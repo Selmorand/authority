@@ -20,6 +20,8 @@ interface Mission {
   publishedUrl: string | null;
   publishTarget: string | null;
   howToPublish: string | null;
+  imagePrompt: string | null;
+  firstComment: string | null;
   createdAt: string;
 }
 
@@ -281,6 +283,17 @@ function MissionCard({
     }
   };
 
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+  const copyTo = async (text: string, field: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 1500);
+    } catch {
+      // clipboard rejected — fall through silently
+    }
+  };
+
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(mission.draftContent ?? "");
@@ -368,6 +381,50 @@ function MissionCard({
               {expanded ? "Show less" : "Show full draft"}
             </button>
           )}
+        </div>
+      )}
+
+      {/* Image prompt */}
+      {mission.imagePrompt && (
+        <div className="px-4 pb-3">
+          <div className="rounded-md border border-purple-500/20 bg-purple-500/5 px-3 py-2.5">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-xs font-medium text-purple-400 uppercase tracking-wider">
+                Image prompt
+              </p>
+              <button
+                onClick={() => copyTo(mission.imagePrompt ?? "", "image")}
+                className="text-xs px-2 py-0.5 rounded border border-card-border-subtle bg-background-raised hover:bg-card-bg text-foreground cursor-pointer"
+              >
+                {copiedField === "image" ? "Copied ✓" : "Copy"}
+              </button>
+            </div>
+            <p className="text-xs text-foreground/85 leading-relaxed">
+              {mission.imagePrompt}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* First comment (LinkedIn) */}
+      {mission.firstComment && (
+        <div className="px-4 pb-3">
+          <div className="rounded-md border border-blue-500/25 bg-blue-500/5 px-3 py-2.5">
+            <div className="flex items-center justify-between mb-1">
+              <p className="text-xs font-medium text-blue-400 uppercase tracking-wider">
+                First comment (post this immediately after the body)
+              </p>
+              <button
+                onClick={() => copyTo(mission.firstComment ?? "", "firstComment")}
+                className="text-xs px-2 py-0.5 rounded border border-card-border-subtle bg-background-raised hover:bg-card-bg text-foreground cursor-pointer"
+              >
+                {copiedField === "firstComment" ? "Copied ✓" : "Copy"}
+              </button>
+            </div>
+            <p className="text-xs text-foreground/85 leading-relaxed whitespace-pre-wrap">
+              {mission.firstComment}
+            </p>
+          </div>
         </div>
       )}
 

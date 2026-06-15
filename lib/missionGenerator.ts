@@ -69,8 +69,10 @@ export interface GeneratedMission {
   contentAngle: string;
   draftContent: string;
   draftFormat: "markdown" | "text";
-  publishTarget: string;       // NEW — exact destination (URL or surface name)
-  howToPublish: string;        // NEW — one-sentence "do this" instruction
+  publishTarget: string;       // exact destination (URL or surface name)
+  howToPublish: string;        // one-sentence "do this" instruction
+  imagePrompt?: string;        // required for LinkedIn + Facebook posts
+  firstComment?: string;       // required for LinkedIn posts (links go here, not body)
 }
 
 export interface GenerateResult {
@@ -167,7 +169,13 @@ CRITICAL OUTPUT RULES:
 - Each task MUST include a fully-written draftContent — the actual deliverable, ready to copy and paste. No "outline" or "talking points only". A real post / article / FAQ answer / script.
 - draftContent must be plain text or markdown. No HTML tags except the most basic structural ones if absolutely needed.
 - Every task MUST include publishTarget (exact destination — URL or surface) and howToPublish (one-sentence playbook).
-- LinkedIn / Facebook posts: write the body only, ending with the implied CTA from prompts.ts. No "[link in comments]" placeholders. No invented stats. No invented URLs.
+- LinkedIn / Facebook posts: write the body. End the body with EXACTLY ONE blank line followed by hashtags on a single line.
+  * LinkedIn Post: include EXACTLY 4-5 hashtags (mix of broad + niche). Always include #Interon. Other examples: #AIVisibility #GEO #StructuredData #WebsiteHealth #SmallBusiness #AIReadiness.
+  * Facebook Post: include EXACTLY 2-3 hashtags. Always include #Interon.
+  * No inline hashtags inside the body itself.
+- LinkedIn Post and Facebook Post tasks MUST include imagePrompt — one short, generic visual brief (1 sentence, suitable for Midjourney/DALL-E/Canva AI). Avoid trademarked styles. Prefer minimalist illustration, isometric, or photographic — mention navy + mint as the brand palette where appropriate.
+- LinkedIn Post tasks MUST include firstComment — a short follow-up (60-120 words) intended to be posted as the FIRST COMMENT on George's own post. This is where any link / CTA / soft pitch lives. Format: short intro sentence + the link / next step + a question to invite engagement. Reason: LinkedIn de-prioritises posts that contain outbound links in the body.
+- Facebook Post tasks do NOT need firstComment (Facebook tolerates inline links).
 - Blog Post Brief / Case Study / Authority Article / Original Research Report: draftContent MUST begin with YAML frontmatter — these six fields, in order — followed by the article body. See BLOG FRONTMATTER below.
 - FAQ Answer: a Q: line then an A: paragraph. Clear, customer-facing. Specify which service page it should be added to in publishTarget (e.g. "interon.co.za/services/ai-readiness-audit FAQ block").
 - Short Video Script: spoken script with [Hook 0:00] / [Beat 1] / etc. markers. 60-90 second target.
@@ -238,10 +246,12 @@ Output a JSON array of exactly ${count} objects with this shape:
   "estimatedTime": "<NN> min",
   "objective": "what authority signal or business outcome this builds",
   "contentAngle": "one of: Educational Explainer, Business Warning, Practical Checklist, Myth Busting, Short Story / Scenario, Case Study, Founder Opinion, Comparison, Simple Analogy, Before vs After, Short Video Script, FAQ Answer, Diagram Idea, Site Check",
-  "draftContent": "<the full deliverable. For Blog Post Brief/Case Study/Authority Article/Original Research Report: must start with the YAML frontmatter then the body. For other types: just the deliverable.>",
+  "draftContent": "<the full deliverable. For Blog Post Brief/Case Study/Authority Article/Original Research Report: must start with the YAML frontmatter then the body. For LinkedIn / Facebook Post: post body then a blank line then the hashtags. For other types: just the deliverable.>",
   "draftFormat": "markdown | text",
   "publishTarget": "<exact destination per PUBLISH-TARGET CONVENTIONS above>",
-  "howToPublish": "<one sentence per HOW-TO-PUBLISH CONVENTIONS above>"
+  "howToPublish": "<one sentence per HOW-TO-PUBLISH CONVENTIONS above>",
+  "imagePrompt": "<required for LinkedIn Post and Facebook Post tasks. One-sentence visual brief. Omit (null) for other task types unless an image is part of the deliverable.>",
+  "firstComment": "<required for LinkedIn Post tasks ONLY. 60-120 words. Where any link / CTA goes — keeps the body link-free.>"
 }]
 
 Return ONLY the JSON array. No preamble, no trailing commentary, no markdown code fence.`;
@@ -334,6 +344,8 @@ export async function generateMissionsWithDrafts(
           publishStatus: "draft",
           publishTarget: m.publishTarget ?? null,
           howToPublish: m.howToPublish ?? null,
+          imagePrompt: m.imagePrompt ?? null,
+          firstComment: m.firstComment ?? null,
         },
       });
       saved.push(created);

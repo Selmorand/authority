@@ -39,6 +39,8 @@ export async function createMission(data: {
   publishedUrl?: string;
   publishTarget?: string;
   howToPublish?: string;
+  imagePrompt?: string;
+  firstComment?: string;
 }) {
   return prisma.mission.create({ data });
 }
@@ -52,6 +54,8 @@ export async function updateMissionDraft(
     publishedUrl?: string;
     publishTarget?: string;
     howToPublish?: string;
+    imagePrompt?: string;
+    firstComment?: string;
   }
 ) {
   return prisma.mission.update({ where: { id }, data });

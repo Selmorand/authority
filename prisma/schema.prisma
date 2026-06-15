@@ -67,6 +67,8 @@ model Mission {
   publishedUrl   String?  // populated after manual publish (copy-paste-then-paste-back)
   publishTarget  String?  // where this should be posted (URL or surface name, e.g. "linkedin.com/in/georgewhiteside" or "interon.co.za/blog")
   howToPublish   String?  // one-sentence playbook for actually posting it
+  imagePrompt    String?  // one-sentence visual brief for accompanying image (LinkedIn / Facebook posts especially)
+  firstComment   String?  // LinkedIn-only: the suggested first-comment payload (links live here, not in the body, to avoid LI algorithm penalty)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
