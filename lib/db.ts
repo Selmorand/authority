@@ -28,8 +28,29 @@ export async function createMission(data: {
   priority?: string;
   themeId?: string;
   contentAngle?: string;
+  // New pillar-aligned fields
+  pillar?: string;
+  taskType?: string;
+  effortLevel?: string;
+  postType?: string;
+  draftContent?: string;
+  draftFormat?: string;
+  publishStatus?: string;
+  publishedUrl?: string;
 }) {
   return prisma.mission.create({ data });
+}
+
+export async function updateMissionDraft(
+  id: string,
+  data: {
+    draftContent?: string;
+    draftFormat?: string;
+    publishStatus?: string;
+    publishedUrl?: string;
+  }
+) {
+  return prisma.mission.update({ where: { id }, data });
 }
 
 export async function updateMissionStatus(id: string, status: string) {

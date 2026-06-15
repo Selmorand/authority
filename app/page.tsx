@@ -4,6 +4,7 @@ import { useState } from "react";
 
 // Daily Operations
 import MorningBriefing from "./components/MorningBriefing";
+import TaskGenerator from "./components/TaskGenerator";
 import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import ExecutionDashboard from "./components/ExecutionDashboard";
 
@@ -129,6 +130,7 @@ export default function Home() {
 function DailyView() {
   return (
     <>
+      <TaskGenerator />
       <MorningBriefing />
       <GeneratedDailyPlan />
       <ExecutionDashboard />

@@ -1,4 +1,10 @@
-import { getMissions, createMission, updateMissionStatus } from "@/lib/db";
+import {
+  getMissions,
+  createMission,
+  updateMissionStatus,
+  updateMissionDraft,
+} from "@/lib/db";
+import { regenerateDraft } from "@/lib/missionGenerator";
 import { validate, MissionSchema, MissionStatusUpdateSchema } from "@/lib/validation";
 
 export async function GET(request: Request) {
@@ -26,6 +32,39 @@ export async function POST(request: Request) {
       return Response.json({ success: true, mission: updated });
     }
 
+    if (body.action === "update-draft") {
+      if (!body.id || typeof body.id !== "string") {
+        return Response.json(
+          { success: false, error: "id is required" },
+          { status: 400 }
+        );
+      }
+      const updated = await updateMissionDraft(body.id, {
+        draftContent: body.draftContent,
+        draftFormat: body.draftFormat,
+        publishStatus: body.publishStatus,
+        publishedUrl: body.publishedUrl,
+      });
+      return Response.json({ success: true, mission: updated });
+    }
+
+    if (body.action === "regenerate-draft") {
+      if (!body.id || typeof body.id !== "string") {
+        return Response.json(
+          { success: false, error: "id is required" },
+          { status: 400 }
+        );
+      }
+      const result = await regenerateDraft(body.id);
+      if (!result.success) {
+        return Response.json(
+          { success: false, error: result.error },
+          { status: 500 }
+        );
+      }
+      return Response.json({ success: true, draftContent: result.draftContent });
+    }
+
     const v = validate(MissionSchema, body);
     if (!v.success) {
       return Response.json({ success: false, error: v.error }, { status: 400 });
@@ -38,3 +77,6 @@ export async function POST(request: Request) {
     return Response.json({ success: false, error: message }, { status: 500 });
   }
 }
+
+// Regenerate draft can take 30+ seconds for long-form articles.
+export const maxDuration = 300;

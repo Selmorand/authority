@@ -16,6 +16,18 @@ export const MissionSchema = z.object({
   priority: z.enum(["high", "medium", "low"]).default("medium"),
   themeId: z.string().optional(),
   contentAngle: z.string().optional(),
+  // ─── New pillar-aligned fields ───────────────────────────────
+  pillar: z.string().optional(),
+  taskType: z.string().optional(),
+  effortLevel: z.enum(["low", "medium", "high"]).optional(),
+  postType: z.string().optional(),
+  draftContent: z.string().optional(),
+  draftFormat: z.enum(["markdown", "html", "text"]).optional(),
+  publishStatus: z
+    .enum(["idea", "draft", "approved", "scheduled", "published"])
+    .default("idea")
+    .optional(),
+  publishedUrl: z.string().url().optional(),
 });
 
 export const MissionStatusUpdateSchema = z.object({
