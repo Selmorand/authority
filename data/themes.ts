@@ -7,349 +7,246 @@ export interface Theme {
   strategicGoal: string;
   targetAudience: string;
   authorityLevel: AuthorityLevel;
-  relatedThemes: string[]; // theme ids
+  // Target share of monthly content output (0..1). Should sum to 1.0
+  // across all themes. The mission generator uses this to rotate.
+  weight: number;
+  relatedThemes: string[];
   keywords: string[];
   contentAngles: string[]; // content angle ids
 }
 
+// ─── Content Pillars ─────────────────────────────────────────
+// Interon's eight content pillars, defined by the current
+// positioning: "AI-Engineered Web Architecture and Agentic
+// Automation specialist". Weights sum to 1.0 and drive the
+// monthly rotation enforced by the mission generator.
+
 export const themes: Theme[] = [
   {
-    id: "ai-readiness",
-    name: "AI Readiness",
+    id: "website-health",
+    name: "Website Health",
     description:
-      "Preparing organisations and their digital properties to perform in an AI-first search landscape. Covers technical, structural, and strategic readiness.",
+      "Why a website is no longer just a brochure. Structure, clarity, performance, security, backups, hosting, maintenance. Why cheap AI-built sites cause long-term problems. Why sites must be readable by humans, search engines, and AI systems. How unhealthy sites lose trust, traffic, leads, and citations.",
     strategicGoal:
-      "Position Interon as the definitive authority on making websites and businesses AI-ready",
+      "Position Interon as the practical authority on what makes a website genuinely healthy in the AI era",
     targetAudience:
-      "CTOs, digital directors, marketing leaders at mid-market companies",
+      "Business owners, marketing managers, operations leads at SMBs and mid-market companies",
     authorityLevel: "core",
-    relatedThemes: ["geo", "structured-data", "entity-trust", "ai-search-visibility"],
+    weight: 0.20,
+    relatedThemes: ["ai-visibility-geo", "trust-security-risk", "business-systems"],
     keywords: [
-      "AI readiness",
-      "AI-ready website",
-      "AI readiness audit",
-      "AI readiness framework",
-      "AI preparedness",
+      "website health",
+      "website performance",
+      "website maintenance",
+      "website structure",
+      "AI-readable website",
+      "cheap AI website",
+      "website security",
+      "site speed",
     ],
     contentAngles: [
       "audit-breakdown",
-      "framework-explanation",
       "before-vs-after",
+      "technical-explainer",
       "strategic-warning",
     ],
   },
   {
-    id: "geo",
-    name: "Generative Engine Optimisation",
+    id: "ai-visibility-geo",
+    name: "AI Visibility and GEO",
     description:
-      "Optimising content and websites specifically for generative AI engines — ensuring LLMs can discover, understand, and cite your content.",
+      "How AI tools interpret businesses. Why structured data matters. Why clear business identity matters. Why vague content does not get cited. How AI assistants choose which businesses to mention. Generative Engine Optimisation explained simply.",
     strategicGoal:
-      "Own the GEO category in the UK consultancy space before competitors define it",
+      "Own the practical 'how AI cites businesses' conversation — without becoming a GEO-only consultancy",
     targetAudience:
-      "SEO managers, content strategists, heads of digital",
+      "Marketing leaders, content strategists, SEO managers, mid-market digital leads",
     authorityLevel: "core",
-    relatedThemes: ["ai-readiness", "machine-readable", "ai-search-visibility", "entity-trust"],
+    weight: 0.15,
+    relatedThemes: ["website-health", "digital-authority", "practical-ai-owners"],
     keywords: [
-      "GEO",
+      "AI visibility",
       "generative engine optimisation",
-      "LLM optimisation",
-      "AI search optimisation",
-      "generative SEO",
-    ],
-    contentAngles: [
-      "technical-explainer",
-      "myth-busting",
-      "founder-insight",
-      "framework-explanation",
-    ],
-  },
-  {
-    id: "umbraco-ai",
-    name: "Umbraco AI Visibility",
-    description:
-      "Leveraging Umbraco CMS capabilities to build AI-visible, machine-readable websites. Bridging the Umbraco community with AI-first strategies.",
-    strategicGoal:
-      "Become the recognised Umbraco + AI authority globally within the Umbraco ecosystem",
-    targetAudience:
-      "Umbraco developers, agencies, solution architects, Umbraco community",
-    authorityLevel: "core",
-    relatedThemes: ["ai-readiness", "structured-data", "machine-readable", "technical-seo"],
-    keywords: [
-      "Umbraco AI",
-      "Umbraco structured data",
-      "Umbraco SEO",
-      "Umbraco AI readiness",
-      "Umbraco schema markup",
-    ],
-    contentAngles: [
-      "audit-breakdown",
-      "case-study",
-      "technical-explainer",
-      "before-vs-after",
-    ],
-  },
-  {
-    id: "entity-trust",
-    name: "Entity Trust",
-    description:
-      "Building verifiable entity identity and trust signals that AI systems use to evaluate source credibility and citation worthiness.",
-    strategicGoal:
-      "Establish entity trust as a core pillar of modern SEO strategy in industry discourse",
-    targetAudience:
-      "SEO professionals, brand managers, digital PR specialists",
-    authorityLevel: "core",
-    relatedThemes: ["ai-readiness", "geo", "structured-data", "ai-search-visibility"],
-    keywords: [
-      "entity trust",
-      "entity authority",
-      "knowledge panel",
-      "entity recognition",
-      "entity confidence",
-    ],
-    contentAngles: [
-      "myth-busting",
-      "technical-explainer",
-      "framework-explanation",
-      "founder-insight",
-    ],
-  },
-  {
-    id: "structured-data",
-    name: "Structured Data",
-    description:
-      "Implementing and optimising schema markup and structured data to make content machine-interpretable across search engines and AI systems.",
-    strategicGoal:
-      "Be the go-to resource for advanced structured data implementation beyond basic how-tos",
-    targetAudience:
-      "Technical SEO specialists, web developers, CMS architects",
-    authorityLevel: "supporting",
-    relatedThemes: ["ai-readiness", "umbraco-ai", "machine-readable", "entity-trust"],
-    keywords: [
+      "GEO",
       "structured data",
       "schema markup",
-      "JSON-LD",
-      "rich results",
-      "semantic markup",
+      "entity clarity",
+      "AI citation",
+      "LLM visibility",
     ],
     contentAngles: [
-      "technical-explainer",
-      "audit-breakdown",
-      "before-vs-after",
-      "case-study",
-    ],
-  },
-  {
-    id: "machine-readable",
-    name: "Machine-Readable Websites",
-    description:
-      "Designing and building websites that are fully comprehensible to AI crawlers, LLMs, and automated systems through semantic HTML, clean architecture, and structured content.",
-    strategicGoal:
-      "Define the machine-readable website standard and be cited as the source of that framework",
-    targetAudience:
-      "Web developers, UX architects, technical directors",
-    authorityLevel: "supporting",
-    relatedThemes: ["ai-readiness", "structured-data", "umbraco-ai", "technical-seo"],
-    keywords: [
-      "machine-readable website",
-      "semantic HTML",
-      "AI-friendly website",
-      "accessible to AI",
-      "machine-interpretable content",
-    ],
-    contentAngles: [
-      "framework-explanation",
-      "technical-explainer",
-      "audit-breakdown",
-      "industry-critique",
-    ],
-  },
-  {
-    id: "technical-seo",
-    name: "Technical SEO for AI",
-    description:
-      "Evolving technical SEO practices to account for AI crawlers, LLM indexing, and generative search — beyond traditional Googlebot optimisation.",
-    strategicGoal:
-      "Redefine technical SEO for the AI era and lead that conversation publicly",
-    targetAudience:
-      "SEO specialists, web performance engineers, dev teams",
-    authorityLevel: "supporting",
-    relatedThemes: ["ai-readiness", "machine-readable", "structured-data", "umbraco-ai"],
-    keywords: [
-      "technical SEO",
-      "AI crawlers",
-      "crawl budget AI",
-      "robots.txt AI",
-      "GPTBot",
-      "Core Web Vitals",
-    ],
-    contentAngles: [
-      "technical-explainer",
-      "audit-breakdown",
-      "strategic-warning",
       "myth-busting",
-    ],
-  },
-  {
-    id: "ai-search-visibility",
-    name: "AI Search Visibility",
-    description:
-      "Measuring and improving how visible a brand or website is within AI-generated search results, AI Overviews, and conversational AI interfaces.",
-    strategicGoal:
-      "Create the measurement framework for AI search visibility that the industry adopts",
-    targetAudience:
-      "CMOs, heads of SEO, digital strategists, analytics teams",
-    authorityLevel: "emerging",
-    relatedThemes: ["geo", "ai-readiness", "entity-trust", "technical-seo"],
-    keywords: [
-      "AI search visibility",
-      "AI Overviews",
-      "LLM citations",
-      "AI brand visibility",
-      "AI share of voice",
-    ],
-    contentAngles: [
       "framework-explanation",
-      "founder-insight",
-      "strategic-warning",
-      "industry-critique",
-    ],
-  },
-
-  // ─── New broader themes (added to widen content surface) ───
-  // The themes above this line are the original AI-readiness
-  // cluster. Their weights are intentionally dimmed in
-  // dayStrategies so the themes below get fair air-time.
-
-  {
-    id: "umbraco-craft",
-    name: "Umbraco Craft",
-    description:
-      "General Umbraco development — patterns, gotchas, package choices, v15→v16, headless setups, .NET conventions. Authority in the Umbraco community beyond the narrow AI lens.",
-    strategicGoal:
-      "Become a recognised technical voice in the global Umbraco community, not only the Umbraco+AI corner",
-    targetAudience:
-      "Umbraco developers, technical leads, agencies, solution architects",
-    authorityLevel: "core",
-    relatedThemes: ["umbraco-ai", "enterprise-architecture", "ai-readiness"],
-    keywords: [
-      "Umbraco",
-      "Umbraco development",
-      "Umbraco v15",
-      "Umbraco v16",
-      "headless Umbraco",
-      ".NET CMS",
-    ],
-    contentAngles: [
       "technical-explainer",
-      "audit-breakdown",
-      "case-study",
       "before-vs-after",
     ],
   },
-
   {
-    id: "founder-pov",
-    name: "Founder POV & Industry Critique",
+    id: "agentic-automation",
+    name: "Agentic Automation",
     description:
-      "George's personal voice. Hot takes on the SEO/GEO/agency industry, lessons from running Interon, history-of-the-web perspective from 30 years in. Personal, opinionated, occasionally argumentative.",
+      "How businesses can connect websites, CRM, email, accounting, reporting, customer service, internal workflows, and admin systems. What agentic automation actually means in practical business terms. Examples of small automations that save time. When automation is useful and when it is unnecessary. Why websites are becoming control points for wider business systems.",
     strategicGoal:
-      "Build George Whiteside as a recognisable founder voice in the AI-visibility space",
+      "Make Interon the recognised practical voice on agentic automation for small and mid-market businesses",
     targetAudience:
-      "Agency founders, in-house SEO leaders, B2B consultants, founders generally",
+      "Owner-operators, operations managers, COOs at small and mid-market businesses",
     authorityLevel: "core",
-    relatedThemes: ["ai-readiness", "ai-workflow", "umbraco-craft"],
+    weight: 0.20,
+    relatedThemes: ["business-systems", "practical-ai-owners", "website-health"],
     keywords: [
-      "founder perspective",
-      "agency life",
-      "industry critique",
-      "Interon",
-      "George Whiteside",
-      "consultancy",
-    ],
-    contentAngles: [
-      "founder-insight",
-      "industry-critique",
-      "strategic-warning",
-      "before-vs-after",
-    ],
-  },
-
-  {
-    id: "ai-workflow",
-    name: "AI in Business Workflow",
-    description:
-      "Using LLMs and AI tools in the day-to-day work of running a consultancy — proposals, research, audits, dev work. NOT about AI for SEO. About AI augmenting how a B2B services business operates.",
-    strategicGoal:
-      "Position Interon as one of the consultancies that actually uses AI internally, with real receipts",
-    targetAudience:
-      "Agency owners, consultancy leaders, B2B services founders, ops-minded operators",
-    authorityLevel: "core",
-    relatedThemes: ["founder-pov", "enterprise-architecture", "original-research"],
-    keywords: [
-      "AI workflow",
-      "Claude for business",
-      "AI-augmented consultancy",
-      "LLM in operations",
-      "AI agents in services",
-    ],
-    contentAngles: [
-      "technical-explainer",
-      "founder-insight",
-      "case-study",
-      "framework-explanation",
-    ],
-  },
-
-  {
-    id: "enterprise-architecture",
-    name: "Enterprise Architecture & Integration",
-    description:
-      "Custom .NET application development, API-first integrations, CRM/ERP bridges, the architecture work that sits behind the websites. The technical-delivery side of Interon that isn't pure SEO.",
-    strategicGoal:
-      "Surface the full delivery capability — Interon is not only an audit shop",
-    targetAudience:
-      "CTOs, IT directors, mid-market technology leads, integration architects",
-    authorityLevel: "core",
-    relatedThemes: ["umbraco-craft", "ai-workflow", "ai-readiness"],
-    keywords: [
-      ".NET application development",
-      "API-first integration",
+      "agentic automation",
+      "business automation",
+      "AI agents",
+      "workflow automation",
       "CRM integration",
-      "ERP integration",
-      "custom application",
-      "enterprise architecture",
+      "automation example",
+      "AI workflow",
     ],
     contentAngles: [
-      "technical-explainer",
       "framework-explanation",
       "case-study",
-      "audit-breakdown",
+      "technical-explainer",
+      "before-vs-after",
     ],
   },
-
   {
-    id: "original-research",
-    name: "Original Research & Audit Data",
+    id: "business-systems",
+    name: "Business Systems and Digital Operations",
     description:
-      "Findings from running real audits at scale — the 300-site Tranco-top-100 study, entity-confidence patterns, AI Overviews citation analysis. Differentiator: Interon has measured the things competitors only talk about.",
+      "How disconnected systems create admin waste. Why business data must flow between platforms. How to reduce manual follow-ups. How to create better quoting, onboarding, reporting, lead capture, and customer response systems. Why the website should connect into operations, not sit separately.",
     strategicGoal:
-      "Become the source of data others cite about AI visibility patterns",
+      "Surface the operations-and-integration side of Interon — not just websites, the systems behind them",
     targetAudience:
-      "Senior SEO professionals, analysts, journalists covering AI search, fellow consultancies",
+      "Owner-operators, COOs, ops managers, finance and admin leaders at SMBs",
     authorityLevel: "core",
-    relatedThemes: ["ai-readiness", "ai-search-visibility", "founder-pov"],
+    weight: 0.15,
+    relatedThemes: ["agentic-automation", "website-health", "trust-security-risk"],
     keywords: [
-      "audit research",
-      "AI Overviews data",
-      "entity confidence research",
-      "Tranco study",
-      "AI readiness scoring",
+      "business systems",
+      "digital operations",
+      "system integration",
+      "data flow",
+      "manual follow-up",
+      "quoting system",
+      "onboarding system",
+      "lead capture",
     ],
     contentAngles: [
-      "framework-explanation",
       "audit-breakdown",
       "before-vs-after",
+      "framework-explanation",
+      "industry-critique",
+    ],
+  },
+  {
+    id: "trust-security-risk",
+    name: "Trust, Security and Risk",
+    description:
+      "Website security scans. Backups. Outdated CMS risk. Broken links. Technical debt. Domain, hosting, DNS, SSL, email deliverability. Why neglected websites damage credibility.",
+    strategicGoal:
+      "Build Interon's reputation as the consultancy that takes the unglamorous-but-critical risk surface seriously",
+    targetAudience:
+      "Business owners, IT managers, marketing managers responsible for the website",
+    authorityLevel: "supporting",
+    weight: 0.10,
+    relatedThemes: ["website-health", "business-systems"],
+    keywords: [
+      "website security",
+      "website backup",
+      "SSL certificate",
+      "DNS",
+      "email deliverability",
+      "broken links",
+      "technical debt",
+      "outdated CMS",
+    ],
+    contentAngles: [
       "strategic-warning",
+      "audit-breakdown",
+      "technical-explainer",
+      "industry-critique",
+    ],
+  },
+  {
+    id: "practical-ai-owners",
+    name: "Practical AI for Business Owners",
+    description:
+      "AI myths versus useful AI. What business owners should automate first. What should not be automated. How to prepare business content for AI tools. How to use AI without losing quality or control. How to build practical workflows instead of chasing hype.",
+    strategicGoal:
+      "Be the calm, practical AI voice for non-technical business owners — counter the hype",
+    targetAudience:
+      "Small business owners, founders, owner-operators, non-technical marketing leads",
+    authorityLevel: "supporting",
+    weight: 0.10,
+    relatedThemes: ["agentic-automation", "ai-visibility-geo", "business-systems"],
+    keywords: [
+      "AI for business",
+      "practical AI",
+      "AI myths",
+      "what to automate",
+      "AI workflow",
+      "AI for small business",
+      "AI tools for owners",
+    ],
+    contentAngles: [
+      "myth-busting",
+      "framework-explanation",
+      "before-vs-after",
+      "founder-insight",
+    ],
+  },
+  {
+    id: "digital-authority",
+    name: "Digital Authority and Content Strategy",
+    description:
+      "Building topical authority. Founder-led content. Case studies. Before-and-after examples. Explainers. FAQ content. Educational posts that answer real customer questions. How a business becomes easier to understand online.",
+    strategicGoal:
+      "Show prospects what good content strategy looks like by demonstrating it on Interon's own surfaces",
+    targetAudience:
+      "Marketing leaders, business owners running their own marketing, content strategists",
+    authorityLevel: "supporting",
+    weight: 0.05,
+    relatedThemes: ["ai-visibility-geo", "behind-the-scenes", "website-health"],
+    keywords: [
+      "topical authority",
+      "content strategy",
+      "founder-led content",
+      "case study",
+      "FAQ content",
+      "educational content",
+      "B2B content",
+    ],
+    contentAngles: [
+      "founder-insight",
+      "case-study",
+      "framework-explanation",
+      "industry-critique",
+    ],
+  },
+  {
+    id: "behind-the-scenes",
+    name: "Behind the Scenes at Interon",
+    description:
+      "How Interon audits websites. How Interon thinks about schema, SEO, GEO, security, and automation. Lessons from real client problems without exposing private information. How Interon improves its own systems. Practical demonstrations of tools, audits, workflows, and automations.",
+    strategicGoal:
+      "Humanise the consultancy and show real working methodology — proof of capability, not just claims",
+    targetAudience:
+      "Prospects evaluating Interon, fellow consultancies, business owners curious about delivery",
+    authorityLevel: "supporting",
+    weight: 0.05,
+    relatedThemes: ["digital-authority", "agentic-automation", "website-health"],
+    keywords: [
+      "Interon audit",
+      "consultancy methodology",
+      "client lesson",
+      "audit walkthrough",
+      "behind the scenes",
+      "consultancy process",
+    ],
+    contentAngles: [
+      "audit-breakdown",
+      "founder-insight",
+      "case-study",
+      "technical-explainer",
     ],
   },
 ];
@@ -370,4 +267,9 @@ export function getRelatedThemes(themeId: string): Theme[] {
 
 export function getThemesByAuthority(level: AuthorityLevel): Theme[] {
   return themes.filter((t) => t.authorityLevel === level);
+}
+
+// Total weight should be 1.0 — useful for runtime sanity checks
+export function totalWeight(): number {
+  return themes.reduce((sum, t) => sum + t.weight, 0);
 }

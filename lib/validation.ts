@@ -82,7 +82,7 @@ export const AmplifyRequestSchema = z.object({
   title: z.string().min(3, "Title is required"),
   content: z.string().min(20, "Content too short for meaningful amplification"),
   type: z.enum(["article", "case-study", "research-insight", "audit-finding", "strategic-observation"]).default("article"),
-  theme: z.string().default("ai-readiness"),
+  theme: z.string().default("website-health"),
   keyInsights: z.array(z.string()).default([]),
   useAI: z.boolean().default(true),
 });
