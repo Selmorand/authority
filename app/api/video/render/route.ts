@@ -54,7 +54,24 @@ export async function POST(request: Request) {
         .slice(0, 12);
 
       // Resolve relative upload paths to absolute URLs so JSON2Video can fetch them.
-      const origin = new URL(request.url).origin;
+      // Railway runs the container on an internal port (e.g. 8080); request.url
+      // reflects that, not the public domain. Read forwarded headers first, then
+      // fall back to RAILWAY_PUBLIC_DOMAIN, then to request.url.
+      const forwardedHost = request.headers.get("x-forwarded-host");
+      const forwardedProto = request.headers.get("x-forwarded-proto");
+      const hostHeader = request.headers.get("host");
+      const railwayDomain = process.env.RAILWAY_PUBLIC_DOMAIN;
+      let origin: string;
+      if (forwardedHost) {
+        origin = `${forwardedProto ?? "https"}://${forwardedHost}`;
+      } else if (railwayDomain) {
+        origin = `https://${railwayDomain}`;
+      } else if (hostHeader && !hostHeader.startsWith("localhost") && !hostHeader.startsWith("127.0.0.1")) {
+        origin = `${forwardedProto ?? "https"}://${hostHeader}`;
+      } else {
+        origin = new URL(request.url).origin;
+      }
+
       let backgroundImageUrl = body.backgroundImageUrl?.trim() || undefined;
       if (backgroundImageUrl && backgroundImageUrl.startsWith("/")) {
         backgroundImageUrl = `${origin}${backgroundImageUrl}`;
