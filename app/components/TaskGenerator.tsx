@@ -22,6 +22,7 @@ interface Mission {
   howToPublish: string | null;
   imagePrompt: string | null;
   firstComment: string | null;
+  status: string;
   createdAt: string;
 }
 
@@ -292,6 +293,27 @@ function MissionCard({
     }
   };
 
+  const handleToggleComplete = async () => {
+    const nextStatus = mission.status === "completed" ? "pending" : "completed";
+    setBusy("completing");
+    try {
+      await fetch("/api/missions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update-status",
+          id: mission.id,
+          status: nextStatus,
+        }),
+      });
+      onChange();
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const isDone = mission.status === "completed";
+
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const copyTo = async (text: string, field: string) => {
     try {
@@ -314,7 +336,11 @@ function MissionCard({
   };
 
   return (
-    <div className="rounded-lg border border-card-border-subtle bg-background-raised">
+    <div
+      className={`rounded-lg border border-card-border-subtle bg-background-raised transition-opacity ${
+        isDone ? "opacity-60" : ""
+      }`}
+    >
       {/* Header */}
       <div className="flex items-start justify-between gap-3 px-4 py-3 border-b border-card-border-subtle/60">
         <div className="min-w-0 flex-1">
@@ -328,6 +354,11 @@ function MissionCard({
             >
               {mission.publishStatus}
             </span>
+            {isDone && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded bg-green-500/15 text-green-400 border border-green-500/30">
+                done ✓
+              </span>
+            )}
             <span className="text-xs text-muted uppercase tracking-wider">
               {pillarLabel}
             </span>
@@ -336,7 +367,11 @@ function MissionCard({
             <span className="text-xs text-muted">|</span>
             <span className="text-xs text-muted">{mission.estimatedTime}</span>
           </div>
-          <h3 className="text-sm font-medium text-foreground-bright leading-snug">
+          <h3
+            className={`text-sm font-medium leading-snug ${
+              isDone ? "line-through text-muted" : "text-foreground-bright"
+            }`}
+          >
             {mission.title}
           </h3>
           {mission.contentAngle && (
@@ -463,7 +498,7 @@ function MissionCard({
               {busy === "regenerating" ? "Regenerating…" : "Regenerate"}
             </button>
             <div className="flex-1" />
-            {mission.publishStatus !== "approved" && (
+            {mission.publishStatus !== "approved" && !isDone && (
               <button
                 onClick={handleApprove}
                 disabled={busy !== null || !mission.draftContent}
@@ -472,6 +507,21 @@ function MissionCard({
                 {busy === "approving" ? "Approving…" : "Approve"}
               </button>
             )}
+            <button
+              onClick={handleToggleComplete}
+              disabled={busy !== null}
+              className={`text-xs px-3 py-1 rounded border cursor-pointer disabled:opacity-40 ${
+                isDone
+                  ? "bg-background-raised border-card-border-subtle text-muted hover:text-foreground"
+                  : "bg-green-500/15 border-green-500/40 text-green-400 hover:bg-green-500/25"
+              }`}
+            >
+              {busy === "completing"
+                ? "Saving…"
+                : isDone
+                ? "Mark not done"
+                : "Mark done"}
+            </button>
           </>
         ) : (
           <>
