@@ -7,6 +7,7 @@ import MorningBriefing from "./components/MorningBriefing";
 import TaskGenerator from "./components/TaskGenerator";
 import GeneratedDailyPlan from "./components/GeneratedDailyPlan";
 import ExecutionDashboard from "./components/ExecutionDashboard";
+import CommentRadar from "./components/CommentRadar";
 
 // Strategic Intelligence
 import CommandCenter from "./components/CommandCenter";
@@ -48,10 +49,11 @@ import HelpPanel from "./components/HelpPanel";
 import MeasurementDashboard from "./components/MeasurementDashboard";
 import AIVisibilityTracker from "./components/AIVisibilityTracker";
 
-type View = "daily" | "strategy" | "research" | "authority" | "measurement" | "tools" | "operations" | "manual";
+type View = "daily" | "comments" | "strategy" | "research" | "authority" | "measurement" | "tools" | "operations" | "manual";
 
 const views: { id: View; label: string; shortLabel: string }[] = [
   { id: "daily", label: "Daily Operations", shortLabel: "Daily" },
+  { id: "comments", label: "Comment Radar", shortLabel: "Comments" },
   { id: "strategy", label: "Strategic Intelligence", shortLabel: "Strategy" },
   { id: "research", label: "Research & Trends", shortLabel: "Research" },
   { id: "authority", label: "Authority & Visibility", shortLabel: "Authority" },
@@ -107,6 +109,7 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-5 sm:py-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
           {activeView === "daily" && <DailyView />}
+          {activeView === "comments" && <CommentsView />}
           {activeView === "strategy" && <StrategyView />}
           {activeView === "research" && <ResearchView />}
           {activeView === "authority" && <AuthorityView />}
@@ -136,6 +139,10 @@ function DailyView() {
       <ExecutionDashboard />
     </>
   );
+}
+
+function CommentsView() {
+  return <CommentRadar />;
 }
 
 function StrategyView() {

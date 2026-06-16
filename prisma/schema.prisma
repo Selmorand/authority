@@ -73,6 +73,34 @@ model Mission {
   updatedAt      DateTime @updatedAt
 }
 
+// ─── Comment Radar ────────────────────────────────────────────
+// Posts across LinkedIn / Facebook / TikTok / Reddit / Discord /
+// YouTube that the user might comment on. Reddit + YouTube items
+// are discovered automatically; the rest are pasted in manually.
+// Each row gets an AI-drafted comment in Interon's voice.
+
+model CommentTarget {
+  id            String   @id @default(cuid())
+  platform      String   // linkedin | facebook | tiktok | reddit | discord | youtube
+  source        String   // "discovery" | "manual"
+  url           String
+  postTitle     String?
+  postSnippet   String?  // first ~400 chars of the post body / video description
+  postAuthor    String?  // @handle or display name
+  postMetric    String?  // platform-specific signal e.g. "245 upvotes · 2h ago"
+  pillar        String?  // which content pillar this maps to
+  topicKeyword  String?  // the keyword/subreddit that surfaced it
+  draftComment  String?  // the AI-written reply (60-120 words)
+  status        String   @default("pending") // pending | posted | ignored
+  postedAt      DateTime?
+  discoveredAt  DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+  @@index([platform])
+  @@index([discoveredAt])
+}
+
 // ─── Strategic Memory ────────────────────────────────────────
 
 model StrategicMemory {
