@@ -28,6 +28,7 @@ interface Mission {
 interface MissionsResponse {
   success: boolean;
   missions: Mission[];
+  error?: string;
 }
 
 interface GenerateResponse {
@@ -81,8 +82,16 @@ export default function TaskGenerator() {
     try {
       const res = await fetch(`/api/missions?date=${forDate}`);
       const data: MissionsResponse = await res.json();
-      if (data.success) setMissions(data.missions);
-      else setMissions([]);
+      if (data.success) {
+        setMissions(data.missions);
+      } else {
+        setMissions([]);
+        setError(
+          data.error
+            ? `Couldn't load tasks for ${forDate}: ${data.error}`
+            : `Couldn't load tasks for ${forDate} (HTTP ${res.status}).`
+        );
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load missions");
     } finally {

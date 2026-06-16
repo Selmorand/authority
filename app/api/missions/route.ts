@@ -14,8 +14,12 @@ export async function GET(request: Request) {
   try {
     const missions = await getMissions(date);
     return Response.json({ success: true, missions, source: "database" });
-  } catch {
-    return Response.json({ success: true, missions: [], source: "database" });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Database read failed";
+    return Response.json(
+      { success: false, missions: [], error: message, source: "database" },
+      { status: 500 }
+    );
   }
 }
 
