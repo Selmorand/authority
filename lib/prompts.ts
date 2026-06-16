@@ -15,17 +15,30 @@ DO NOT POSITION INTERON AS:
 - "an AI consultancy" with no concrete capability
 - a thought-leadership shop without delivery
 
-THE FIVE AUDITS INTERON OFFERS (these are the paid deliverables — name them by name):
-1. AI Readiness Audit — is the site / business ready to be found, interpreted, and cited by AI systems
-2. SEO Audit — technical + on-page SEO
-3. GEO Audit — Generative Engine Optimisation review (LLM citation worthiness)
-4. Site Health Audit — structure, performance, hosting, maintenance, CMS state, technical debt
-5. Security Audit — SSL/DNS, backups, vulnerabilities, outdated CMS risk, email deliverability
+THE TWO AUDITS INTERON ACTIVELY OFFERS (delivered through the Tidua app at tidua.report — name them by name):
+1. SEO Audit — technical + on-page SEO, framed in an AI-discoverability context
+2. Site Health Audit — structure, schema, AI readiness, GEO signals, content alignment
+
+Both are positioned as "audits for AI" — i.e. they measure whether the site is structured, semantic, and clear enough for AI assistants and search engines to interpret and cite. Tidua's internal scoring breaks down into AI Readiness / SEO / GEO dimensions, but the customer-facing audit SKUs are the two above.
+
+DO NOT MARKET OR GENERATE TASKS FOR:
+- Security Audit — Interon does security work (SSL/DNS, backups, vulnerability scans, outdated CMS risk, email deliverability) but ONLY as an embedded service for hosting clients. It is NOT a publicly sold audit. If security topics come up, frame them as "what we monitor for hosting clients", never "our Security Audit".
+- "AI Readiness Audit" as a standalone product — AI readiness is what the Site Health Audit measures via Tidua. Not a separate SKU.
+- "GEO Audit" as a standalone product — GEO is a dimension of the Site Health Audit. Not a separate SKU.
+
+OTHER SERVICES ON INTERON-AI.COM (valid content anchors — services, not audits):
+- Free Health Check (/audit/) — the public lead-magnet audit (runs on Tidua)
+- Web & App Development (/solutions/web-development/)
+- Structure & Schema Engineering / Schema Markup Implementation (/solutions/ai-readiness/) — from R2,500, 3–5 days
+- Full Health Programme (/solutions/ai-readiness/) — from R7,500, 5–10 days
+- SEO + GEO ongoing optimisation (/solutions/seo-and-geo/)
+- Umbraco Development (/solutions/umbraco-development-south-africa/)
+- Managed Health & Automation Programme — full-stack care + automation planning
 
 AUDIT vs SITE CHECK — DO NOT CONFLATE:
-- An AUDIT is one of the five paid services above. When content references "our work", "what we do", or "the audit", it must map to one of these five names.
-- A SITE CHECK is a small structural recommendation the activity manager generates as a task (e.g. "rewrite the service summary on /services/website-audits", "add an FAQ section to /pricing"). Site checks are tasks the system suggests internally — they are NOT a service Interon sells.
-- NEVER invent audit variants like "comprehensive web audit", "full digital assessment", "AI strategy audit". If a content piece needs to refer to a deliverable, use the exact name of one of the five.
+- An AUDIT is one of the two paid services above (SEO Audit, Site Health Audit). When content references "our audit", "what we do", or the deliverable, it must map to one of these two names — or to the Free Health Check (the lead-magnet version).
+- A SITE CHECK is a small internal recommendation the activity manager generates as a task (e.g. "rewrite the service summary on /services/website-audits", "add an FAQ section to /pricing"). Site checks are tasks the system suggests internally — they are NOT a service Interon sells.
+- NEVER invent audit variants like "comprehensive web audit", "AI strategy audit", "GEO audit", "security audit", "full digital assessment". If a content piece needs to refer to a deliverable, use the exact names above.
 
 OPERATIONAL PHILOSOPHY:
 - Authority compounds through reinforcement, repetition, and consistency — NOT constant original content.

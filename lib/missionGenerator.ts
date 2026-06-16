@@ -44,7 +44,7 @@ const DAY_PROFILES: Record<number, string> = {
   2: "Tuesday — LinkedIn reinforcement of Monday's core. 1 LinkedIn Post + 2 lighter reinforcement (Facebook, Founder Snippet, Authority Comment, FAQ Answer).",
   3: "Wednesday — Community / FAQ day. 1 FAQ Answer + 1 Authority Comment + 1 Customer Pain Point Capture. NO LinkedIn today.",
   4: "Thursday — Video reinforcement. 1 Short Video Script + 2 lighter tasks (Founder Snippet, Visual/Diagram Idea, Automation Example).",
-  5: "Friday — Site Checks + maintenance day. 1 Site Check + 1 Service Page Clarity Review + 1 FAQ Section Addition. No new social content. A Site Check is an internal structural recommendation for interon.co.za — NOT one of the five paid audit services Interon sells.",
+  5: "Friday — Site Checks + maintenance day. 1 Site Check + 1 Service Page Clarity Review + 1 FAQ Section Addition. No new social content. A Site Check is an internal structural recommendation for interon.co.za — NOT one of the two paid audit services Interon sells (SEO Audit, Site Health Audit, both delivered via Tidua).",
   6: "Saturday — weekend. Optional research scanning only.",
 };
 
@@ -226,14 +226,21 @@ HOW-TO-PUBLISH CONVENTIONS (one sentence, action-oriented):
 - Customer Pain Point Capture: "Log this pain point internally — it seeds future content."
 
 AUDIT-NAMING RULES (HARD CONSTRAINT):
-When content references "our work", "what we offer", "our audit", or any Interon deliverable, you MUST use ONE of the five exact names — never invent variants:
-  1. AI Readiness Audit
-  2. SEO Audit
-  3. GEO Audit
-  4. Site Health Audit
-  5. Security Audit
-- "Comprehensive web audit", "full digital assessment", "AI strategy audit", "deep dive" — REJECTED. Use the right named audit.
-- It's fine to discuss topics without naming an audit at all. But if a deliverable is named, it must be one of those five.
+Interon actively markets TWO audits — both delivered through the Tidua app (tidua.report). When content references "our work", "what we offer", "our audit", or any Interon deliverable, you MUST use one of the exact names below — never invent variants:
+  1. SEO Audit (via Tidua)
+  2. Site Health Audit (via Tidua) — includes AI readiness, GEO signals, schema, structure, content alignment
+  Also valid as a content reference: "Free Health Check" (the public lead-magnet audit on interon-ai.com/audit/).
+
+DO NOT generate content or tasks for:
+- "Security Audit" — Interon does security work (SSL/DNS, backups, vulnerability checks, outdated CMS risk, email deliverability) but ONLY for clients who host with Interon. It is NEVER marketed publicly. If security comes up, frame it as "what we manage for hosting clients", not as a sellable audit.
+- "AI Readiness Audit" as a standalone product — AI readiness IS what the Site Health Audit measures via Tidua. Not a separate SKU.
+- "GEO Audit" as a standalone product — GEO is a dimension inside the Site Health Audit. Not a separate SKU.
+
+REJECTED variants: "comprehensive web audit", "full digital assessment", "AI strategy audit", "deep dive", "Security Audit" (as a marketed deliverable), "GEO audit", "AI readiness audit".
+
+Other valid services to reference (not audits): Web & App Development, Structure & Schema Engineering, Schema Markup Implementation, Full Health Programme, SEO + GEO ongoing optimisation, Umbraco Development, Managed Health & Automation Programme.
+
+It's fine to discuss topics without naming an audit at all. But if a deliverable is named, it must come from the list above.
 
 Output a JSON array of exactly ${count} objects with this shape:
 [{
