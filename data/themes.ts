@@ -141,16 +141,15 @@ export const themes: Theme[] = [
     id: "trust-security-risk",
     name: "Trust, Security and Risk",
     description:
-      "Website security scans. Backups. Outdated CMS risk. Broken links. Technical debt. Domain, hosting, DNS, SSL, email deliverability. Why neglected websites damage credibility.",
+      "General education about the unglamorous risk surface most owners ignore: backups, outdated CMS, broken links, technical debt, DNS/SSL/email deliverability, why neglected websites damage credibility. NOTE: Interon does NOT sell a Security Audit. Security work is delivered ONLY to hosting clients as part of their managed package. Content under this pillar must educate and frame risk — it must NEVER reference 'our Security Audit' or pitch a security audit as a deliverable.",
     strategicGoal:
-      "Build Interon's reputation as the consultancy that takes the unglamorous-but-critical risk surface seriously",
+      "Educate owners on risks they overlook, and quietly position the Managed Health & Automation Programme (hosting-bundled) as where security work actually happens",
     targetAudience:
       "Business owners, IT managers, marketing managers responsible for the website",
     authorityLevel: "supporting",
     weight: 0.10,
     relatedThemes: ["website-health", "business-systems"],
     keywords: [
-      "website security",
       "website backup",
       "SSL certificate",
       "DNS",
@@ -158,10 +157,10 @@ export const themes: Theme[] = [
       "broken links",
       "technical debt",
       "outdated CMS",
+      "hosting client care",
     ],
     contentAngles: [
       "strategic-warning",
-      "audit-breakdown",
       "technical-explainer",
       "industry-critique",
     ],

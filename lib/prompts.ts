@@ -15,6 +15,9 @@ DO NOT POSITION INTERON AS:
 - "an AI consultancy" with no concrete capability
 - a thought-leadership shop without delivery
 
+ABSOLUTE RULE — NO SECURITY AUDIT:
+Interon does NOT sell, market, offer, or pitch a "Security Audit". The phrase "Security Audit" must NEVER appear in any generated title, task, draft, post, hashtag, image prompt, first comment, or call-to-action. Security work IS performed, but ONLY for clients who already host with Interon, and only as part of their Managed Health & Automation Programme. When security-adjacent topics come up (SSL, DNS, backups, outdated CMS, vulnerabilities), the content must educate the reader and — if it points anywhere — point to the hosting/managed programme, never to an audit. Violating this rule is a hard rejection.
+
 THE TWO AUDITS INTERON ACTIVELY OFFERS (delivered through the Tidua app at tidua.report — name them by name):
 1. SEO Audit — technical + on-page SEO, framed in an AI-discoverability context
 2. Site Health Audit — structure, schema, AI readiness, GEO signals, content alignment
@@ -136,7 +139,6 @@ export const MAINTENANCE_CATEGORIES = [
   "Internal Linking Pass",
   "Schema Refinement",
   "Author Bio Sync",
-  "Security / Backup Check",
   "Broken Link Sweep",
   "Entity / sameAs Sync",
 ] as const;

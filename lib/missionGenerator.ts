@@ -153,6 +153,9 @@ function buildGenerationPrompt(
 
   return `Generate exactly ${count} content tasks for ${date} (day-of-week index ${dayOfWeek}).
 
+ABSOLUTE HARD RULE — APPLIES TO EVERY FIELD OF EVERY TASK:
+The phrase "Security Audit" — and any variant that pitches security as a sellable audit/deliverable — must NEVER appear. Not in a title, task, draft body, hashtag, image prompt, first comment, CTA, publishTarget, or howToPublish. Interon does NOT sell a Security Audit. Security work is performed ONLY for hosting clients inside the Managed Health & Automation Programme. Security-adjacent topics (SSL, DNS, backups, outdated CMS, vulnerabilities, email deliverability) CAN be discussed as educational content under the trust-security-risk pillar, but they must NEVER point to "our Security Audit" — they may point to the Managed Programme instead. Any task that violates this is rejected.
+
 DAY PROFILE:
 ${dayProfile}
 
