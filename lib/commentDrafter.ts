@@ -39,6 +39,10 @@ const PLATFORM_STYLE: Record<string, string> = {
     "Casual, 50-100 words. Conversational. Plain text. Match the channel's vibe based on the post you've been given.",
   youtube:
     "60-100 words. Substantive comment that adds to the video's point. No 'great video' opener. End with a concrete observation or question.",
+  x:
+    "HARD CAP 280 characters total (including spaces and punctuation — count carefully). Sharp, no fluff, one substantive idea. If the point genuinely needs more room, write a 2-3 tweet thread with each tweet under 280 chars, separated by a blank line in the output. No hashtags (X de-prioritises them). No emojis unless it's the punchline. Plain text. Lead with the point, never with 'this' / 'great post' / restating the original.",
+  twitter:
+    "HARD CAP 280 characters total. Sharp, no fluff, one substantive idea. If the point genuinely needs more room, write a 2-3 tweet thread with each tweet under 280 chars, separated by a blank line. No hashtags. No emojis unless it's the punchline. Lead with the point, never with 'this' / 'great post' / restating the original.",
 };
 
 function styleFor(platform: string): string {

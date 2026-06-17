@@ -41,6 +41,7 @@ const platformLabels: Record<string, string> = {
   facebook: "Facebook",
   tiktok: "TikTok",
   discord: "Discord",
+  x: "X",
 };
 
 const platformColors: Record<string, string> = {
@@ -50,6 +51,7 @@ const platformColors: Record<string, string> = {
   facebook: "#1877f2",
   tiktok: "#000000",
   discord: "#5865f2",
+  x: "#000000",
 };
 
 export default function CommentRadar() {
@@ -226,7 +228,7 @@ function ManualAddForm({ onAdded }: { onAdded: () => void }) {
         onClick={() => setOpen(!open)}
         className="w-full px-3 py-2 text-xs text-left text-foreground/80 hover:text-foreground-bright cursor-pointer flex items-center justify-between"
       >
-        <span>{open ? "▼" : "▶"} Paste a URL from LinkedIn / Facebook / TikTok / Discord</span>
+        <span>{open ? "▼" : "▶"} Paste a URL from LinkedIn / Facebook / X / TikTok / Discord</span>
         <span className="text-muted">{open ? "Cancel" : "Add manually"}</span>
       </button>
       {open && (
@@ -239,6 +241,7 @@ function ManualAddForm({ onAdded }: { onAdded: () => void }) {
             >
               <option value="linkedin">LinkedIn</option>
               <option value="facebook">Facebook</option>
+              <option value="x">X (Twitter)</option>
               <option value="tiktok">TikTok</option>
               <option value="discord">Discord</option>
               <option value="reddit">Reddit</option>
