@@ -19,7 +19,7 @@
     "duration": "{{duration}}",
     "background-color": "{{backgroundColor}}",
     "elements": [
-{
+      {
         "type": "text",
         "text": "“",
         "position": "custom",
@@ -34,7 +34,8 @@
           "font-size": "180px",
           "font-weight": "900",
           "font-color": "{{headlineColor}}",
-          "text-align": "center"
+          "text-align": "center",
+          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
         }
       },
       {
@@ -54,7 +55,8 @@
           "font-style": "italic",
           "font-color": "{{textColor}}",
           "text-align": "center",
-          "vertical-position": "center"
+          "vertical-position": "center",
+          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
         }
       },
       {
@@ -73,7 +75,8 @@
           "font-size": "48px",
           "font-weight": "600",
           "font-color": "{{headlineColor}}",
-          "text-align": "center"
+          "text-align": "center",
+          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
         }
       },
       {

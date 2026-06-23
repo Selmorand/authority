@@ -19,7 +19,7 @@
     "duration": "{{duration}}",
     "background-color": "{{backgroundColor}}",
     "elements": [
-{
+      {
         "type": "text",
         "text": "{{line}}",
         "position": "custom",
@@ -36,7 +36,8 @@
           "font-color": "{{textColor}}",
           "text-align": "center",
           "vertical-position": "center",
-          "line-height": "1.1"
+          "line-height": "1.1",
+          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
         }
       },
       {
