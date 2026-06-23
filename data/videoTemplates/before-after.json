@@ -41,7 +41,8 @@
         "y": 0,
         "width": 1080,
         "height": 1920,
-        "duration": "{{duration}}"
+        "duration": "{{duration}}",
+        "zoom": 3
       },
       {
         "$when": "hasMediaBackground",
