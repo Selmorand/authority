@@ -19,46 +19,7 @@
     "duration": "{{duration}}",
     "background-color": "{{backgroundColor}}",
     "elements": [
-      {
-        "$when": "videoBackgroundUrl",
-        "type": "video",
-        "src": "{{videoBackgroundUrl}}",
-        "position": "custom",
-        "x": 0,
-        "y": 0,
-        "width": 1080,
-        "height": 1920,
-        "duration": "{{duration}}",
-        "loop": true,
-        "mute": true
-      },
-      {
-        "$when": "backgroundImageUrl",
-        "type": "image",
-        "src": "{{backgroundImageUrl}}",
-        "position": "custom",
-        "x": 0,
-        "y": 0,
-        "width": 1080,
-        "height": 1920,
-        "duration": "{{duration}}",
-        "zoom": 3
-      },
-      {
-        "$when": "hasMediaBackground",
-        "type": "text",
-        "text": " ",
-        "position": "custom",
-        "x": 0,
-        "y": 0,
-        "width": 1080,
-        "height": 1920,
-        "duration": "{{duration}}",
-        "settings": {
-          "background-color": "rgba(15,18,22,0.55)"
-        }
-      },
-      {
+{
         "type": "text",
         "text": "{{line}}",
         "position": "custom",

@@ -348,10 +348,67 @@ export async function renderTemplate(
 
   // ─── Movie-level elements ──────────────────────────────────
   // JSON2Video supports an `elements` array at the top of the
-  // movie spec — these play across all scenes. Background music
-  // lives here so it carries through the end-card too. Voice
-  // is per-scene (not here) so it stays anchored to its caption.
+  // movie spec — these play across all scenes. We promote four
+  // things to this level:
+  //
+  //   1. Background media (video OR image, mutually exclusive).
+  //      Living at movie level means a single zoom runs from scene
+  //      1 through to the end-card without resetting per scene —
+  //      the Ken Burns feel George asked for.
+  //   2. Dim overlay — sits between the bg and the captions so
+  //      white text stays legible.
+  //   3. Background music — fades in/out across the whole movie
+  //      including the end-card.
+  //
+  // Voice elements stay per-scene (anchored to their caption).
   const movieElements: Record<string, unknown>[] = [];
+
+  const videoBg = vars.videoBackgroundUrl?.trim();
+  const imageBg = vars.backgroundImageUrl?.trim();
+  // Video wins over image when both are set (videos already carry motion).
+  if (videoBg) {
+    movieElements.push({
+      type: "video",
+      src: videoBg,
+      position: "custom",
+      x: 0,
+      y: 0,
+      width: template.width,
+      height: template.height,
+      duration: -1,
+      loop: true,
+      mute: true,
+    });
+  } else if (imageBg) {
+    movieElements.push({
+      type: "image",
+      src: imageBg,
+      position: "custom",
+      x: 0,
+      y: 0,
+      width: template.width,
+      height: template.height,
+      duration: -1,
+      zoom: 3,
+    });
+  }
+
+  if (videoBg || imageBg) {
+    movieElements.push({
+      type: "text",
+      text: " ",
+      position: "custom",
+      x: 0,
+      y: 0,
+      width: template.width,
+      height: template.height,
+      duration: -1,
+      settings: {
+        "background-color": "rgba(15,18,22,0.6)",
+      },
+    });
+  }
+
   if (vars.musicUrl && vars.musicUrl.trim().length > 0) {
     movieElements.push({
       type: "audio",
