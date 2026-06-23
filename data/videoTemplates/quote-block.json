@@ -120,7 +120,8 @@
         "text": "{{voiceText}}",
         "voice": "{{voiceName}}",
         "model": "{{voiceModel}}",
-        "start": 0
+        "start": 0,
+        "extra-time": 0.4
       }
     ]
   }

@@ -566,15 +566,23 @@ export default function VideoRenderPanel() {
             </select>
           </label>
           <label className="block">
-            <span className="text-xs text-muted uppercase tracking-wide">Seconds per line</span>
+            <span className="text-xs text-muted uppercase tracking-wide">
+              Seconds per line
+            </span>
             <input
               type="number"
               min={2}
               max={8}
               value={secondsPerLine}
               onChange={(e) => setSecondsPerLine(Number(e.target.value))}
-              className="mt-1 w-full bg-background border border-card-border-subtle rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60"
+              disabled={voiceEnabled}
+              className="mt-1 w-full bg-background border border-card-border-subtle rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60 disabled:opacity-50 disabled:cursor-not-allowed"
             />
+            <p className="mt-1 text-[10px] text-muted leading-snug">
+              {voiceEnabled
+                ? "Ignored when voiceover is on — scene length auto-fits the speech + 0.4s breath."
+                : "Per-scene duration. Auto-scales with line length."}
+            </p>
           </label>
         </div>
 

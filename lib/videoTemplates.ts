@@ -258,7 +258,16 @@ export async function renderTemplate(
   const voiceEnabled = Boolean(vars.voiceEnabled && vars.voiceName);
 
   const scenes = vars.lines.map((line, index) => {
-    const sceneDuration = durationFor(line, baseSec, voiceEnabled);
+    // When voiceover is on, JSON2Video's scene duration = -1 makes
+    // the scene auto-extend to contain its longest element — which
+    // is the voice element. The on-screen caption + bg also get -1
+    // (via {{duration}} substitution) so they stretch with it.
+    // This guarantees the speech never gets clipped regardless of
+    // voice/pace/line-length.
+    //
+    // Without voice, we fall back to the char-length heuristic so
+    // scenes still pace reasonably.
+    const sceneDuration = voiceEnabled ? -1 : durationFor(line, baseSec, false);
 
     // Split lines on "||" so templates can carry two pieces of text per scene
     // (e.g. Stat Reveal: "87%||of audited sites"). When no delimiter is present,
