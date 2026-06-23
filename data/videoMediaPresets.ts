@@ -84,55 +84,46 @@ export const videoBackgroundLoops: VideoBackgroundPreset[] = [
 // file uploads or env vars required. Costs ~$0.10–0.30 per
 // rendered video minute on JSON2Video's standard pricing.
 
-// All `voice` values are the stable ElevenLabs voice IDs for the
-// original 2023 "default" preset voices. We use IDs (not names)
-// because ElevenLabs has renamed/deprecated the names in their
-// consumer UI — there are now many "Bella" voices in the
-// community library, and "Antoni" / "Domi" aren't surfaced at all —
-// but the IDs still resolve via the API and JSON2Video's integration.
+// Voice IDs are the stable ElevenLabs identifiers — names in the
+// ElevenLabs library get renamed/aliased over time, so we always
+// route by ID and use the label field for the human-readable name.
+// First entry is the default selection in the render panel.
 
 export const voicePresets: VoicePreset[] = [
   {
-    id: "josh-natural",
-    label: "Josh — natural male (US)",
-    voice: "TxGEqnHWrfWFTfGW9XjX",
+    id: "thaddeus",
+    label: "Thaddeus",
+    voice: "gVh6lddROTbOaOz9AAnY",
     model: "elevenlabs",
-    note: "Neutral, professional. Default for Interon content.",
+    note: "Default. Edit this note once you've heard him on a real render.",
   },
   {
-    id: "rachel-calm",
-    label: "Rachel — calm female (US)",
-    voice: "21m00Tcm4TlvDq8ikWAM",
+    id: "john",
+    label: "John",
+    voice: "xUwWtrwxKYQAFNPrH25f",
     model: "elevenlabs",
-    note: "Even, measured. Best for technical or educational pillars.",
+    note: "Edit this note once you've heard him on a real render.",
   },
   {
-    id: "antoni-warm",
-    label: "Antoni — warm male (US)",
-    voice: "ErXwobaYiN019PkySvjV",
+    id: "edward",
+    label: "Edward",
+    voice: "goT3UYdM9bhm0n2lmKQx",
     model: "elevenlabs",
-    note: "Approachable, authoritative. Works for founder-POV content.",
+    note: "Edit this note once you've heard him on a real render.",
   },
   {
-    id: "adam-deep",
-    label: "Adam — deep male (US)",
-    voice: "pNInz6obpgDQGcFmaJgB",
+    id: "inanna",
+    label: "Inanna",
+    voice: "tQ4MEZFJOzsahSEEZtHK",
     model: "elevenlabs",
-    note: "Lower register, narrator feel. Best for bold-statement pieces.",
+    note: "Edit this note once you've heard her on a real render.",
   },
   {
-    id: "bella-bright",
-    label: "Bella — bright female (US)",
-    voice: "EXAVITQu4vr4xnSDxMaL",
+    id: "clara",
+    label: "Clara",
+    voice: "YC9NjC58jpXEqLpIxUeA",
     model: "elevenlabs",
-    note: "Energetic, conversational. Best for hook-reveal style clips.",
-  },
-  {
-    id: "domi-confident",
-    label: "Domi — confident female (US)",
-    voice: "AZnzlk1XvdvUeBnXmlld",
-    model: "elevenlabs",
-    note: "Strong, declarative. Pairs with stat-reveal and bold-statement.",
+    note: "Edit this note once you've heard her on a real render.",
   },
 ];
 
