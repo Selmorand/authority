@@ -62,11 +62,12 @@ export interface VoicePreset {
 // can render "No music yet" gracefully.
 
 export const musicPresets: MusicPreset[] = [
-  // Example entries (uncomment after adding the files to
-  // /public/audio/):
-  // { id: "calm-1",     label: "Calm — soft pad",      url: "/audio/calm-soft-pad.mp3",    volume: 0.2, mood: "calm" },
-  // { id: "uplift-1",   label: "Uplifting — strings",  url: "/audio/uplift-strings.mp3",   volume: 0.25, mood: "uplifting" },
-  // { id: "drive-1",    label: "Driving — beat",       url: "/audio/drive-beat.mp3",       volume: 0.2, mood: "driving" },
+  { id: "hipfunk-1", label: "Hip Funk 1", url: "/audio/HipFunk1.mp3", volume: 0.2, mood: "driving" },
+  { id: "hipfunk-2", label: "Hip Funk 2", url: "/audio/HipFunk2.mp3", volume: 0.2, mood: "driving" },
+  { id: "hiphop-1",  label: "Hip Hop 1",  url: "/audio/HipHop1.mp3",  volume: 0.2, mood: "driving" },
+  { id: "hiphop-2",  label: "Hip Hop 2",  url: "/audio/HipHop2.mp3",  volume: 0.2, mood: "driving" },
+  { id: "soul-1",    label: "Soul 1",     url: "/audio/Soul1.mp3",    volume: 0.2, mood: "calm" },
+  { id: "soul-2",    label: "Soul 2",     url: "/audio/Soul2.mp3",    volume: 0.2, mood: "calm" },
 ];
 
 // ─── Animated / video backgrounds ───────────────────────────
