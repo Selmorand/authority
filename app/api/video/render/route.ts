@@ -25,6 +25,12 @@ export async function POST(request: Request) {
       headline?: string;
       backgroundColor?: string;
       backgroundImageUrl?: string;
+      videoBackgroundUrl?: string;
+      musicUrl?: string;
+      musicVolume?: number;
+      voiceEnabled?: boolean;
+      voiceName?: string;
+      voiceModel?: string;
       orientation?: "portrait" | "landscape" | "square";
       secondsPerLine?: number;
       spec?: J2VMovieSpec;
@@ -72,15 +78,20 @@ export async function POST(request: Request) {
         origin = new URL(request.url).origin;
       }
 
-      let backgroundImageUrl = body.backgroundImageUrl?.trim() || undefined;
-      if (backgroundImageUrl && backgroundImageUrl.startsWith("/")) {
-        backgroundImageUrl = `${origin}${backgroundImageUrl}`;
-      }
+      const absolutise = (rel?: string): string | undefined => {
+        const v = rel?.trim();
+        if (!v) return undefined;
+        return v.startsWith("/") ? `${origin}${v}` : v;
+      };
+
+      const backgroundImageUrl = absolutise(body.backgroundImageUrl);
+      const videoBackgroundUrl = absolutise(body.videoBackgroundUrl);
+      const musicUrl = absolutise(body.musicUrl);
       const brandLogoUrl = `${origin}/InteronWhiteLogo.png`;
 
       // Catch the most common deploy/local mistake before we waste a render call.
       // The brand logo is always present in the end-card, so checking its origin
-      // catches localhost cases even when no background image is set.
+      // catches localhost cases even when no media background is set.
       const isLocal = (url: string) => {
         const lower = url.toLowerCase();
         return (
@@ -91,14 +102,17 @@ export async function POST(request: Request) {
           /:\/\/10\./.test(lower)
         );
       };
-      if (isLocal(brandLogoUrl) || (backgroundImageUrl && isLocal(backgroundImageUrl))) {
+      const localOffenders = [brandLogoUrl, backgroundImageUrl, videoBackgroundUrl, musicUrl]
+        .filter((u): u is string => Boolean(u))
+        .filter((u) => isLocal(u));
+      if (localOffenders.length > 0) {
         return Response.json(
           {
             success: false,
             error:
               `Render targets a local address (${origin}) which JSON2Video cannot reach. ` +
-              `Deploy to Railway and hit the public domain, or paste a fully-public background URL ` +
-              `(but the brand end-card logo still needs a public origin).`,
+              `Deploy to Railway and hit the public domain, or paste fully-public URLs ` +
+              `for the background / music (but the brand end-card logo still needs a public origin).`,
           },
           { status: 400 }
         );
@@ -112,6 +126,12 @@ export async function POST(request: Request) {
           headline: body.headline,
           backgroundColor: body.backgroundColor,
           backgroundImageUrl,
+          videoBackgroundUrl,
+          musicUrl,
+          musicVolume: body.musicVolume,
+          voiceEnabled: Boolean(body.voiceEnabled && body.voiceName),
+          voiceName: body.voiceName,
+          voiceModel: body.voiceModel,
           baseDurationSeconds: body.secondsPerLine,
           brandLogoUrl,
         });

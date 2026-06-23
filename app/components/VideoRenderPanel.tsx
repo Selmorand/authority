@@ -2,6 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { backgroundPresets } from "@/data/videoBackgroundPresets";
+import {
+  musicPresets,
+  videoBackgroundLoops,
+  voicePresets,
+} from "@/data/videoMediaPresets";
 
 type Orientation = "portrait" | "landscape" | "square";
 
@@ -36,6 +41,11 @@ export default function VideoRenderPanel() {
   const [orientation, setOrientation] = useState<Orientation>("portrait");
   const [secondsPerLine, setSecondsPerLine] = useState(4);
   const [backgroundUrl, setBackgroundUrl] = useState<string>("");
+  const [videoBgUrl, setVideoBgUrl] = useState<string>("");
+  const [musicUrl, setMusicUrl] = useState<string>("");
+  const [musicVolume, setMusicVolume] = useState<number>(0.2);
+  const [voiceEnabled, setVoiceEnabled] = useState<boolean>(false);
+  const [voicePresetId, setVoicePresetId] = useState<string>(voicePresets[0]?.id ?? "");
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [templates, setTemplates] = useState<TemplateSummary[]>([]);
@@ -130,6 +140,8 @@ export default function VideoRenderPanel() {
         return;
       }
 
+      const selectedVoice = voicePresets.find((v) => v.id === voicePresetId);
+
       const res = await fetch("/api/video/render", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -141,6 +153,12 @@ export default function VideoRenderPanel() {
           orientation,
           secondsPerLine,
           backgroundImageUrl: backgroundUrl.trim() || undefined,
+          videoBackgroundUrl: videoBgUrl.trim() || undefined,
+          musicUrl: musicUrl.trim() || undefined,
+          musicVolume: musicUrl.trim() ? musicVolume : undefined,
+          voiceEnabled: voiceEnabled && Boolean(selectedVoice),
+          voiceName: voiceEnabled ? selectedVoice?.voice : undefined,
+          voiceModel: voiceEnabled ? selectedVoice?.model : undefined,
         }),
       });
       const data = (await res.json()) as {
@@ -345,6 +363,193 @@ export default function VideoRenderPanel() {
             files in a real render, deploy to Railway or paste a public URL above.
             For permanent backgrounds, commit images to <span className="font-mono">public/backgrounds/</span>.
           </div>
+        </div>
+
+        {/* ─── Video background (animated loop) ───────────────────── */}
+        <div className="space-y-2 p-3 rounded-lg border border-card-border-subtle bg-background">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs text-muted uppercase tracking-wide">
+              Video background (animated)
+            </span>
+            {videoBgUrl && (
+              <button
+                onClick={() => setVideoBgUrl("")}
+                className="text-[11px] text-accent underline hover:no-underline cursor-pointer"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+          {videoBackgroundLoops.length === 0 ? (
+            <div className="text-[11px] text-muted leading-snug">
+              No video-background presets yet. Drop short MP4 loops into{" "}
+              <span className="font-mono">public/video-bg/</span> and register them in{" "}
+              <span className="font-mono">data/videoMediaPresets.ts</span>. Or paste a public URL below.
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                type="button"
+                onClick={() => setVideoBgUrl("")}
+                className={`w-12 h-16 rounded border-2 cursor-pointer transition-colors flex items-center justify-center text-[10px] ${
+                  videoBgUrl === ""
+                    ? "border-accent bg-accent/15 text-accent"
+                    : "border-card-border-subtle bg-background-raised text-muted hover:border-accent/50"
+                }`}
+              >
+                None
+              </button>
+              {videoBackgroundLoops.map((v) => (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => setVideoBgUrl(v.url)}
+                  title={`${v.label} — ${v.url}`}
+                  className={`px-3 h-16 rounded border-2 cursor-pointer transition-colors text-[11px] ${
+                    videoBgUrl === v.url
+                      ? "border-accent bg-accent/15 text-accent"
+                      : "border-card-border-subtle bg-background-raised text-muted hover:border-accent/50"
+                  }`}
+                >
+                  {v.label}
+                </button>
+              ))}
+            </div>
+          )}
+          <input
+            type="text"
+            value={videoBgUrl}
+            onChange={(e) => setVideoBgUrl(e.target.value)}
+            placeholder="…or paste a public MP4 URL"
+            className="w-full bg-background-raised border border-card-border-subtle rounded px-3 py-1.5 text-xs text-foreground focus:outline-none focus:border-accent/60"
+          />
+          <div className="text-[10px] text-muted leading-snug">
+            When a video background is set, it overrides the static image background.
+            JSON2Video re-encodes and loops the clip across each scene.
+          </div>
+        </div>
+
+        {/* ─── Background music ───────────────────────────────────── */}
+        <div className="space-y-2 p-3 rounded-lg border border-card-border-subtle bg-background">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs text-muted uppercase tracking-wide">Background music</span>
+            {musicUrl && (
+              <button
+                onClick={() => setMusicUrl("")}
+                className="text-[11px] text-accent underline hover:no-underline cursor-pointer"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+          {musicPresets.length === 0 ? (
+            <div className="text-[11px] text-muted leading-snug">
+              No music presets yet. Drop royalty-free MP3s into{" "}
+              <span className="font-mono">public/audio/</span> and register them in{" "}
+              <span className="font-mono">data/videoMediaPresets.ts</span>. Or paste a public URL below.
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-1.5">
+              <button
+                type="button"
+                onClick={() => setMusicUrl("")}
+                className={`w-12 h-10 rounded border-2 cursor-pointer transition-colors flex items-center justify-center text-[10px] ${
+                  musicUrl === ""
+                    ? "border-accent bg-accent/15 text-accent"
+                    : "border-card-border-subtle bg-background-raised text-muted hover:border-accent/50"
+                }`}
+              >
+                None
+              </button>
+              {musicPresets.map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => {
+                    setMusicUrl(m.url);
+                    if (typeof m.volume === "number") setMusicVolume(m.volume);
+                  }}
+                  title={`${m.label} — ${m.url}`}
+                  className={`px-3 h-10 rounded border-2 cursor-pointer transition-colors text-[11px] ${
+                    musicUrl === m.url
+                      ? "border-accent bg-accent/15 text-accent"
+                      : "border-card-border-subtle bg-background-raised text-muted hover:border-accent/50"
+                  }`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          )}
+          <input
+            type="text"
+            value={musicUrl}
+            onChange={(e) => setMusicUrl(e.target.value)}
+            placeholder="…or paste a public MP3 URL"
+            className="w-full bg-background-raised border border-card-border-subtle rounded px-3 py-1.5 text-xs text-foreground focus:outline-none focus:border-accent/60"
+          />
+          {musicUrl && (
+            <label className="flex items-center gap-2 pt-1">
+              <span className="text-[11px] text-muted whitespace-nowrap">
+                Volume {Math.round(musicVolume * 100)}%
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={0.8}
+                step={0.05}
+                value={musicVolume}
+                onChange={(e) => setMusicVolume(Number(e.target.value))}
+                className="flex-1 accent-accent"
+              />
+            </label>
+          )}
+          <div className="text-[10px] text-muted leading-snug">
+            Music plays under the whole video including the end-card. Keep at 15–25% when
+            a voiceover is on; 40–60% if there&apos;s no voice.
+          </div>
+        </div>
+
+        {/* ─── Voiceover ──────────────────────────────────────────── */}
+        <div className="space-y-2 p-3 rounded-lg border border-card-border-subtle bg-background">
+          <label className="flex items-center justify-between gap-3 cursor-pointer">
+            <span className="text-xs text-muted uppercase tracking-wide">Voiceover (TTS)</span>
+            <span className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={voiceEnabled}
+                onChange={(e) => setVoiceEnabled(e.target.checked)}
+                className="accent-accent cursor-pointer"
+              />
+              <span className="text-xs text-foreground">
+                {voiceEnabled ? "On" : "Off"}
+              </span>
+            </span>
+          </label>
+
+          {voiceEnabled && (
+            <>
+              <select
+                value={voicePresetId}
+                onChange={(e) => setVoicePresetId(e.target.value)}
+                className="w-full bg-background-raised border border-card-border-subtle rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60"
+              >
+                {voicePresets.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.label}
+                  </option>
+                ))}
+              </select>
+              <p className="text-[11px] text-muted leading-snug">
+                {voicePresets.find((v) => v.id === voicePresetId)?.note ?? ""}
+              </p>
+              <div className="text-[10px] text-muted leading-snug">
+                Each caption line is spoken aloud. Scene durations auto-extend so the voice
+                isn&apos;t clipped. Voiceover billing is per-second on JSON2Video&apos;s plan
+                (~$0.10–0.30 per video).
+              </div>
+            </>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-3">

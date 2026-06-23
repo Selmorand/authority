@@ -61,6 +61,24 @@ export interface RenderVariables {
   // at upper third of the frame) and an optional tagline below.
   brandLogoUrl?: string;
   brandTagline?: string;
+  // ─── Media upgrades ─────────────────────────────────────
+  // Public URL to an MP4 loop used as a per-scene animated
+  // background. Plays under the dim overlay, just like
+  // backgroundImageUrl. When both are provided, the video wins.
+  videoBackgroundUrl?: string;
+  // Public URL to an MP3 background music track. Rendered as a
+  // movie-level audio element so it plays across all scenes
+  // (including the end-card). volume 0.15-0.25 keeps it
+  // comfortably under a voiceover.
+  musicUrl?: string;
+  musicVolume?: number;
+  // When voiceEnabled is true, every content scene gets a voice
+  // element speaking that scene's `line`. Scene minimum duration
+  // is bumped so TTS isn't cut off. voiceModel + voiceName are
+  // forwarded to JSON2Video's voice provider routing.
+  voiceEnabled?: boolean;
+  voiceName?: string;
+  voiceModel?: string;
 }
 
 // ─── Filesystem ──────────────────────────────────────────────
@@ -148,9 +166,13 @@ function evaluateWhen(elem: TemplateElement, vars: Record<string, unknown>): boo
   return negate ? !truthy : truthy;
 }
 
-function durationFor(line: string, baseSec: number): number {
-  const charBonus = Math.max(0, line.length - 24) * 0.05;
-  return Math.max(2.5, Math.min(6.0, baseSec + charBonus));
+function durationFor(line: string, baseSec: number, withVoice: boolean): number {
+  // When TTS is on, give scenes more room so the voice isn't clipped.
+  // Spoken-word pacing sits around 14 chars/sec for clear delivery.
+  const charBonus = Math.max(0, line.length - 24) * (withVoice ? 0.07 : 0.05);
+  const min = withVoice ? 3.5 : 2.5;
+  const max = withVoice ? 9.0 : 6.0;
+  return Math.max(min, Math.min(max, baseSec + charBonus));
 }
 
 // ─── End card ────────────────────────────────────────────────
@@ -233,9 +255,10 @@ export async function renderTemplate(
     (typeof defaults.duration === "number" ? (defaults.duration as number) : 4);
 
   const sceneCount = vars.lines.length;
+  const voiceEnabled = Boolean(vars.voiceEnabled && vars.voiceName);
 
   const scenes = vars.lines.map((line, index) => {
-    const sceneDuration = durationFor(line, baseSec);
+    const sceneDuration = durationFor(line, baseSec, voiceEnabled);
 
     // Split lines on "||" so templates can carry two pieces of text per scene
     // (e.g. Stat Reveal: "87%||of audited sites"). When no delimiter is present,
@@ -247,14 +270,31 @@ export async function renderTemplate(
     const isFirst = index === 0;
     const isLast = index === sceneCount - 1;
 
+    // Video and image backgrounds are mutually exclusive — the video
+    // wins because it carries motion. We zero the image var when a
+    // video is set so the $when gate on the image element drops it.
+    const videoBg = vars.videoBackgroundUrl?.trim() || "";
+    const imageBg = videoBg ? "" : (vars.backgroundImageUrl?.trim() || "");
+    const hasMediaBackground = Boolean(videoBg || imageBg);
+
     const scopedVars: Record<string, unknown> = {
       ...defaults,
       ...stripUndefined({
         backgroundColor: vars.backgroundColor,
-        backgroundImageUrl: vars.backgroundImageUrl,
+        backgroundImageUrl: imageBg || undefined,
+        videoBackgroundUrl: videoBg || undefined,
+        hasMediaBackground: hasMediaBackground || undefined,
         textColor: vars.textColor,
         headlineColor: vars.headlineColor,
         headline: vars.headline,
+        voiceName: vars.voiceName,
+        voiceModel: vars.voiceModel ?? "elevenlabs",
+        // voiceText drives the $when gate on each scene's voice
+        // element. We strip the `||` delimiter that some templates
+        // use to split a line into two parts (e.g. stat-reveal,
+        // before-after) — the speaker should read the parts as a
+        // natural sentence with a brief pause between them.
+        voiceText: voiceEnabled ? line.split("||").map((s) => s.trim()).filter(Boolean).join(". ") : "",
       }),
       line,
       linePart1,
@@ -297,11 +337,30 @@ export async function renderTemplate(
     );
   }
 
+  // ─── Movie-level elements ──────────────────────────────────
+  // JSON2Video supports an `elements` array at the top of the
+  // movie spec — these play across all scenes. Background music
+  // lives here so it carries through the end-card too. Voice
+  // is per-scene (not here) so it stays anchored to its caption.
+  const movieElements: Record<string, unknown>[] = [];
+  if (vars.musicUrl && vars.musicUrl.trim().length > 0) {
+    movieElements.push({
+      type: "audio",
+      src: vars.musicUrl,
+      volume: typeof vars.musicVolume === "number" ? vars.musicVolume : 0.2,
+      start: 0,
+      loop: true,
+      "fade-in": 0.8,
+      "fade-out": 1.2,
+    });
+  }
+
   const spec: J2VMovieSpec = {
     ...(template.movie ?? {}),
     width: template.width,
     height: template.height,
     scenes: allScenes as J2VMovieSpec["scenes"],
+    ...(movieElements.length > 0 ? { elements: movieElements } : {}),
   };
   return spec;
 }

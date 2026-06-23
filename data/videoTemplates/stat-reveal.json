@@ -20,6 +20,19 @@
     "background-color": "{{backgroundColor}}",
     "elements": [
       {
+        "$when": "videoBackgroundUrl",
+        "type": "video",
+        "src": "{{videoBackgroundUrl}}",
+        "position": "custom",
+        "x": 0,
+        "y": 0,
+        "width": 1080,
+        "height": 1920,
+        "duration": "{{duration}}",
+        "loop": true,
+        "mute": true
+      },
+      {
         "$when": "backgroundImageUrl",
         "type": "image",
         "src": "{{backgroundImageUrl}}",
@@ -31,7 +44,7 @@
         "duration": "{{duration}}"
       },
       {
-        "$when": "backgroundImageUrl",
+        "$when": "hasMediaBackground",
         "type": "text",
         "text": " ",
         "position": "custom",
@@ -102,6 +115,14 @@
           "text-align": "center",
           "vertical-position": "center"
         }
+      },
+      {
+        "$when": "voiceText",
+        "type": "voice",
+        "text": "{{voiceText}}",
+        "voice": "{{voiceName}}",
+        "model": "{{voiceModel}}",
+        "start": 0
       }
     ]
   }
