@@ -84,48 +84,55 @@ export const videoBackgroundLoops: VideoBackgroundPreset[] = [
 // file uploads or env vars required. Costs ~$0.10–0.30 per
 // rendered video minute on JSON2Video's standard pricing.
 
+// All `voice` values are the stable ElevenLabs voice IDs for the
+// original 2023 "default" preset voices. We use IDs (not names)
+// because ElevenLabs has renamed/deprecated the names in their
+// consumer UI — there are now many "Bella" voices in the
+// community library, and "Antoni" / "Domi" aren't surfaced at all —
+// but the IDs still resolve via the API and JSON2Video's integration.
+
 export const voicePresets: VoicePreset[] = [
+  {
+    id: "josh-natural",
+    label: "Josh — natural male (US)",
+    voice: "TxGEqnHWrfWFTfGW9XjX",
+    model: "elevenlabs",
+    note: "Neutral, professional. Default for Interon content.",
+  },
   {
     id: "rachel-calm",
     label: "Rachel — calm female (US)",
-    voice: "Rachel",
+    voice: "21m00Tcm4TlvDq8ikWAM",
     model: "elevenlabs",
     note: "Even, measured. Best for technical or educational pillars.",
   },
   {
     id: "antoni-warm",
     label: "Antoni — warm male (US)",
-    voice: "Antoni",
+    voice: "ErXwobaYiN019PkySvjV",
     model: "elevenlabs",
     note: "Approachable, authoritative. Works for founder-POV content.",
   },
   {
     id: "adam-deep",
     label: "Adam — deep male (US)",
-    voice: "Adam",
+    voice: "pNInz6obpgDQGcFmaJgB",
     model: "elevenlabs",
     note: "Lower register, narrator feel. Best for bold-statement pieces.",
   },
   {
     id: "bella-bright",
     label: "Bella — bright female (US)",
-    voice: "Bella",
+    voice: "EXAVITQu4vr4xnSDxMaL",
     model: "elevenlabs",
     note: "Energetic, conversational. Best for hook-reveal style clips.",
   },
   {
     id: "domi-confident",
     label: "Domi — confident female (US)",
-    voice: "Domi",
+    voice: "AZnzlk1XvdvUeBnXmlld",
     model: "elevenlabs",
     note: "Strong, declarative. Pairs with stat-reveal and bold-statement.",
-  },
-  {
-    id: "josh-natural",
-    label: "Josh — natural male (US)",
-    voice: "Josh",
-    model: "elevenlabs",
-    note: "Neutral, professional. The safe default if you're unsure.",
   },
 ];
 
