@@ -37,7 +37,8 @@
           "text-align": "left",
           "vertical-position": "center",
           "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
-        }
+        },
+        "duration": -1
       },
       {
         "type": "text",
@@ -57,7 +58,8 @@
           "text-align": "center",
           "vertical-position": "center",
           "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
-        }
+        },
+        "duration": -1
       },
       {
         "$when": "headline",
@@ -78,7 +80,8 @@
           "text-align": "center",
           "vertical-position": "center",
           "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
-        }
+        },
+        "duration": -1
       },
       {
         "$when": "voiceText",
@@ -87,7 +90,8 @@
         "voice": "{{voiceName}}",
         "model": "{{voiceModel}}",
         "start": 0,
-        "extra-time": 0.4
+        "extra-time": 0.4,
+        "duration": -1
       }
     ]
   }
