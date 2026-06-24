@@ -35,7 +35,8 @@
           "font-weight": "900",
           "font-color": "{{headlineColor}}",
           "text-align": "left",
-          "vertical-position": "center"
+          "vertical-position": "center",
+          "color": "{{headlineColor}}"
         },
         "duration": -1,
         "z-index": 10,
@@ -57,7 +58,8 @@
           "font-weight": "700",
           "font-color": "{{textColor}}",
           "text-align": "center",
-          "vertical-position": "center"
+          "vertical-position": "center",
+          "color": "{{textColor}}"
         },
         "duration": -1,
         "z-index": 10,
@@ -80,7 +82,8 @@
           "font-weight": "600",
           "font-color": "{{headlineColor}}",
           "text-align": "center",
-          "vertical-position": "center"
+          "vertical-position": "center",
+          "color": "{{headlineColor}}"
         },
         "duration": -1,
         "z-index": 10,

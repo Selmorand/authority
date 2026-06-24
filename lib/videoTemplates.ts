@@ -234,6 +234,7 @@ function buildEndCardScene(
       settings: {
         "font-size": "44px",
         "font-color": "#A5F3D4",
+        "color": "#A5F3D4",
         "font-family": "Inter",
         "font-weight": "500",
         "text-align": "center",
