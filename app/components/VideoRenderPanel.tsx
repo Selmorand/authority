@@ -34,7 +34,7 @@ interface TemplateSummary {
 }
 
 export default function VideoRenderPanel() {
-  const [headline, setHeadline] = useState("Interon — AI Readiness");
+  const [headline, setHeadline] = useState("Why Is It Like That");
   const [linesText, setLinesText] = useState(
     "Most websites are invisible to AI.\nSchema markup is not optional.\nEntity confidence is the new ranking signal.\nWe audited 300 sites.\nMost score below 40."
   );
@@ -44,7 +44,7 @@ export default function VideoRenderPanel() {
   const [videoBgUrl, setVideoBgUrl] = useState<string>("");
   const [musicUrl, setMusicUrl] = useState<string>("");
   const [musicVolume, setMusicVolume] = useState<number>(0.2);
-  const [voiceEnabled, setVoiceEnabled] = useState<boolean>(false);
+  const [voiceEnabled, setVoiceEnabled] = useState<boolean>(true);
   const [voicePresetId, setVoicePresetId] = useState<string>(voicePresets[0]?.id ?? "");
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
