@@ -318,7 +318,7 @@ export async function renderTemplate(
       duration: sceneDuration,
     };
 
-    const elements = (template.sceneTemplate.elements ?? [])
+    const templateElements = (template.sceneTemplate.elements ?? [])
       .filter((e) => evaluateWhen(e, scopedVars))
       .map((e) => {
         const { $when: _omit, ...rest } = e;
@@ -326,13 +326,61 @@ export async function renderTemplate(
         return substitute(rest, scopedVars);
       });
 
+    // Backdrop = bg image (or video) + dim overlay, prepended to each
+    // scene's elements so the captions render on top. Injected here at
+    // render time rather than in the template JSONs so the templates
+    // stay clean (no $when gates needed).
+    const backdrop: Record<string, unknown>[] = [];
+    if (videoBg) {
+      backdrop.push({
+        type: "video",
+        src: videoBg,
+        position: "custom",
+        x: 0,
+        y: 0,
+        width: template.width,
+        height: template.height,
+        duration: sceneDuration,
+        loop: -1,
+        mute: true,
+      });
+    } else if (imageBg) {
+      backdrop.push({
+        type: "image",
+        src: imageBg,
+        position: "custom",
+        x: 0,
+        y: 0,
+        width: template.width,
+        height: template.height,
+        duration: sceneDuration,
+        zoom: 3,
+      });
+    }
+    if (videoBg || imageBg) {
+      backdrop.push({
+        type: "text",
+        text: " ",
+        style: "001",
+        position: "custom",
+        x: 0,
+        y: 0,
+        width: template.width,
+        height: template.height,
+        duration: sceneDuration,
+        settings: {
+          "background-color": "rgba(15,18,22,0.6)",
+        },
+      });
+    }
+
     return {
       duration: sceneDuration,
       "background-color": substitute(
         template.sceneTemplate["background-color"] ?? scopedVars.backgroundColor,
         scopedVars
       ),
-      elements,
+      elements: [...backdrop, ...templateElements],
     };
   });
 
@@ -350,84 +398,18 @@ export async function renderTemplate(
   }
 
   // ─── Movie-level elements ──────────────────────────────────
-  // JSON2Video supports an `elements` array at the top of the
-  // movie spec — these play across all scenes. We promote four
-  // things to this level:
-  //
-  //   1. Background media (video OR image, mutually exclusive).
-  //      Living at movie level means a single zoom runs from scene
-  //      1 through to the end-card without resetting per scene —
-  //      the Ken Burns feel George asked for.
-  //   2. Dim overlay — sits between the bg and the captions so
-  //      white text stays legible.
-  //   3. Background music — fades in/out across the whole movie
-  //      including the end-card.
-  //
-  // Voice elements stay per-scene (anchored to their caption).
+  // Only AUDIO lives at movie level. Movie-level visual elements
+  // render as foreground overlays in JSON2Video's compositor (we
+  // learned the hard way — they hid every scene caption). Bg image
+  // and dim overlay are now injected per-scene above.
   const movieElements: Record<string, unknown>[] = [];
 
-  const videoBg = vars.videoBackgroundUrl?.trim();
-  const imageBg = vars.backgroundImageUrl?.trim();
-  // Video wins over image when both are set (videos already carry motion).
-  // Z-index layering across movie + scene boundaries:
-  //   z=0  bg image / bg video (very back)
-  //   z=1  dim overlay (over the bg, under everything else)
-  //   z=10 scene-level captions, voice, end-card logo + tagline
-  //
-  // Per JSON2Video docs, movie-level elements render as FOREGROUND
-  // overlays on top of scenes by default. Without explicit z-index,
-  // bg image at movie level would cover every caption. Higher z
-  // wins, so scene-level z=10 brings captions to the front
-  // regardless of movie-vs-scene scope.
-
-  if (videoBg) {
-    movieElements.push({
-      type: "video",
-      src: videoBg,
-      position: "custom",
-      x: 0,
-      y: 0,
-      width: template.width,
-      height: template.height,
-      // duration -2 = match parent container (the whole movie).
-      // loop -1 = repeat indefinitely so a short clip fills a long movie.
-      duration: -2,
-      loop: -1,
-      mute: true,
-      "z-index": 0,
-    });
-  } else if (imageBg) {
-    movieElements.push({
-      type: "image",
-      src: imageBg,
-      position: "custom",
-      x: 0,
-      y: 0,
-      width: template.width,
-      height: template.height,
-      duration: -1,
-      zoom: 3,
-      "z-index": 0,
-    });
-  }
-
-  if (videoBg || imageBg) {
-    movieElements.push({
-      type: "text",
-      text: " ",
-      style: "001",
-      position: "custom",
-      x: 0,
-      y: 0,
-      width: template.width,
-      height: template.height,
-      duration: -1,
-      "z-index": 1,
-      settings: {
-        "background-color": "rgba(15,18,22,0.6)",
-      },
-    });
-  }
+  // Bg image / bg video / dim overlay are now injected into each
+  // scene's elements (see scene loop above). They CANNOT be at movie
+  // level because JSON2Video renders movie-level visual elements as
+  // foreground overlays on top of scenes — they hid every caption.
+  // Trade-off: the zoom resets to 0% at the start of each scene
+  // rather than running continuously across the whole movie.
 
   if (vars.musicUrl && vars.musicUrl.trim().length > 0) {
     movieElements.push({
