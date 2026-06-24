@@ -208,6 +208,7 @@ function buildEndCardScene(
       duration,
       "fade-in": 0.4,
       "fade-out": 0.35,
+      "z-index": 10,
     },
   ];
 
@@ -223,6 +224,7 @@ function buildEndCardScene(
       duration,
       "fade-in": 0.6,
       "fade-out": 0.35,
+      "z-index": 10,
       settings: {
         "font-size": "44px",
         "font-color": "#A5F3D4",
@@ -230,6 +232,7 @@ function buildEndCardScene(
         "font-weight": "500",
         "text-align": "center",
         "vertical-position": "center",
+        "text-shadow": "0 2px 8px rgba(0,0,0,0.75)",
       },
     });
   }
@@ -366,6 +369,17 @@ export async function renderTemplate(
   const videoBg = vars.videoBackgroundUrl?.trim();
   const imageBg = vars.backgroundImageUrl?.trim();
   // Video wins over image when both are set (videos already carry motion).
+  // Z-index layering across movie + scene boundaries:
+  //   z=0  bg image / bg video (very back)
+  //   z=1  dim overlay (over the bg, under everything else)
+  //   z=10 scene-level captions, voice, end-card logo + tagline
+  //
+  // Per JSON2Video docs, movie-level elements render as FOREGROUND
+  // overlays on top of scenes by default. Without explicit z-index,
+  // bg image at movie level would cover every caption. Higher z
+  // wins, so scene-level z=10 brings captions to the front
+  // regardless of movie-vs-scene scope.
+
   if (videoBg) {
     movieElements.push({
       type: "video",
@@ -380,6 +394,7 @@ export async function renderTemplate(
       duration: -2,
       loop: -1,
       mute: true,
+      "z-index": 0,
     });
   } else if (imageBg) {
     movieElements.push({
@@ -392,6 +407,7 @@ export async function renderTemplate(
       height: template.height,
       duration: -1,
       zoom: 3,
+      "z-index": 0,
     });
   }
 
@@ -405,6 +421,7 @@ export async function renderTemplate(
       width: template.width,
       height: template.height,
       duration: -1,
+      "z-index": 1,
       settings: {
         "background-color": "rgba(15,18,22,0.6)",
       },

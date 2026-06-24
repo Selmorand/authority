@@ -37,9 +37,11 @@
           "text-align": "center",
           "text-transform": "uppercase",
           "letter-spacing": "2px",
-          "vertical-position": "center"
+          "vertical-position": "center",
+          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
         },
-        "duration": -1
+        "duration": -1,
+        "z-index": 10
       },
       {
         "$when": "linePart2",
@@ -59,9 +61,11 @@
           "font-color": "{{textColor}}",
           "text-align": "center",
           "vertical-position": "center",
-          "line-height": "1.35"
+          "line-height": "1.35",
+          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
         },
-        "duration": -1
+        "duration": -1,
+        "z-index": 10
       },
       {
         "$when": "headline",
@@ -80,9 +84,11 @@
           "font-weight": "600",
           "font-color": "{{headlineColor}}",
           "text-align": "center",
-          "vertical-position": "center"
+          "vertical-position": "center",
+          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
         },
-        "duration": -1
+        "duration": -1,
+        "z-index": 10
       },
       {
         "$when": "voiceText",
@@ -92,7 +98,8 @@
         "model": "{{voiceModel}}",
         "start": 0,
         "extra-time": 0.4,
-        "duration": -1
+        "duration": -1,
+        "z-index": 10
       }
     ]
   }
