@@ -341,7 +341,10 @@ export async function renderTemplate(
           resolved.settings &&
           typeof resolved.settings === "object"
         ) {
-          (resolved.settings as Record<string, unknown>)["shadow"] =
+          // Per JSON2Video's style-001 reference, the property is
+          // text-shadow with CSS syntax: "<offset-x> <offset-y> [blur] <color>".
+          // 3-value form is standard CSS and supported.
+          (resolved.settings as Record<string, unknown>)["text-shadow"] =
             "0 2px 8px rgba(0,0,0,0.75)";
         }
         return resolved;
