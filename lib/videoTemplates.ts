@@ -376,8 +376,10 @@ export async function renderTemplate(
       y: 0,
       width: template.width,
       height: template.height,
-      duration: -1,
-      loop: true,
+      // duration -2 = match parent container (the whole movie).
+      // loop -1 = repeat indefinitely so a short clip fills a long movie.
+      duration: -2,
+      loop: -1,
       mute: true,
     });
   } else if (imageBg) {
@@ -416,7 +418,11 @@ export async function renderTemplate(
       src: vars.musicUrl,
       volume: typeof vars.musicVolume === "number" ? vars.musicVolume : 0.2,
       start: 0,
-      loop: true,
+      // loop -1 = repeat indefinitely. duration -2 = match the whole
+      // movie length so the track fills voice-driven runtimes that
+      // we can't compute at render-template time.
+      loop: -1,
+      duration: -2,
       "fade-in": 0.8,
       "fade-out": 1.2,
     });
