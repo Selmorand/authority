@@ -636,6 +636,11 @@ export default function VideoRenderPanel() {
                     : ""}
                 </div>
               )}
+              {status.message && (
+                <div className="text-[11px] text-yellow-300 bg-yellow-900/20 border border-yellow-700/40 rounded px-3 py-2 break-words">
+                  <span className="font-semibold">JSON2Video message:</span> {status.message}
+                </div>
+              )}
             </div>
           )}
 

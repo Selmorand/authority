@@ -216,6 +216,7 @@ function buildEndCardScene(
     elements.push({
       type: "text",
       text: tagline,
+      style: "001",
       position: "custom",
       x: 65,
       y: logoY + logoH + 40,
@@ -232,7 +233,6 @@ function buildEndCardScene(
         "font-weight": "500",
         "text-align": "center",
         "vertical-position": "center",
-        "text-shadow": "0 2px 8px rgba(0,0,0,0.75)",
       },
     });
   }
@@ -415,6 +415,7 @@ export async function renderTemplate(
     movieElements.push({
       type: "text",
       text: " ",
+      style: "001",
       position: "custom",
       x: 0,
       y: 0,

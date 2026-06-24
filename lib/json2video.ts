@@ -106,6 +106,15 @@ export async function submitMovie(spec: J2VMovieSpec): Promise<J2VSubmitResponse
     return { success: false, error: "JSON2VIDEO_API_KEY is not configured" };
   }
 
+  // Log the spec so Railway logs show what we sent (truncated to keep
+  // logs sane). Useful when JSON2Video silently drops elements.
+  try {
+    const summary = JSON.stringify(spec).slice(0, 4000);
+    console.log("[json2video] submit spec:", summary);
+  } catch {
+    // best-effort logging
+  }
+
   try {
     const response = await fetch(`${J2V_BASE}/movies`, {
       method: "POST",
@@ -118,6 +127,7 @@ export async function submitMovie(spec: J2VMovieSpec): Promise<J2VSubmitResponse
 
     if (!response.ok) {
       const text = await response.text().catch(() => "");
+      console.error("[json2video] submit failed:", response.status, text);
       return {
         success: false,
         error: `JSON2Video ${response.status}: ${text || response.statusText}`,
@@ -131,6 +141,8 @@ export async function submitMovie(spec: J2VMovieSpec): Promise<J2VSubmitResponse
       message?: string;
     };
 
+    console.log("[json2video] submit response:", JSON.stringify(data));
+
     if (!data.success || !data.project) {
       return {
         success: false,
@@ -141,6 +153,7 @@ export async function submitMovie(spec: J2VMovieSpec): Promise<J2VSubmitResponse
     return { success: true, project: data.project, timestamp: data.timestamp };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[json2video] submit threw:", message);
     return { success: false, error: message };
   }
 }
@@ -194,6 +207,10 @@ export async function getMovieStatus(project: string): Promise<J2VStatusResponse
       rawStatus === "error" ? "error" :
       "unknown";
 
+    if (status === "done" || status === "error") {
+      console.log("[json2video] status final:", JSON.stringify(data));
+    }
+
     return {
       success: data.success !== false,
       project: data.project,
@@ -211,6 +228,7 @@ export async function getMovieStatus(project: string): Promise<J2VStatusResponse
     };
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("[json2video] status threw:", message);
     return { success: false, status: "unknown", error: message };
   }
 }
