@@ -35,8 +35,7 @@
           "font-weight": "800",
           "font-color": "#EF4444",
           "text-align": "center",
-          "letter-spacing": "6px",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "letter-spacing": "6px"
         },
         "duration": -1
       },
@@ -56,8 +55,7 @@
           "font-weight": "700",
           "font-color": "{{textColor}}",
           "text-align": "center",
-          "vertical-position": "center",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "vertical-position": "center"
         },
         "duration": -1
       },
@@ -77,8 +75,7 @@
           "font-weight": "800",
           "font-color": "#22C55E",
           "text-align": "center",
-          "letter-spacing": "6px",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "letter-spacing": "6px"
         },
         "duration": -1
       },
@@ -99,8 +96,7 @@
           "font-weight": "700",
           "font-color": "{{textColor}}",
           "text-align": "center",
-          "vertical-position": "center",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "vertical-position": "center"
         },
         "duration": -1
       },
@@ -121,8 +117,7 @@
           "font-weight": "500",
           "font-color": "{{headlineColor}}",
           "text-align": "center",
-          "vertical-position": "center",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "vertical-position": "center"
         },
         "duration": -1
       },

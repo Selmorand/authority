@@ -230,7 +230,6 @@ function buildEndCardScene(
         "font-weight": "500",
         "text-align": "center",
         "vertical-position": "center",
-        "text-shadow": "0 2px 8px rgba(0,0,0,0.75)",
       },
     });
   }

@@ -37,8 +37,7 @@
           "text-align": "center",
           "text-transform": "uppercase",
           "letter-spacing": "2px",
-          "vertical-position": "center",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "vertical-position": "center"
         },
         "duration": -1
       },
@@ -60,8 +59,7 @@
           "font-color": "{{textColor}}",
           "text-align": "center",
           "vertical-position": "center",
-          "line-height": "1.35",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "line-height": "1.35"
         },
         "duration": -1
       },
@@ -82,8 +80,7 @@
           "font-weight": "600",
           "font-color": "{{headlineColor}}",
           "text-align": "center",
-          "vertical-position": "center",
-          "text-shadow": "0 2px 8px rgba(0,0,0,0.75)"
+          "vertical-position": "center"
         },
         "duration": -1
       },
