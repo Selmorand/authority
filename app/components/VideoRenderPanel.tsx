@@ -46,6 +46,9 @@ export default function VideoRenderPanel() {
   const [musicVolume, setMusicVolume] = useState<number>(0.2);
   const [voiceEnabled, setVoiceEnabled] = useState<boolean>(true);
   const [voicePresetId, setVoicePresetId] = useState<string>(voicePresets[0]?.id ?? "");
+  const [captionColor, setCaptionColor] = useState<string>("#FFFFFF");
+  const [headlineColor, setHeadlineColor] = useState<string>("#A5F3D4");
+  const [shadowEnabled, setShadowEnabled] = useState<boolean>(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [templates, setTemplates] = useState<TemplateSummary[]>([]);
@@ -159,6 +162,9 @@ export default function VideoRenderPanel() {
           voiceEnabled: voiceEnabled && Boolean(selectedVoice),
           voiceName: voiceEnabled ? selectedVoice?.voice : undefined,
           voiceModel: voiceEnabled ? selectedVoice?.model : undefined,
+          captionColor,
+          headlineColor,
+          shadowEnabled,
         }),
       });
       const data = (await res.json()) as {
@@ -233,6 +239,61 @@ export default function VideoRenderPanel() {
             className="mt-1 w-full bg-background border border-card-border-subtle rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60"
             placeholder="Optional headline"
           />
+        </label>
+
+        <div className="grid grid-cols-2 gap-3">
+          <label className="block">
+            <span className="text-xs text-muted uppercase tracking-wide">Caption colour</span>
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                type="color"
+                value={captionColor}
+                onChange={(e) => setCaptionColor(e.target.value)}
+                className="h-9 w-12 cursor-pointer rounded border border-card-border-subtle bg-background"
+              />
+              <input
+                type="text"
+                value={captionColor}
+                onChange={(e) => setCaptionColor(e.target.value)}
+                className="flex-1 bg-background border border-card-border-subtle rounded px-2 py-1.5 text-xs text-foreground focus:outline-none focus:border-accent/60 font-mono"
+              />
+            </div>
+          </label>
+          <label className="block">
+            <span className="text-xs text-muted uppercase tracking-wide">Headline colour</span>
+            <div className="mt-1 flex items-center gap-2">
+              <input
+                type="color"
+                value={headlineColor}
+                onChange={(e) => setHeadlineColor(e.target.value)}
+                className="h-9 w-12 cursor-pointer rounded border border-card-border-subtle bg-background"
+              />
+              <input
+                type="text"
+                value={headlineColor}
+                onChange={(e) => setHeadlineColor(e.target.value)}
+                className="flex-1 bg-background border border-card-border-subtle rounded px-2 py-1.5 text-xs text-foreground focus:outline-none focus:border-accent/60 font-mono"
+              />
+            </div>
+          </label>
+        </div>
+
+        <label className="flex items-center justify-between gap-3 p-3 rounded-lg border border-card-border-subtle bg-background cursor-pointer">
+          <div>
+            <div className="text-xs text-muted uppercase tracking-wide">Drop shadow on captions</div>
+            <div className="text-[10px] text-muted leading-snug mt-0.5">
+              Experimental — JSON2Video&apos;s shadow support is undocumented. If captions vanish on render, turn this off.
+            </div>
+          </div>
+          <span className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={shadowEnabled}
+              onChange={(e) => setShadowEnabled(e.target.checked)}
+              className="accent-accent cursor-pointer"
+            />
+            <span className="text-xs text-foreground">{shadowEnabled ? "On" : "Off"}</span>
+          </span>
         </label>
 
         <label className="block">

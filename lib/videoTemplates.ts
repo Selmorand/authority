@@ -79,6 +79,11 @@ export interface RenderVariables {
   voiceEnabled?: boolean;
   voiceName?: string;
   voiceModel?: string;
+  // When true, every text caption + headline element gets a
+  // "shadow" property added to its settings. JSON2Video's shadow
+  // support is undocumented at time of writing — opt-in toggle so
+  // a misbehaving render is easy to roll back from the panel.
+  shadowEnabled?: boolean;
 }
 
 // ─── Filesystem ──────────────────────────────────────────────
@@ -187,7 +192,7 @@ function buildEndCardScene(
   width: number,
   height: number,
   tagline: string
-): { duration: number; "background-color": unknown; elements: unknown[] } {
+): { duration: number; "background-color": unknown; elements: Record<string, unknown>[] } {
   const logoW = Math.min(720, Math.floor(width * 0.67));
   const logoH = Math.floor(logoW / LOGO_ASPECT);
   const logoX = Math.floor((width - logoW) / 2);
@@ -323,7 +328,22 @@ export async function renderTemplate(
       .map((e) => {
         const { $when: _omit, ...rest } = e;
         void _omit;
-        return substitute(rest, scopedVars);
+        const resolved = substitute(rest, scopedVars) as Record<string, unknown>;
+        // Opt-in drop shadow. We add it only to text caption/headline
+        // elements (not the dim-overlay text which has empty " "),
+        // and only when the panel toggle is on.
+        if (
+          vars.shadowEnabled &&
+          resolved.type === "text" &&
+          typeof resolved.text === "string" &&
+          resolved.text.trim().length > 0 &&
+          resolved.settings &&
+          typeof resolved.settings === "object"
+        ) {
+          (resolved.settings as Record<string, unknown>)["shadow"] =
+            "0 2px 8px rgba(0,0,0,0.75)";
+        }
+        return resolved;
       });
 
     // Backdrop = bg image (or video) + dim overlay, prepended to each

@@ -31,6 +31,9 @@ export async function POST(request: Request) {
       voiceEnabled?: boolean;
       voiceName?: string;
       voiceModel?: string;
+      captionColor?: string;
+      headlineColor?: string;
+      shadowEnabled?: boolean;
       orientation?: "portrait" | "landscape" | "square";
       secondsPerLine?: number;
       spec?: J2VMovieSpec;
@@ -132,6 +135,9 @@ export async function POST(request: Request) {
           voiceEnabled: Boolean(body.voiceEnabled && body.voiceName),
           voiceName: body.voiceName,
           voiceModel: body.voiceModel,
+          textColor: body.captionColor,
+          headlineColor: body.headlineColor,
+          shadowEnabled: Boolean(body.shadowEnabled),
           baseDurationSeconds: body.secondsPerLine,
           brandLogoUrl,
         });
